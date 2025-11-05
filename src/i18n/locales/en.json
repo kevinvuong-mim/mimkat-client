@@ -1,0 +1,27 @@
+{
+  "common": {
+    "or": "Or"
+  },
+  "home": {
+    "title": "Welcome to Mimkat Client",
+    "description": "Next.js App Router with TypeScript and Tailwind CSS",
+    "authButton": "Sign In / Sign Up"
+  },
+  "auth": {
+    "login": "Sign In",
+    "register": "Sign Up",
+    "fullname": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "fullnamePlaceholder": "Enter your full name",
+    "emailPlaceholder": "email@example.com",
+    "passwordPlaceholder": "Enter your password",
+    "loginButton": "Sign In",
+    "registerButton": "Sign Up",
+    "googleLogin": "Sign in with Google",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "registerNow": "Sign up now",
+    "loginNow": "Sign in"
+  }
+}

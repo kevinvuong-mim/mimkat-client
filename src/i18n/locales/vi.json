@@ -1,0 +1,27 @@
+{
+  "common": {
+    "or": "Hoặc"
+  },
+  "home": {
+    "title": "Chào mừng đến với Mimkat Client",
+    "description": "Next.js App Router với TypeScript và Tailwind CSS",
+    "authButton": "Đăng nhập / Đăng ký"
+  },
+  "auth": {
+    "login": "Đăng Nhập",
+    "register": "Đăng Ký",
+    "fullname": "Họ và Tên",
+    "email": "Email",
+    "password": "Mật Khẩu",
+    "fullnamePlaceholder": "Nhập họ và tên",
+    "emailPlaceholder": "email@example.com",
+    "passwordPlaceholder": "Nhập mật khẩu",
+    "loginButton": "Đăng Nhập",
+    "registerButton": "Đăng Ký",
+    "googleLogin": "Đăng nhập bằng Google",
+    "noAccount": "Chưa có tài khoản?",
+    "haveAccount": "Đã có tài khoản?",
+    "registerNow": "Đăng ký ngay",
+    "loginNow": "Đăng nhập"
+  }
+}
