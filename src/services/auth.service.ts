@@ -186,11 +186,57 @@ class AuthService {
   }
 
   /**
-   * Khởi tạo đăng nhập Google OAuth
-   * Redirect user đến Google OAuth consent screen
+   * Khởi tạo đăng nhập Google OAuth trong popup window
+   * @returns Promise với AuthResponse khi đăng nhập thành công
    */
-  initiateGoogleLogin(): void {
-    window.location.href = `${API_URL}${API_BASE_PATH}/google`;
+  initiateGoogleLogin(): Promise<AuthResponse> {
+    return new Promise((resolve, reject) => {
+      // Tính toán vị trí popup ở giữa màn hình
+      const width = 500;
+      const height = 600;
+      const left = window.screenX + (window.outerWidth - width) / 2;
+      const top = window.screenY + (window.outerHeight - height) / 2;
+
+      // Mở popup
+      const popup = window.open(
+        `${API_URL}${API_BASE_PATH}/google`,
+        "Google Login",
+        `width=${width},height=${height},left=${left},top=${top},popup=yes`
+      );
+
+      if (!popup) {
+        reject(
+          new Error("Popup bị chặn. Vui lòng cho phép popup trong trình duyệt.")
+        );
+        return;
+      }
+
+      // Lắng nghe message từ popup
+      const handleMessage = (event: MessageEvent) => {
+        // Kiểm tra origin để bảo mật
+        if (event.origin !== API_URL) {
+          return;
+        }
+
+        // Kiểm tra type của message
+        if (event.data.type === "GOOGLE_AUTH_SUCCESS") {
+          window.removeEventListener("message", handleMessage);
+          popup.close();
+          resolve(event.data.data);
+        }
+      };
+
+      window.addEventListener("message", handleMessage);
+
+      // Kiểm tra nếu popup bị đóng mà chưa hoàn thành
+      const checkPopupClosed = setInterval(() => {
+        if (popup.closed) {
+          clearInterval(checkPopupClosed);
+          window.removeEventListener("message", handleMessage);
+          reject(new Error("Đăng nhập bị hủy"));
+        }
+      }, 1000);
+    });
   }
 }
 
