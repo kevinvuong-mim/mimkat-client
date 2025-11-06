@@ -211,7 +211,43 @@ class AuthService {
         return;
       }
 
-      // Lắng nghe message từ popup
+      // Polling localStorage để nhận tokens
+      const pollInterval = setInterval(() => {
+        // Check nếu popup đã đóng
+        if (popup.closed) {
+          clearInterval(pollInterval);
+
+          // Check localStorage để lấy tokens
+          const keys = Object.keys(localStorage);
+          const resultKey = keys.find((key) =>
+            key.startsWith("google_oauth_result_")
+          );
+
+          if (resultKey) {
+            try {
+              const result = JSON.parse(
+                localStorage.getItem(resultKey) || "{}"
+              );
+              localStorage.removeItem(resultKey); // Cleanup
+
+              if (result.type === "GOOGLE_AUTH_SUCCESS" && result.data) {
+                const { accessToken, refreshToken } = result.data;
+                localStorage.setItem("accessToken", accessToken);
+                localStorage.setItem("refreshToken", refreshToken);
+                resolve(result.data);
+              } else {
+                reject(new Error("Đăng nhập thất bại"));
+              }
+            } catch (error) {
+              reject(new Error("Không thể xử lý dữ liệu đăng nhập"));
+            }
+          } else {
+            reject(new Error("Không nhận được dữ liệu đăng nhập"));
+          }
+        }
+      }, 500);
+
+      // Fallback: Listen for postMessage (nếu window.opener works)
       const handleMessage = (event: MessageEvent) => {
         // Kiểm tra origin để bảo mật
         if (event.origin !== API_URL) {
@@ -220,22 +256,28 @@ class AuthService {
 
         // Kiểm tra type của message
         if (event.data.type === "GOOGLE_AUTH_SUCCESS") {
+          clearInterval(pollInterval);
           window.removeEventListener("message", handleMessage);
           popup.close();
+
+          const { accessToken, refreshToken } = event.data.data;
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
           resolve(event.data.data);
         }
       };
 
       window.addEventListener("message", handleMessage);
 
-      // Kiểm tra nếu popup bị đóng mà chưa hoàn thành
-      const checkPopupClosed = setInterval(() => {
-        if (popup.closed) {
-          clearInterval(checkPopupClosed);
-          window.removeEventListener("message", handleMessage);
-          reject(new Error("Đăng nhập bị hủy"));
+      // Timeout sau 5 phút
+      setTimeout(() => {
+        clearInterval(pollInterval);
+        window.removeEventListener("message", handleMessage);
+        if (!popup.closed) {
+          popup.close();
         }
-      }, 1000);
+        reject(new Error("Timeout: Quá thời gian chờ đăng nhập"));
+      }, 300000);
     });
   }
 }
