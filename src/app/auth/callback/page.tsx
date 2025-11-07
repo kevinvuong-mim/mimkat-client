@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { TokenStorage } from "@/lib/token-storage";
 
 function AuthCallbackContent() {
   const searchParams = useSearchParams();
@@ -14,8 +15,7 @@ function AuthCallbackContent() {
 
   useEffect(() => {
     const handleCallback = () => {
-      const userDataEncoded = searchParams.get("userData");
-      const success = searchParams.get("success");
+      const authDataEncoded = searchParams.get("authData");
       const error = searchParams.get("error");
 
       if (error) {
@@ -25,21 +25,25 @@ function AuthCallbackContent() {
         return;
       }
 
-      // For web clients, tokens are in httpOnly cookies
-      // We only receive user data
-      if (success && userDataEncoded) {
+      // Decode authData which contains user + tokens
+      if (authDataEncoded) {
         try {
-          const userDataString = atob(userDataEncoded);
-          const userData = JSON.parse(userDataString);
+          const authDataString = atob(authDataEncoded);
+          const authData = JSON.parse(authDataString);
 
-          // Set user in context (tokens already in cookies)
-          setUser(userData);
+          // Store tokens in localStorage
+          if (authData.accessToken && authData.refreshToken) {
+            TokenStorage.saveTokens(authData.accessToken, authData.refreshToken);
+          }
+
+          // Set user in context
+          setUser(authData.user);
           setStatus("success");
 
           // Redirect to home
           setTimeout(() => router.push("/"), 1000);
         } catch (err) {
-          console.error("Error parsing user data:", err);
+          console.error("Error parsing auth data:", err);
           setStatus("error");
           setTimeout(() => router.push("/auth"), 2000);
         }

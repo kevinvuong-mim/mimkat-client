@@ -9,6 +9,7 @@ import {
   useCallback,
 } from "react";
 import { authService, AuthResponse } from "@/services/auth.service";
+import { TokenStorage } from "@/lib/token-storage";
 import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
@@ -43,20 +44,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  // Load user data on mount (fetch from API using cookie)
+  // Load user data on mount (fetch from API using localStorage tokens)
   useEffect(() => {
     const loadUserData = async () => {
       try {
+        const accessToken = TokenStorage.getAccessToken();
+
+        if (!accessToken) {
+          setIsLoading(false);
+          return;
+        }
+
         const response = await fetch(`${API_URL}/api/v1/auth/me`, {
-          credentials: "include",
           headers: {
-            "X-Client-Type": "web",
+            "Authorization": `Bearer ${accessToken}`,
           },
         });
 
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
+        } else if (response.status === 401) {
+          // Try to refresh token
+          try {
+            await authService.refreshToken();
+            // Retry fetching user data
+            const retryResponse = await fetch(`${API_URL}/api/v1/auth/me`, {
+              headers: {
+                "Authorization": `Bearer ${TokenStorage.getAccessToken()}`,
+              },
+            });
+            if (retryResponse.ok) {
+              const userData = await retryResponse.json();
+              setUser(userData);
+            } else {
+              // Refresh failed, clear tokens
+              TokenStorage.clearTokens();
+            }
+          } catch {
+            TokenStorage.clearTokens();
+          }
         }
       } catch (error) {
         console.error("Error loading user data:", error);

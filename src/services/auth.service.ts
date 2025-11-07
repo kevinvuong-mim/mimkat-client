@@ -1,3 +1,5 @@
+import { TokenStorage } from '@/lib/token-storage';
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 const API_BASE_PATH = "/api/v1/auth";
 
@@ -22,6 +24,9 @@ export interface AuthResponse {
     provider?: string;
   };
   message: string;
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
 }
 
 export interface RegisterResponse {
@@ -78,16 +83,14 @@ class AuthService {
 
   /**
    * Đăng nhập với email và password
-   * Tokens will be set as httpOnly cookies by server
+   * Tokens will be returned in response body and stored in localStorage
    */
   async login(data: LoginData): Promise<AuthResponse> {
     const response = await fetch(`${API_URL}${API_BASE_PATH}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Client-Type": "web",
       },
-      credentials: "include", // Critical: allows cookies to be set
       body: JSON.stringify(data),
     });
 
@@ -96,52 +99,80 @@ class AuthService {
       throw new Error(error.message || "Login failed");
     }
 
-    // Response no longer contains tokens (they're in cookies)
-    return response.json();
+    const authData: AuthResponse = await response.json();
+
+    // Store tokens in localStorage
+    TokenStorage.saveTokens(authData.accessToken, authData.refreshToken);
+
+    return authData;
   }
 
   /**
    * Đăng xuất khỏi hệ thống (vô hiệu hóa refresh token)
    */
   async logout(): Promise<{ message: string }> {
-    const response = await fetch(`${API_URL}${API_BASE_PATH}/logout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Client-Type": "web",
-      },
-      credentials: "include",
-      body: JSON.stringify({}),
-    });
+    const refreshToken = TokenStorage.getRefreshToken();
+    const accessToken = TokenStorage.getAccessToken();
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Logout failed");
+    if (!refreshToken || !accessToken) {
+      // Clear tokens anyway and return
+      TokenStorage.clearTokens();
+      return { message: 'Already logged out' };
     }
 
-    return response.json();
+    try {
+      const response = await fetch(`${API_URL}${API_BASE_PATH}/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ refreshToken }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Logout failed");
+      }
+
+      return await response.json();
+    } finally {
+      // Always clear tokens from localStorage, even if logout request fails
+      TokenStorage.clearTokens();
+    }
   }
 
   /**
-   * Làm mới access token (uses cookie)
+   * Làm mới access token (uses localStorage)
    */
-  async refreshToken(): Promise<{ message: string }> {
+  async refreshToken(): Promise<{ message: string; accessToken: string; refreshToken: string; expiresIn: number }> {
+    const refreshToken = TokenStorage.getRefreshToken();
+
+    if (!refreshToken) {
+      throw new Error('No refresh token found');
+    }
+
     const response = await fetch(`${API_URL}${API_BASE_PATH}/refresh`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Client-Type": "web",
       },
-      credentials: "include",
-      body: JSON.stringify({}),
+      body: JSON.stringify({ refreshToken }),
     });
 
     if (!response.ok) {
       const error = await response.json();
+      // Clear tokens on refresh failure
+      TokenStorage.clearTokens();
       throw new Error(error.message || "Token refresh failed");
     }
 
-    return response.json();
+    const data = await response.json();
+
+    // Update tokens in localStorage
+    TokenStorage.saveTokens(data.accessToken, data.refreshToken);
+
+    return data;
   }
 
   /**
