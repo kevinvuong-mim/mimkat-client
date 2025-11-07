@@ -1,109 +1,175 @@
-import { TokenStorage } from './token-storage';
+import axios, {
+  AxiosInstance,
+  AxiosError,
+  InternalAxiosRequestConfig,
+} from "axios";
+import { TokenStorage } from "./token-storage";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
+// State để quản lý refresh token process
+let isRefreshing = false;
+let failedQueue: Array<{
+  resolve: (value: string) => void;
+  reject: (reason?: unknown) => void;
+}> = [];
+
 /**
- * Fetch protected data with automatic token refresh
+ * Process queue of failed requests after token refresh
  */
-export async function fetchProtectedData(
-  endpoint: string,
-  options: RequestInit = {}
-) {
-  const accessToken = TokenStorage.getAccessToken();
-
-  if (!accessToken) {
-    // No token, redirect to login
-    if (typeof window !== "undefined") {
-      window.location.href = "/auth";
+const processQueue = (
+  error: Error | null = null,
+  token: string | null = null
+) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token!);
     }
-    throw new Error("No access token");
-  }
-
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${accessToken}`,
-    ...(options.headers as Record<string, string>),
-  };
-
-  const response = await fetch(`${API_URL}${endpoint}`, {
-    ...options,
-    headers,
   });
 
-  // Token expired, try to refresh
-  if (response.status === 401) {
-    const refreshed = await refreshToken();
-    if (refreshed) {
-      // Retry with new token
-      return fetchProtectedData(endpoint, options);
-    } else {
-      // Refresh failed, redirect to login
-      if (typeof window !== "undefined") {
-        window.location.href = "/auth";
-      }
-      throw new Error("Session expired");
-    }
-  }
-
-  return response;
-}
+  failedQueue = [];
+};
 
 /**
  * Refresh the access token using refresh token from localStorage
  */
-export async function refreshToken(): Promise<boolean> {
+async function refreshToken(): Promise<string | null> {
   try {
     const refreshToken = TokenStorage.getRefreshToken();
 
     if (!refreshToken) {
-      return false;
+      return null;
     }
 
-    const response = await fetch(`${API_URL}/api/v1/auth/refresh`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ refreshToken }),
+    const response = await axios.post(`${API_URL}/api/v1/auth/refresh`, {
+      refreshToken,
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      // Update tokens in localStorage
-      TokenStorage.saveTokens(data.accessToken, data.refreshToken);
-      return true;
-    }
+    const { accessToken, refreshToken: newRefreshToken } = response.data;
 
-    // Refresh failed, clear tokens
-    TokenStorage.clearTokens();
-    return false;
+    // Update tokens in localStorage
+    TokenStorage.saveTokens(accessToken, newRefreshToken);
+    return accessToken;
   } catch (error) {
     console.error("Error refreshing token:", error);
     TokenStorage.clearTokens();
-    return false;
+    return null;
   }
 }
 
+/**
+ * Create axios instance with auto token refresh
+ */
+export const apiClient: AxiosInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+/**
+ * Request Interceptor - Thêm access token vào header
+ */
+apiClient.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    const accessToken = TokenStorage.getAccessToken();
+
+    if (accessToken && config.headers) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+/**
+ * Response Interceptor - Auto refresh token khi 401
+ */
+apiClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
+
+    // Nếu lỗi 401 và chưa retry
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        // Đang refresh token, queue request này
+        return new Promise((resolve, reject) => {
+          failedQueue.push({
+            resolve: (token: string) => {
+              if (originalRequest.headers) {
+                originalRequest.headers.Authorization = `Bearer ${token}`;
+              }
+              resolve(apiClient(originalRequest));
+            },
+            reject: (err: unknown) => {
+              reject(err);
+            },
+          });
+        });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const newAccessToken = await refreshToken();
+
+        if (newAccessToken) {
+          // Process all queued requests
+          processQueue(null, newAccessToken);
+
+          // Retry original request với token mới
+          if (originalRequest.headers) {
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          }
+          return apiClient(originalRequest);
+        } else {
+          // Refresh failed
+          processQueue(new Error("Session expired"), null);
+
+          // Redirect to login
+          if (typeof window !== "undefined") {
+            window.location.href = "/auth";
+          }
+
+          return Promise.reject(error);
+        }
+      } catch (err) {
+        processQueue(err as Error, null);
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 /**
  * Logout user by clearing tokens
  */
 export async function logout() {
   try {
     const accessToken = TokenStorage.getAccessToken();
-    const refreshToken = TokenStorage.getRefreshToken();
+    const refreshTokenValue = TokenStorage.getRefreshToken();
 
-    if (accessToken && refreshToken) {
-      await fetch(`${API_URL}/api/v1/auth/logout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ refreshToken }),
+    if (accessToken && refreshTokenValue) {
+      await apiClient.post("/api/v1/auth/logout", {
+        refreshToken: refreshTokenValue,
       });
     }
   } catch (error) {
-    console.error('Logout error:', error);
+    console.error("Logout error:", error);
   } finally {
     // Clear tokens from localStorage
     TokenStorage.clearTokens();
@@ -126,23 +192,11 @@ export async function isAuthenticated(): Promise<boolean> {
       return false;
     }
 
-    const response = await fetch(`${API_URL}/api/v1/auth/me`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
-
-    if (response.ok) {
-      return true;
-    }
-
-    // If 401, try to refresh token
-    if (response.status === 401) {
-      return await refreshToken();
-    }
-
-    return false;
-  } catch {
+    const response = await apiClient.get("/api/v1/auth/me");
+    return response.status === 200;
+  } catch (error) {
+    // If error (including 401), auto refresh will handle it
+    // If refresh fails, user will be redirected
     return false;
   }
 }

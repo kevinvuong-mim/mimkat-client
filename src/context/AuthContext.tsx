@@ -11,8 +11,7 @@ import {
 import { authService, AuthResponse } from "@/services/auth.service";
 import { TokenStorage } from "@/lib/token-storage";
 import { useRouter } from "next/navigation";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+import { apiClient } from "@/lib/api-client";
 
 interface User {
   id: string;
@@ -55,38 +54,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return;
         }
 
-        const response = await fetch(`${API_URL}/api/v1/auth/me`, {
-          headers: {
-            "Authorization": `Bearer ${accessToken}`,
-          },
-        });
-
-        if (response.ok) {
-          const userData = await response.json();
-          setUser(userData);
-        } else if (response.status === 401) {
-          // Try to refresh token
-          try {
-            await authService.refreshToken();
-            // Retry fetching user data
-            const retryResponse = await fetch(`${API_URL}/api/v1/auth/me`, {
-              headers: {
-                "Authorization": `Bearer ${TokenStorage.getAccessToken()}`,
-              },
-            });
-            if (retryResponse.ok) {
-              const userData = await retryResponse.json();
-              setUser(userData);
-            } else {
-              // Refresh failed, clear tokens
-              TokenStorage.clearTokens();
-            }
-          } catch {
-            TokenStorage.clearTokens();
-          }
-        }
+        // Use apiClient - it will auto handle token refresh if needed
+        const userData = await apiClient.get<User>("/api/v1/auth/me");
+        setUser(userData);
       } catch (error) {
         console.error("Error loading user data:", error);
+        // If error (token invalid, etc), clear tokens
+        TokenStorage.clearTokens();
       } finally {
         setIsLoading(false);
       }

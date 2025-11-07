@@ -1,7 +1,16 @@
-import { TokenStorage } from '@/lib/token-storage';
+import { TokenStorage } from "@/lib/token-storage";
+import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 const API_BASE_PATH = "/api/v1/auth";
+
+// Axios instance riêng cho auth (không dùng interceptors)
+const authAxios = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 export interface RegisterData {
   email: string;
@@ -74,20 +83,18 @@ class AuthService {
    * Đăng ký tài khoản mới với email và password
    */
   async register(data: RegisterData): Promise<RegisterResponse> {
-    const response = await fetch(`${API_URL}${API_BASE_PATH}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Registration failed");
+    try {
+      const response = await authAxios.post<RegisterResponse>(
+        `${API_BASE_PATH}/register`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(error.response.data.message || "Registration failed");
+      }
+      throw error;
     }
-
-    return response.json();
   }
 
   /**
@@ -95,25 +102,24 @@ class AuthService {
    * Tokens will be returned in response body and stored in localStorage
    */
   async login(data: LoginData): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}${API_BASE_PATH}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const response = await authAxios.post<AuthResponse>(
+        `${API_BASE_PATH}/login`,
+        data
+      );
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Login failed");
+      const authData = response.data;
+
+      // Store tokens in localStorage
+      TokenStorage.saveTokens(authData.accessToken, authData.refreshToken);
+
+      return authData;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(error.response.data.message || "Login failed");
+      }
+      throw error;
     }
-
-    const authData: AuthResponse = await response.json();
-
-    // Store tokens in localStorage
-    TokenStorage.saveTokens(authData.accessToken, authData.refreshToken);
-
-    return authData;
   }
 
   /**
@@ -126,25 +132,26 @@ class AuthService {
     if (!refreshToken || !accessToken) {
       // Clear tokens anyway and return
       TokenStorage.clearTokens();
-      return { message: 'Already logged out' };
+      return { message: "Already logged out" };
     }
 
     try {
-      const response = await fetch(`${API_URL}${API_BASE_PATH}/logout`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ refreshToken }),
-      });
+      const response = await authAxios.post<{ message: string }>(
+        `${API_BASE_PATH}/logout`,
+        { refreshToken },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Logout failed");
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(error.response.data.message || "Logout failed");
       }
-
-      return await response.json();
+      throw error;
     } finally {
       // Always clear tokens from localStorage, even if logout request fails
       TokenStorage.clearTokens();
@@ -154,53 +161,60 @@ class AuthService {
   /**
    * Làm mới access token (uses localStorage)
    */
-  async refreshToken(): Promise<{ message: string; accessToken: string; refreshToken: string; expiresIn: number }> {
+  async refreshToken(): Promise<{
+    message: string;
+    accessToken: string;
+    refreshToken: string;
+    expiresIn: number;
+  }> {
     const refreshToken = TokenStorage.getRefreshToken();
 
     if (!refreshToken) {
-      throw new Error('No refresh token found');
+      throw new Error("No refresh token found");
     }
 
-    const response = await fetch(`${API_URL}${API_BASE_PATH}/refresh`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refreshToken }),
-    });
+    try {
+      const response = await authAxios.post<{
+        message: string;
+        accessToken: string;
+        refreshToken: string;
+        expiresIn: number;
+      }>(`${API_BASE_PATH}/refresh`, { refreshToken });
 
-    if (!response.ok) {
-      const error = await response.json();
+      const data = response.data;
+
+      // Update tokens in localStorage
+      TokenStorage.saveTokens(data.accessToken, data.refreshToken);
+
+      return data;
+    } catch (error) {
       // Clear tokens on refresh failure
       TokenStorage.clearTokens();
-      throw new Error(error.message || "Token refresh failed");
+
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(error.response.data.message || "Token refresh failed");
+      }
+      throw error;
     }
-
-    const data = await response.json();
-
-    // Update tokens in localStorage
-    TokenStorage.saveTokens(data.accessToken, data.refreshToken);
-
-    return data;
   }
 
   /**
    * Xác thực email với token từ email
    */
   async verifyEmail(token: string): Promise<VerifyEmailResponse> {
-    const response = await fetch(
-      `${API_URL}${API_BASE_PATH}/verify-email?token=${token}`,
-      {
-        method: "GET",
+    try {
+      const response = await authAxios.get<VerifyEmailResponse>(
+        `${API_BASE_PATH}/verify-email?token=${token}`
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(
+          error.response.data.message || "Email verification failed"
+        );
       }
-    );
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Email verification failed");
+      throw error;
     }
-
-    return response.json();
   }
 
   /**
@@ -209,75 +223,61 @@ class AuthService {
   async resendVerification(
     data: ResendVerificationData
   ): Promise<{ message: string }> {
-    const response = await fetch(
-      `${API_URL}${API_BASE_PATH}/resend-verification`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+    try {
+      const response = await authAxios.post<{ message: string }>(
+        `${API_BASE_PATH}/resend-verification`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(
+          error.response.data.message || "Failed to resend verification email"
+        );
       }
-    );
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to resend verification email");
+      throw error;
     }
-
-    return response.json();
   }
 
   /**
    * Yêu cầu reset mật khẩu (gửi email chứa link reset)
    */
-  async forgotPassword(
-    data: ForgotPasswordData
-  ): Promise<{ message: string }> {
-    const response = await fetch(
-      `${API_URL}${API_BASE_PATH}/forgot-password`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+  async forgotPassword(data: ForgotPasswordData): Promise<{ message: string }> {
+    try {
+      const response = await authAxios.post<{ message: string }>(
+        `${API_BASE_PATH}/forgot-password`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(
+          error.response.data.message || "Failed to send password reset email"
+        );
       }
-    );
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to send password reset email");
+      throw error;
     }
-
-    return response.json();
   }
 
   /**
    * Reset mật khẩu với token từ email
    */
-  async resetPassword(
-    data: ResetPasswordData
-  ): Promise<{ message: string }> {
-    const response = await fetch(
-      `${API_URL}${API_BASE_PATH}/reset-password`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+  async resetPassword(data: ResetPasswordData): Promise<{ message: string }> {
+    try {
+      const response = await authAxios.post<{ message: string }>(
+        `${API_BASE_PATH}/reset-password`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(
+          error.response.data.message || "Failed to reset password"
+        );
       }
-    );
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to reset password");
+      throw error;
     }
-
-    return response.json();
   }
-
 }
 
 export const authService = new AuthService();
