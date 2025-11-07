@@ -1,33 +1,82 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n/context";
+import { useAuth } from "@/context/AuthContext";
+import { authService } from "@/services/auth.service";
+import GoogleLoginButton from "@/components/GoogleLoginButton";
 
 export default function AuthPage() {
   const { t, isReady } = useI18n();
   const router = useRouter();
+  const { isAuthenticated, login, register } = useAuth();
+
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    fullname: "",
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated, router]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
+    setIsLoading(true);
 
-    if (isLogin) {
-      console.log("Đăng nhập với:", {
-        email: formData.email,
-        password: formData.password,
-      });
-    } else {
-      console.log("Đăng ký với:", formData);
+    try {
+      if (isLogin) {
+        // Login
+        await login(formData.email, formData.password);
+        router.push("/");
+      } else {
+        // Register
+        await register(formData.email, formData.password);
+        setSuccess(
+          "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản."
+        );
+        setFormData({ email: "", password: "" });
+        // Switch to login mode after successful registration
+        setTimeout(() => {
+          setIsLogin(true);
+          setSuccess("");
+        }, 3000);
+      }
+    } catch (err: any) {
+      setError(err.message || "Đã xảy ra lỗi. Vui lòng thử lại.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+  const handleResendVerification = async () => {
+    if (!formData.email) {
+      setError("Vui lòng nhập email để gửi lại email xác thực");
+      return;
     }
 
-    // Navigate to home page after login/register
-    router.push("/");
+    setIsLoading(true);
+    setError("");
+
+    try {
+      await authService.resendVerification({ email: formData.email });
+      setSuccess("Email xác thực đã được gửi lại! Vui lòng kiểm tra hộp thư.");
+    } catch (err: any) {
+      setError(err.message || "Không thể gửi lại email xác thực");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +88,9 @@ export default function AuthPage() {
 
   const toggleMode = () => {
     setIsLogin(!isLogin);
-    setFormData({ fullname: "", email: "", password: "" });
+    setFormData({ email: "", password: "" });
+    setError("");
+    setSuccess("");
   };
 
   if (!isReady) {
@@ -53,28 +104,21 @@ export default function AuthPage() {
           {isLogin ? t.auth.login : t.auth.register}
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {!isLogin && (
-            <div>
-              <label
-                htmlFor="fullname"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                {t.auth.fullname}
-              </label>
-              <input
-                type="text"
-                id="fullname"
-                name="fullname"
-                value={formData.fullname}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition text-gray-900 bg-white"
-                placeholder={t.auth.fullnamePlaceholder}
-              />
-            </div>
-          )}
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+            {error}
+          </div>
+        )}
 
+        {/* Success Message */}
+        {success && (
+          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4">
+            {success}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
               htmlFor="email"
@@ -115,11 +159,29 @@ export default function AuthPage() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg"
+            disabled={isLoading}
+            className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLogin ? t.auth.loginButton : t.auth.registerButton}
+            {isLoading
+              ? "Đang xử lý..."
+              : isLogin
+              ? t.auth.loginButton
+              : t.auth.registerButton}
           </button>
         </form>
+
+        {/* Resend Verification Email Button (only show in login mode if there's an error about unverified email) */}
+        {isLogin && error.toLowerCase().includes("verify") && (
+          <div className="mt-4">
+            <button
+              onClick={handleResendVerification}
+              disabled={isLoading}
+              className="w-full bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Gửi lại email xác thực
+            </button>
+          </div>
+        )}
 
         {isLogin && (
           <>
@@ -134,31 +196,9 @@ export default function AuthPage() {
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => console.log("Đăng nhập bằng Google")}
-              className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-50 hover:border-gray-400 transition duration-200 shadow-sm hover:shadow-md"
-            >
-              <svg className="w-5 h-5" viewBox="0 0 24 24">
-                <path
-                  fill="#4285F4"
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                />
-                <path
-                  fill="#EA4335"
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                />
-              </svg>
-              {t.auth.googleLogin}
-            </button>
+            <div className="flex justify-center">
+              <GoogleLoginButton />
+            </div>
           </>
         )}
 
