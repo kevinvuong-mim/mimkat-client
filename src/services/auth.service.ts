@@ -60,6 +60,15 @@ export interface LogoutData {
   refreshToken: string;
 }
 
+export interface ForgotPasswordData {
+  email: string;
+}
+
+export interface ResetPasswordData {
+  token: string;
+  password: string;
+}
+
 class AuthService {
   /**
    * Đăng ký tài khoản mới với email và password
@@ -214,6 +223,56 @@ class AuthService {
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Failed to resend verification email");
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Yêu cầu reset mật khẩu (gửi email chứa link reset)
+   */
+  async forgotPassword(
+    data: ForgotPasswordData
+  ): Promise<{ message: string }> {
+    const response = await fetch(
+      `${API_URL}${API_BASE_PATH}/forgot-password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to send password reset email");
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Reset mật khẩu với token từ email
+   */
+  async resetPassword(
+    data: ResetPasswordData
+  ): Promise<{ message: string }> {
+    const response = await fetch(
+      `${API_URL}${API_BASE_PATH}/reset-password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to reset password");
     }
 
     return response.json();

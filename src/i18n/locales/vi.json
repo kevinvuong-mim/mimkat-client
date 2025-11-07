@@ -22,6 +22,26 @@
     "noAccount": "Chưa có tài khoản?",
     "haveAccount": "Đã có tài khoản?",
     "registerNow": "Đăng ký ngay",
-    "loginNow": "Đăng nhập"
+    "loginNow": "Đăng nhập",
+    "forgotPassword": "Quên Mật Khẩu",
+    "forgotPasswordLink": "Quên mật khẩu?",
+    "forgotPasswordDescription": "Nhập email của bạn và chúng tôi sẽ gửi link reset mật khẩu",
+    "sendResetLink": "Gửi Link Reset",
+    "sending": "Đang gửi...",
+    "checkEmailInbox": "Vui lòng kiểm tra email và click vào link để reset mật khẩu",
+    "backToLogin": "Quay lại Đăng Nhập",
+    "alreadyHaveToken": "Đã có mã reset?",
+    "resetPassword": "Reset Mật Khẩu",
+    "resetPasswordDescription": "Nhập mật khẩu mới của bạn",
+    "newPassword": "Mật Khẩu Mới",
+    "confirmPassword": "Xác Nhận Mật Khẩu",
+    "passwordMismatch": "Mật khẩu xác nhận không khớp",
+    "passwordRequirements": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số",
+    "passwordRequirementsTitle": "Yêu cầu mật khẩu:",
+    "tokenMissing": "Không tìm thấy mã reset. Vui lòng click vào link từ email",
+    "resetting": "Đang reset...",
+    "resetPasswordButton": "Reset Mật Khẩu",
+    "redirectingToLogin": "Đang chuyển hướng đến trang đăng nhập...",
+    "requestResetLink": "Yêu cầu Link Reset"
   }
 }

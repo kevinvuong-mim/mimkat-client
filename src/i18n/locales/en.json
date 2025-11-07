@@ -22,6 +22,26 @@
     "noAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
     "registerNow": "Sign up now",
-    "loginNow": "Sign in"
+    "loginNow": "Sign in",
+    "forgotPassword": "Forgot Password",
+    "forgotPasswordLink": "Forgot password?",
+    "forgotPasswordDescription": "Enter your email and we'll send you a password reset link",
+    "sendResetLink": "Send Reset Link",
+    "sending": "Sending...",
+    "checkEmailInbox": "Please check your email and click the link to reset your password",
+    "backToLogin": "Back to Sign In",
+    "alreadyHaveToken": "Already have a reset code?",
+    "resetPassword": "Reset Password",
+    "resetPasswordDescription": "Enter your new password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordRequirements": "Password must be at least 8 characters and include uppercase, lowercase, and numbers",
+    "passwordRequirementsTitle": "Password Requirements:",
+    "tokenMissing": "Reset token not found. Please click the link from your email",
+    "resetting": "Resetting...",
+    "resetPasswordButton": "Reset Password",
+    "redirectingToLogin": "Redirecting to login page...",
+    "requestResetLink": "Request Reset Link"
   }
 }
