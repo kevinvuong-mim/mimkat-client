@@ -30,7 +30,6 @@ export interface AuthResponse {
     firstName?: string;
     lastName?: string;
     avatar?: string;
-    provider?: string;
   };
   message: string;
   accessToken: string;

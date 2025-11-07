@@ -22,7 +22,6 @@ interface User {
   firstName?: string;
   lastName?: string;
   avatar?: string;
-  provider?: string;
   isActive?: boolean;
 }
 
