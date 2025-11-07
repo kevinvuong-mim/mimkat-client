@@ -1,31 +1,60 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
+let csrfToken: string | null = null;
+
 /**
- * Fetch protected data with automatic token refresh
+ * Fetch CSRF token from server
+ */
+async function fetchCsrfToken(): Promise<string> {
+  if (csrfToken) return csrfToken;
+
+  const response = await fetch(`${API_URL}/api/v1/auth/csrf-token`, {
+    credentials: 'include', // Important for cookies
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    csrfToken = data.csrfToken;
+    return csrfToken;
+  }
+
+  throw new Error('Failed to fetch CSRF token');
+}
+
+/**
+ * Fetch protected data with automatic token refresh and CSRF protection
  */
 export async function fetchProtectedData(
   endpoint: string,
   options: RequestInit = {}
 ) {
-  const accessToken = localStorage.getItem("accessToken");
+  // Get CSRF token for state-changing methods
+  const needsCsrf = !['GET', 'HEAD', 'OPTIONS'].includes(
+    options.method?.toUpperCase() || 'GET'
+  );
 
-  if (!accessToken) {
-    throw new Error("No access token found");
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    'X-Client-Type': 'web',
+    ...(options.headers as Record<string, string>),
+  };
+
+  if (needsCsrf) {
+    const token = await fetchCsrfToken();
+    headers['X-CSRF-Token'] = token;
   }
 
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers,
+    credentials: 'include', // Critical: send cookies
   });
 
   // Token expired, try to refresh
   if (response.status === 401) {
     const refreshed = await refreshToken();
     if (refreshed) {
-      // Retry with new token
+      // Retry with new token (in cookie)
       return fetchProtectedData(endpoint, options);
     } else {
       // Refresh failed, redirect to login
@@ -40,33 +69,21 @@ export async function fetchProtectedData(
 }
 
 /**
- * Refresh the access token using refresh token
+ * Refresh the access token using refresh token (in cookie)
  */
 export async function refreshToken(): Promise<boolean> {
-  const refreshToken = localStorage.getItem("refreshToken");
-
-  if (!refreshToken) {
-    return false;
-  }
-
   try {
-    const response = await fetch(`${API_URL}/auth/refresh`, {
+    const response = await fetch(`${API_URL}/api/v1/auth/refresh`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refreshToken }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Client-Type': 'web',
+      },
+      credentials: 'include', // Send refresh token cookie
+      body: JSON.stringify({}), // Empty body for web clients
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      return true;
-    } else {
-      // Refresh failed, clear tokens
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      return false;
-    }
+    return response.ok;
   } catch (error) {
     console.error("Error refreshing token:", error);
     return false;
@@ -74,19 +91,42 @@ export async function refreshToken(): Promise<boolean> {
 }
 
 /**
- * Logout user by clearing tokens
+ * Logout user by clearing cookies on server
  */
-export function logout() {
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
-  if (typeof window !== "undefined") {
-    window.location.href = "/auth";
+export async function logout() {
+  try {
+    await fetch(`${API_URL}/api/v1/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Client-Type': 'web',
+      },
+      credentials: 'include',
+      body: JSON.stringify({}),
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
+  } finally {
+    // Clear any local state and redirect
+    if (typeof window !== "undefined") {
+      window.location.href = "/auth";
+    }
   }
 }
 
 /**
- * Check if user is authenticated
+ * Check if user is authenticated (check for cookie existence via API call)
  */
-export function isAuthenticated(): boolean {
-  return !!localStorage.getItem("accessToken");
+export async function isAuthenticated(): Promise<boolean> {
+  try {
+    const response = await fetch(`${API_URL}/api/v1/auth/me`, {
+      credentials: 'include',
+      headers: {
+        'X-Client-Type': 'web',
+      },
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
 }

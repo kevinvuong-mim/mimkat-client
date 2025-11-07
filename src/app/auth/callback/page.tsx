@@ -7,16 +7,15 @@ import { useAuth } from "@/context/AuthContext";
 function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { setAuthData } = useAuth();
+  const { setUser } = useAuth();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
 
   useEffect(() => {
     const handleCallback = () => {
-      const accessToken = searchParams.get("accessToken");
-      const refreshToken = searchParams.get("refreshToken");
       const userDataEncoded = searchParams.get("userData");
+      const success = searchParams.get("success");
       const error = searchParams.get("error");
 
       if (error) {
@@ -26,37 +25,32 @@ function AuthCallbackContent() {
         return;
       }
 
-      if (!accessToken || !refreshToken || !userDataEncoded) {
-        setStatus("error");
-        setTimeout(() => router.push("/auth"), 2000);
-        return;
-      }
+      // For web clients, tokens are in httpOnly cookies
+      // We only receive user data
+      if (success && userDataEncoded) {
+        try {
+          const userDataString = atob(userDataEncoded);
+          const userData = JSON.parse(userDataString);
 
-      try {
-        // Decode user data từ base64
-        const userDataString = atob(userDataEncoded);
-        const userData = JSON.parse(userDataString);
+          // Set user in context (tokens already in cookies)
+          setUser(userData);
+          setStatus("success");
 
-        // Lưu user data vào context (sẽ tự động lưu vào localStorage)
-        setAuthData({
-          accessToken,
-          refreshToken,
-          user: userData,
-        });
-
-        setStatus("success");
-
-        // Redirect về trang chủ
-        setTimeout(() => router.push("/"), 1000);
-      } catch (err) {
-        console.error("Error parsing user data:", err);
+          // Redirect to home
+          setTimeout(() => router.push("/"), 1000);
+        } catch (err) {
+          console.error("Error parsing user data:", err);
+          setStatus("error");
+          setTimeout(() => router.push("/auth"), 2000);
+        }
+      } else {
         setStatus("error");
         setTimeout(() => router.push("/auth"), 2000);
       }
     };
 
     handleCallback();
-  }, [searchParams, router, setAuthData]);
+  }, [searchParams, router, setUser]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-400 via-sky-400 to-blue-500">

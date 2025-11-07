@@ -12,17 +12,16 @@ export interface LoginData {
 }
 
 export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
   user: {
     id: string;
     email: string;
-    emailVerified: boolean;
+    emailVerified?: boolean;
     firstName?: string;
     lastName?: string;
     avatar?: string;
     provider?: string;
   };
+  message: string;
 }
 
 export interface RegisterResponse {
@@ -79,13 +78,16 @@ class AuthService {
 
   /**
    * Đăng nhập với email và password
+   * Tokens will be set as httpOnly cookies by server
    */
   async login(data: LoginData): Promise<AuthResponse> {
     const response = await fetch(`${API_URL}${API_BASE_PATH}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-Client-Type": "web",
       },
+      credentials: "include", // Critical: allows cookies to be set
       body: JSON.stringify(data),
     });
 
@@ -94,23 +96,22 @@ class AuthService {
       throw new Error(error.message || "Login failed");
     }
 
+    // Response no longer contains tokens (they're in cookies)
     return response.json();
   }
 
   /**
    * Đăng xuất khỏi hệ thống (vô hiệu hóa refresh token)
    */
-  async logout(
-    data: LogoutData,
-    accessToken: string
-  ): Promise<{ message: string }> {
+  async logout(): Promise<{ message: string }> {
     const response = await fetch(`${API_URL}${API_BASE_PATH}/logout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        "X-Client-Type": "web",
       },
-      body: JSON.stringify(data),
+      credentials: "include",
+      body: JSON.stringify({}),
     });
 
     if (!response.ok) {
@@ -122,15 +123,17 @@ class AuthService {
   }
 
   /**
-   * Làm mới access token bằng refresh token
+   * Làm mới access token (uses cookie)
    */
-  async refreshToken(data: RefreshTokenData): Promise<AuthResponse> {
+  async refreshToken(): Promise<{ message: string }> {
     const response = await fetch(`${API_URL}${API_BASE_PATH}/refresh`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-Client-Type": "web",
       },
-      body: JSON.stringify(data),
+      credentials: "include",
+      body: JSON.stringify({}),
     });
 
     if (!response.ok) {
