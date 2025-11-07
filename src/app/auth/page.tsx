@@ -59,15 +59,6 @@ export default function AuthPage() {
     }
   };
 
-  const handleGoogleSuccess = () => {
-    // Redirect to Google OAuth flow
-    authService.initiateGoogleLogin();
-  };
-
-  const handleGoogleError = () => {
-    console.error("Google Login Failed");
-    setError("Đăng nhập Google thất bại");
-  };
 
   const handleResendVerification = async () => {
     if (!formData.email) {
@@ -206,10 +197,7 @@ export default function AuthPage() {
             </div>
 
             <div className="flex justify-center">
-              <GoogleLoginButton
-                onSuccess={handleGoogleSuccess}
-                onError={handleGoogleError}
-              />
+              <GoogleLoginButton />
             </div>
           </>
         )}
