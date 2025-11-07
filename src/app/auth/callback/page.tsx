@@ -3,20 +3,19 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { TokenStorage } from "@/lib/token-storage";
 
 function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { setAuthData } = useAuth();
+  const { setUser } = useAuth();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
 
   useEffect(() => {
     const handleCallback = () => {
-      const accessToken = searchParams.get("accessToken");
-      const refreshToken = searchParams.get("refreshToken");
-      const userDataEncoded = searchParams.get("userData");
+      const authDataEncoded = searchParams.get("authData");
       const error = searchParams.get("error");
 
       if (error) {
@@ -26,37 +25,36 @@ function AuthCallbackContent() {
         return;
       }
 
-      if (!accessToken || !refreshToken || !userDataEncoded) {
-        setStatus("error");
-        setTimeout(() => router.push("/auth"), 2000);
-        return;
-      }
+      // Decode authData which contains user + tokens
+      if (authDataEncoded) {
+        try {
+          const authDataString = atob(authDataEncoded);
+          const authData = JSON.parse(authDataString);
 
-      try {
-        // Decode user data từ base64
-        const userDataString = atob(userDataEncoded);
-        const userData = JSON.parse(userDataString);
+          // Store tokens in localStorage
+          if (authData.accessToken && authData.refreshToken) {
+            TokenStorage.saveTokens(authData.accessToken, authData.refreshToken);
+          }
 
-        // Lưu user data vào context (sẽ tự động lưu vào localStorage)
-        setAuthData({
-          accessToken,
-          refreshToken,
-          user: userData,
-        });
+          // Set user in context
+          setUser(authData.user);
+          setStatus("success");
 
-        setStatus("success");
-
-        // Redirect về trang chủ
-        setTimeout(() => router.push("/"), 1000);
-      } catch (err) {
-        console.error("Error parsing user data:", err);
+          // Redirect to home
+          setTimeout(() => router.push("/"), 1000);
+        } catch (err) {
+          console.error("Error parsing auth data:", err);
+          setStatus("error");
+          setTimeout(() => router.push("/auth"), 2000);
+        }
+      } else {
         setStatus("error");
         setTimeout(() => router.push("/auth"), 2000);
       }
     };
 
     handleCallback();
-  }, [searchParams, router, setAuthData]);
+  }, [searchParams, router, setUser]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-400 via-sky-400 to-blue-500">

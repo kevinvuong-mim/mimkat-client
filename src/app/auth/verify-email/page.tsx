@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authService } from "@/services/auth.service";
 import Link from "next/link";
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -117,8 +117,8 @@ export default function VerifyEmailPage() {
                   Quay lại trang đăng nhập
                 </Link>
                 <p className="text-sm text-gray-500">
-                  Cần gửi lại email xác thực? Vui lòng đăng nhập và chọn "Gửi
-                  lại email xác thực"
+                  Cần gửi lại email xác thực? Vui lòng đăng nhập và chọn &quot;Gửi
+                  lại email xác thực&quot;
                 </p>
               </div>
             </>
@@ -126,5 +126,21 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-indigo-500 to-purple-600">
+          <div className="bg-white p-10 rounded-2xl shadow-2xl">
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <VerifyEmailContent />
+    </Suspense>
   );
 }

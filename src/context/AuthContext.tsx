@@ -9,55 +9,84 @@ import {
   useCallback,
 } from "react";
 import { authService, AuthResponse } from "@/services/auth.service";
+import { TokenStorage } from "@/lib/token-storage";
 import { useRouter } from "next/navigation";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 interface User {
   id: string;
   email: string;
-  emailVerified: boolean;
+  emailVerified?: boolean;
+  fullName?: string;
+  username?: string;
   firstName?: string;
   lastName?: string;
   avatar?: string;
   provider?: string;
+  isActive?: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
-  accessToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  refreshAccessToken: () => Promise<void>;
-  setAuthData: (data: AuthResponse) => void;
+  setUser: (user: User | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  // Load user data from localStorage on mount
+  // Load user data on mount (fetch from API using localStorage tokens)
   useEffect(() => {
-    const loadUserData = () => {
+    const loadUserData = async () => {
       try {
-        const storedToken = localStorage.getItem("accessToken");
-        const storedUser = localStorage.getItem("user");
+        const accessToken = TokenStorage.getAccessToken();
 
-        if (storedToken && storedUser) {
-          setAccessToken(storedToken);
-          setUser(JSON.parse(storedUser));
+        if (!accessToken) {
+          setIsLoading(false);
+          return;
+        }
+
+        const response = await fetch(`${API_URL}/api/v1/auth/me`, {
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+          },
+        });
+
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+        } else if (response.status === 401) {
+          // Try to refresh token
+          try {
+            await authService.refreshToken();
+            // Retry fetching user data
+            const retryResponse = await fetch(`${API_URL}/api/v1/auth/me`, {
+              headers: {
+                "Authorization": `Bearer ${TokenStorage.getAccessToken()}`,
+              },
+            });
+            if (retryResponse.ok) {
+              const userData = await retryResponse.json();
+              setUser(userData);
+            } else {
+              // Refresh failed, clear tokens
+              TokenStorage.clearTokens();
+            }
+          } catch {
+            TokenStorage.clearTokens();
+          }
         }
       } catch (error) {
         console.error("Error loading user data:", error);
-        // Clear invalid data
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("user");
       } finally {
         setIsLoading(false);
       }
@@ -66,29 +95,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loadUserData();
   }, []);
 
-  // Auto refresh token before it expires
+  // Auto refresh token before it expires (every 50 minutes)
   useEffect(() => {
-    if (!accessToken) return;
+    if (!user) return;
 
-    // Refresh token every 50 minutes (access token expires in 1 hour)
-    const refreshInterval = setInterval(() => {
-      refreshAccessToken();
+    const refreshInterval = setInterval(async () => {
+      try {
+        await authService.refreshToken();
+      } catch (error) {
+        console.error("Token refresh error:", error);
+        await logout();
+      }
     }, 50 * 60 * 1000);
 
     return () => clearInterval(refreshInterval);
-  }, [accessToken]);
-
-  /**
-   * Set authentication data (user, tokens) and save to localStorage
-   */
-  const setAuthData = useCallback((data: AuthResponse) => {
-    setAccessToken(data.accessToken);
-    setUser(data.user);
-
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("refreshToken", data.refreshToken);
-    localStorage.setItem("user", JSON.stringify(data.user));
-  }, []);
+  }, [user]);
 
   /**
    * Login with email and password
@@ -96,7 +117,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     try {
       const response = await authService.login({ email, password });
-      setAuthData(response);
+      setUser(response.user);
     } catch (error) {
       throw error;
     }
@@ -121,43 +142,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    */
   const logout = async () => {
     try {
-      const refreshToken = localStorage.getItem("refreshToken");
-
-      if (refreshToken && accessToken) {
-        await authService.logout({ refreshToken }, accessToken);
-      }
+      await authService.logout();
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
-      // Clear local storage regardless of API call result
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("user");
       setUser(null);
-      setAccessToken(null);
-
-      // Redirect to login page
       router.push("/auth");
-    }
-  };
-
-  /**
-   * Refresh access token using refresh token
-   */
-  const refreshAccessToken = async () => {
-    try {
-      const refreshToken = localStorage.getItem("refreshToken");
-
-      if (!refreshToken) {
-        throw new Error("No refresh token available");
-      }
-
-      const response = await authService.refreshToken({ refreshToken });
-      setAuthData(response);
-    } catch (error) {
-      console.error("Token refresh error:", error);
-      // If refresh fails, logout user
-      await logout();
     }
   };
 
@@ -165,14 +155,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
-        accessToken,
-        isAuthenticated: !!user && !!accessToken,
+        isAuthenticated: !!user,
         isLoading,
         login,
         register,
         logout,
-        refreshAccessToken,
-        setAuthData,
+        setUser,
       }}
     >
       {children}
