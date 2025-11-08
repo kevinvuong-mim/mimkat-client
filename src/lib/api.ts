@@ -43,7 +43,7 @@ async function refreshToken(): Promise<string | null> {
       return null;
     }
 
-    const response = await axios.post(`${API_URL}/api/v1/auth/refresh`, {
+    const response = await axios.post(`${API_URL}/auth/refresh`, {
       refreshToken,
     });
 
@@ -164,7 +164,7 @@ export async function logout() {
     const refreshTokenValue = TokenStorage.getRefreshToken();
 
     if (accessToken && refreshTokenValue) {
-      await apiClient.post("/api/v1/auth/logout", {
+      await apiClient.post("/auth/logout", {
         refreshToken: refreshTokenValue,
       });
     }
@@ -192,7 +192,7 @@ export async function isAuthenticated(): Promise<boolean> {
       return false;
     }
 
-    const response = await apiClient.get("/api/v1/auth/me");
+    const response = await apiClient.get("/auth/me");
     return response.status === 200;
   } catch (error) {
     // If error (including 401), auto refresh will handle it

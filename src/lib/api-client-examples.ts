@@ -10,7 +10,7 @@ import { apiClient } from "@/lib/api-client";
 // ===== Example 1: Simple GET Request =====
 async function getUserProfile() {
   try {
-    const response = await apiClient.get("/api/v1/auth/me");
+    const response = await apiClient.get("/auth/me");
     console.log("User profile:", response);
     return response;
   } catch (error) {
@@ -22,7 +22,7 @@ async function getUserProfile() {
 // ===== Example 2: POST Request with Data =====
 async function createPost(title: string, content: string) {
   try {
-    const response = await apiClient.post("/api/v1/posts", {
+    const response = await apiClient.post("/posts", {
       title,
       content,
     });
@@ -40,7 +40,7 @@ async function updateUser(
   userData: { name: string; email: string }
 ) {
   try {
-    const response = await apiClient.put(`/api/v1/users/${userId}`, userData);
+    const response = await apiClient.put(`/users/${userId}`, userData);
     console.log("User updated:", response);
     return response;
   } catch (error) {
@@ -52,7 +52,7 @@ async function updateUser(
 // ===== Example 4: PATCH Request (Partial Update) =====
 async function updateUserAvatar(userId: string, avatarUrl: string) {
   try {
-    const response = await apiClient.patch(`/api/v1/users/${userId}`, {
+    const response = await apiClient.patch(`/users/${userId}`, {
       avatar: avatarUrl,
     });
     console.log("Avatar updated:", response);
@@ -66,7 +66,7 @@ async function updateUserAvatar(userId: string, avatarUrl: string) {
 // ===== Example 5: DELETE Request =====
 async function deletePost(postId: string) {
   try {
-    const response = await apiClient.delete(`/api/v1/posts/${postId}`);
+    const response = await apiClient.delete(`/posts/${postId}`);
     console.log("Post deleted:", response);
     return response;
   } catch (error) {
@@ -84,7 +84,7 @@ async function searchPosts(keyword: string, page: number = 1) {
       limit: "10",
     });
 
-    const response = await apiClient.get(`/api/v1/posts?${queryParams}`);
+    const response = await apiClient.get(`/posts?${queryParams}`);
     console.log("Search results:", response);
     return response;
   } catch (error) {
@@ -96,7 +96,7 @@ async function searchPosts(keyword: string, page: number = 1) {
 // ===== Example 7: Public Request (No Auth) =====
 async function getPublicStats() {
   try {
-    const response = await apiClient.publicGet("/api/v1/public/stats");
+    const response = await apiClient.publicGet("/public/stats");
     console.log("Public stats:", response);
     return response;
   } catch (error) {
@@ -133,7 +133,7 @@ export function PostsList() {
       setLoading(true);
       setError(null);
       
-      const data = await apiClient.get<{ posts: Post[] }>('/api/v1/posts');
+      const data = await apiClient.get<{ posts: Post[] }>('/posts');
       setPosts(data.posts);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load posts');
@@ -144,7 +144,7 @@ export function PostsList() {
 
   async function handleCreatePost(title: string, content: string) {
     try {
-      const newPost = await apiClient.post<Post>('/api/v1/posts', {
+      const newPost = await apiClient.post<Post>('/posts', {
         title,
         content,
       });
@@ -157,7 +157,7 @@ export function PostsList() {
 
   async function handleDeletePost(postId: string) {
     try {
-      await apiClient.delete(`/api/v1/posts/${postId}`);
+      await apiClient.delete(`/posts/${postId}`);
       setPosts(posts.filter(post => post.id !== postId));
     } catch (err) {
       console.error('Failed to delete post:', err);
@@ -198,9 +198,7 @@ interface ApiResponse<T> {
 async function getUserWithTypes(userId: string) {
   try {
     // Type-safe response
-    const response = await apiClient.get<ApiResponse<User>>(
-      `/api/v1/users/${userId}`
-    );
+    const response = await apiClient.get<ApiResponse<User>>(`/users/${userId}`);
 
     console.log("User data:", response.data);
     console.log("Success:", response.success);
@@ -215,7 +213,7 @@ async function getUserWithTypes(userId: string) {
 // ===== Example 10: Error Handling =====
 async function robustApiCall() {
   try {
-    const response = await apiClient.get("/api/v1/protected-resource");
+    const response = await apiClient.get("/protected-resource");
     return response;
   } catch (error) {
     if (error instanceof Error) {
@@ -241,9 +239,9 @@ async function loadDashboardData() {
     // If token expires during any request, it will be auto-refreshed
     // and all failed requests will be retried automatically
     const [user, posts, stats] = await Promise.all([
-      apiClient.get("/api/v1/auth/me"),
-      apiClient.get("/api/v1/posts"),
-      apiClient.get("/api/v1/stats"),
+      apiClient.get("/auth/me"),
+      apiClient.get("/posts"),
+      apiClient.get("/stats"),
     ]);
 
     return { user, posts, stats };

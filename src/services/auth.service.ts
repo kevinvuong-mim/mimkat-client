@@ -2,7 +2,7 @@ import { TokenStorage } from "@/lib/token-storage";
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-const API_BASE_PATH = "/api/v1/auth";
+const API_BASE_PATH = "/auth";
 
 // Axios instance riêng cho auth (không dùng interceptors)
 const authAxios = axios.create({

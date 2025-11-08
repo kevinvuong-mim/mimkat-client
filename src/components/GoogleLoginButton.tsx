@@ -4,7 +4,7 @@ export default function GoogleLoginButton() {
   const handleGoogleLogin = () => {
     // Redirect trực tiếp đến backend Google OAuth endpoint
     const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-    window.location.href = `${API_URL}/api/v1/auth/google`;
+    window.location.href = `${API_URL}/auth/google`;
   };
 
   return (

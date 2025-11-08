@@ -2,10 +2,12 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useI18n } from "@/i18n/context";
 import { authService } from "@/services/auth.service";
 import Link from "next/link";
 
 function VerifyEmailContent() {
+  const { t } = useI18n();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -19,14 +21,14 @@ function VerifyEmailContent() {
 
       if (!token) {
         setStatus("error");
-        setMessage("Token xác thực không hợp lệ");
+        setMessage(t.auth.invalidToken);
         return;
       }
 
       try {
         const response = await authService.verifyEmail(token);
         setStatus("success");
-        setMessage(response.message || "Email đã được xác thực thành công!");
+        setMessage(response.message || t.auth.emailVerifiedSuccessfully);
 
         // Redirect to login page after 3 seconds
         setTimeout(() => {
@@ -34,12 +36,12 @@ function VerifyEmailContent() {
         }, 3000);
       } catch (error: any) {
         setStatus("error");
-        setMessage(error.message || "Xác thực email thất bại");
+        setMessage(error.message || t.auth.verificationError);
       }
     };
 
     verifyEmail();
-  }, [searchParams, router]);
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-400 via-sky-400 to-blue-500">
@@ -49,9 +51,9 @@ function VerifyEmailContent() {
             <>
               <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mb-6"></div>
               <h1 className="text-2xl font-bold text-gray-800 mb-4">
-                Đang xác thực email...
+                {t.auth.verifyingEmail}
               </h1>
-              <p className="text-gray-600">Vui lòng đợi trong giây lát</p>
+              <p className="text-gray-600">{t.auth.pleaseWait}</p>
             </>
           )}
 
@@ -73,17 +75,17 @@ function VerifyEmailContent() {
                 </svg>
               </div>
               <h1 className="text-2xl font-bold text-gray-800 mb-4">
-                Xác thực thành công!
+                {t.auth.verificationSuccess}
               </h1>
               <p className="text-gray-600 mb-6">{message}</p>
               <p className="text-sm text-gray-500">
-                Bạn sẽ được chuyển đến trang đăng nhập trong giây lát...
+                {t.auth.redirectingToLoginShortly}
               </p>
               <Link
                 href="/auth"
                 className="inline-block mt-6 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200"
               >
-                Đến trang đăng nhập
+                {t.auth.goToLogin}
               </Link>
             </>
           )}
@@ -106,7 +108,7 @@ function VerifyEmailContent() {
                 </svg>
               </div>
               <h1 className="text-2xl font-bold text-gray-800 mb-4">
-                Xác thực thất bại
+                {t.auth.verificationFailed}
               </h1>
               <p className="text-gray-600 mb-6">{message}</p>
               <div className="space-y-3">
@@ -114,11 +116,10 @@ function VerifyEmailContent() {
                   href="/auth"
                   className="block w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200"
                 >
-                  Quay lại trang đăng nhập
+                  {t.auth.backToLoginPage}
                 </Link>
                 <p className="text-sm text-gray-500">
-                  Cần gửi lại email xác thực? Vui lòng đăng nhập và chọn &quot;Gửi
-                  lại email xác thực&quot;
+                  {t.auth.needResendVerification}
                 </p>
               </div>
             </>
@@ -129,17 +130,20 @@ function VerifyEmailContent() {
   );
 }
 
+function LoadingFallback() {
+  const { t } = useI18n();
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-400 via-sky-400 to-blue-500">
+      <div className="bg-white p-10 rounded-2xl shadow-2xl">
+        <p className="text-gray-600">{t.auth.loading}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function VerifyEmailPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-indigo-500 to-purple-600">
-          <div className="bg-white p-10 rounded-2xl shadow-2xl">
-            <p className="text-gray-600">Loading...</p>
-          </div>
-        </div>
-      }
-    >
+    <Suspense fallback={<LoadingFallback />}>
       <VerifyEmailContent />
     </Suspense>
   );

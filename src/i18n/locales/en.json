@@ -42,6 +42,19 @@
     "resetting": "Resetting...",
     "resetPasswordButton": "Reset Password",
     "redirectingToLogin": "Redirecting to login page...",
-    "requestResetLink": "Request Reset Link"
+    "requestResetLink": "Request Reset Link",
+    "verifyEmail": "Verify Email",
+    "verifyingEmail": "Verifying email...",
+    "pleaseWait": "Please wait a moment",
+    "verificationSuccess": "Verification Successful!",
+    "emailVerifiedSuccessfully": "Email has been verified successfully!",
+    "redirectingToLoginShortly": "You will be redirected to the login page shortly...",
+    "goToLogin": "Go to Login",
+    "verificationFailed": "Verification Failed",
+    "invalidToken": "Invalid verification token",
+    "verificationError": "Email verification failed",
+    "backToLoginPage": "Back to Login Page",
+    "needResendVerification": "Need to resend verification email? Please login and select \"Resend Verification Email\"",
+    "loading": "Loading..."
   }
 }

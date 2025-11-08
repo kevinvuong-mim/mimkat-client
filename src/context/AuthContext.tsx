@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         // Use apiClient - it will auto handle token refresh if needed
-        const userData = await apiClient.get<User>("/api/v1/auth/me");
+        const userData = await apiClient.get<User>("/auth/me");
         setUser(userData);
       } catch (error) {
         console.error("Error loading user data:", error);

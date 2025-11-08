@@ -225,7 +225,7 @@ Request → Request Interceptor (add token)
 // Tự động handle tất cả!
 import { apiClient } from "@/lib/api-client";
 
-const user = await apiClient.get("/api/v1/auth/me");
+const user = await apiClient.get("/auth/me");
 // Token tự động thêm, 401 tự động refresh!
 ```
 
@@ -256,26 +256,26 @@ useEffect(() => {
 import { apiClient } from "@/lib/api-client";
 
 // GET request
-const user = await apiClient.get("/api/v1/auth/me");
+const user = await apiClient.get("/auth/me");
 
 // POST request
-const post = await apiClient.post("/api/v1/posts", {
+const post = await apiClient.post("/posts", {
   title: "Hello",
   content: "World",
 });
 
 // PUT request
-const updated = await apiClient.put("/api/v1/users/123", {
+const updated = await apiClient.put("/users/123", {
   name: "New Name",
 });
 
 // PATCH request
-const patched = await apiClient.patch("/api/v1/users/123", {
+const patched = await apiClient.patch("/users/123", {
   avatar: "new-avatar.jpg",
 });
 
 // DELETE request
-const deleted = await apiClient.delete("/api/v1/posts/123");
+const deleted = await apiClient.delete("/posts/123");
 ```
 
 ### With TypeScript
@@ -288,7 +288,7 @@ interface User {
 }
 
 // Type-safe response
-const user = await apiClient.get<User>("/api/v1/auth/me");
+const user = await apiClient.get<User>("/auth/me");
 console.log(user.name); // TypeScript knows this!
 ```
 
@@ -298,7 +298,7 @@ console.log(user.name); // TypeScript knows this!
 import axios from "axios";
 
 try {
-  const data = await apiClient.get("/api/v1/users/me");
+  const data = await apiClient.get("/users/me");
 } catch (error) {
   if (axios.isAxiosError(error)) {
     console.error("Status:", error.response?.status);
@@ -311,7 +311,7 @@ try {
 
 ```typescript
 // With query params
-const posts = await apiClient.get("/api/v1/posts", {
+const posts = await apiClient.get("/posts", {
   params: {
     page: 1,
     limit: 10,
@@ -320,14 +320,14 @@ const posts = await apiClient.get("/api/v1/posts", {
 });
 
 // Custom headers
-const data = await apiClient.post("/api/v1/posts", postData, {
+const data = await apiClient.post("/posts", postData, {
   headers: {
     "X-Custom-Header": "value",
   },
 });
 
 // With timeout
-const data = await apiClient.get("/api/v1/slow-endpoint", {
+const data = await apiClient.get("/slow-endpoint", {
   timeout: 5000, // 5 seconds
 });
 ```
@@ -612,7 +612,7 @@ Set trong Vercel Dashboard:
 ✅ **DO:**
 
 ```typescript
-const data = await apiClient.get("/api/v1/users");
+const data = await apiClient.get("/users");
 ```
 
 ❌ **DON'T:**
@@ -626,13 +626,13 @@ const response = await fetch(url, { headers: {...} });
 ✅ **DO:**
 
 ```typescript
-const user = await apiClient.get<User>("/api/v1/auth/me");
+const user = await apiClient.get<User>("/auth/me");
 ```
 
 ❌ **DON'T:**
 
 ```typescript
-const user = await apiClient.get("/api/v1/auth/me");
+const user = await apiClient.get("/auth/me");
 ```
 
 ### 3. Handle Errors

@@ -42,6 +42,19 @@
     "resetting": "Đang reset...",
     "resetPasswordButton": "Reset Mật Khẩu",
     "redirectingToLogin": "Đang chuyển hướng đến trang đăng nhập...",
-    "requestResetLink": "Yêu cầu Link Reset"
+    "requestResetLink": "Yêu cầu Link Reset",
+    "verifyEmail": "Xác Thực Email",
+    "verifyingEmail": "Đang xác thực email...",
+    "pleaseWait": "Vui lòng đợi trong giây lát",
+    "verificationSuccess": "Xác thực thành công!",
+    "emailVerifiedSuccessfully": "Email đã được xác thực thành công!",
+    "redirectingToLoginShortly": "Bạn sẽ được chuyển đến trang đăng nhập trong giây lát...",
+    "goToLogin": "Đến trang đăng nhập",
+    "verificationFailed": "Xác thực thất bại",
+    "invalidToken": "Token xác thực không hợp lệ",
+    "verificationError": "Xác thực email thất bại",
+    "backToLoginPage": "Quay lại trang đăng nhập",
+    "needResendVerification": "Cần gửi lại email xác thực? Vui lòng đăng nhập và chọn \"Gửi lại email xác thực\"",
+    "loading": "Đang tải..."
   }
 }
