@@ -77,6 +77,25 @@ export interface ResetPasswordData {
   password: string;
 }
 
+export interface ChangePasswordData {
+  currentPassword?: string;
+  newPassword: string;
+}
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  fullName?: string;
+  username?: string;
+  avatar?: string;
+  isActive: boolean;
+  isEmailVerified: boolean;
+  hasPassword: boolean;
+  hasGoogleAuth: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 class AuthService {
   /**
    * Đăng ký tài khoản mới với email và password
@@ -272,6 +291,64 @@ class AuthService {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
           error.response.data.message || "Failed to reset password"
+        );
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Đổi mật khẩu cho user đã đăng nhập
+   */
+  async changePassword(data: ChangePasswordData): Promise<{ message: string }> {
+    const accessToken = TokenStorage.getAccessToken();
+
+    if (!accessToken) {
+      throw new Error("No access token found. Please login first.");
+    }
+
+    try {
+      const response = await authAxios.put<{ message: string }>(
+        `${API_BASE_PATH}/change-password`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(
+          error.response.data.message || "Failed to change password"
+        );
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Lấy thông tin profile đầy đủ của user
+   */
+  async getUserProfile(): Promise<UserProfile> {
+    const accessToken = TokenStorage.getAccessToken();
+
+    if (!accessToken) {
+      throw new Error("No access token found. Please login first.");
+    }
+
+    try {
+      const response = await authAxios.get<UserProfile>(`${API_BASE_PATH}/me`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new Error(
+          error.response.data.message || "Failed to get user profile"
         );
       }
       throw error;

@@ -69,12 +69,22 @@ export default function Home() {
                 )}
               </div>
             </div>
-            <button
-              onClick={logout}
-              className="w-full bg-red-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-600 transition duration-200"
-            >
-              Đăng xuất
-            </button>
+
+            {/* Action buttons */}
+            <div className="space-y-2">
+              <Link
+                href="/auth/change-password"
+                className="block w-full bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition duration-200"
+              >
+                Đổi mật khẩu
+              </Link>
+              <button
+                onClick={logout}
+                className="w-full bg-red-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-600 transition duration-200"
+              >
+                Đăng xuất
+              </button>
+            </div>
           </div>
         ) : (
           <Link

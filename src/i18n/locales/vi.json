@@ -55,6 +55,23 @@
     "verificationError": "Xác thực email thất bại",
     "backToLoginPage": "Quay lại trang đăng nhập",
     "needResendVerification": "Cần gửi lại email xác thực? Vui lòng đăng nhập và chọn \"Gửi lại email xác thực\"",
-    "loading": "Đang tải..."
+    "loading": "Đang tải...",
+    "changePassword": "Đổi Mật Khẩu",
+    "changePasswordDescription": "Cập nhật mật khẩu tài khoản của bạn",
+    "currentPassword": "Mật Khẩu Hiện Tại",
+    "enterCurrentPassword": "Nhập mật khẩu hiện tại",
+    "enterNewPassword": "Nhập mật khẩu mới",
+    "confirmNewPassword": "Xác nhận mật khẩu mới",
+    "passwordsDoNotMatch": "Mật khẩu xác nhận không khớp",
+    "changePasswordButton": "Đổi Mật Khẩu",
+    "changing": "Đang đổi...",
+    "changePasswordError": "Đổi mật khẩu thất bại",
+    "backToHome": "Quay lại Trang Chủ",
+    "passwordLengthRequirement": "Ít nhất 8 ký tự",
+    "passwordUppercaseRequirement": "Ít nhất một chữ hoa",
+    "passwordLowercaseRequirement": "Ít nhất một chữ thường",
+    "passwordNumberRequirement": "Ít nhất một chữ số",
+    "passwordChangeSuccessRedirect": "Đổi mật khẩu thành công! Đang chuyển đến trang đăng nhập...",
+    "setPasswordForGoogleUser": "Bạn đã đăng nhập bằng Google và chưa có mật khẩu. Đặt mật khẩu ngay để sử dụng đăng nhập bằng email/password."
   }
 }

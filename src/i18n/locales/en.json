@@ -55,6 +55,23 @@
     "verificationError": "Email verification failed",
     "backToLoginPage": "Back to Login Page",
     "needResendVerification": "Need to resend verification email? Please login and select \"Resend Verification Email\"",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "changePassword": "Change Password",
+    "changePasswordDescription": "Update your account password",
+    "currentPassword": "Current Password",
+    "enterCurrentPassword": "Enter your current password",
+    "enterNewPassword": "Enter your new password",
+    "confirmNewPassword": "Confirm your new password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "changePasswordButton": "Change Password",
+    "changing": "Changing...",
+    "changePasswordError": "Failed to change password",
+    "backToHome": "Back to Home",
+    "passwordLengthRequirement": "At least 8 characters",
+    "passwordUppercaseRequirement": "At least one uppercase letter",
+    "passwordLowercaseRequirement": "At least one lowercase letter",
+    "passwordNumberRequirement": "At least one number",
+    "passwordChangeSuccessRedirect": "Password changed successfully! Redirecting to login page...",
+    "setPasswordForGoogleUser": "You logged in with Google and don't have a password yet. Set one now to enable email/password login."
   }
 }
