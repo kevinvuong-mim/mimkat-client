@@ -6,9 +6,8 @@ import {
   useState,
   useEffect,
   ReactNode,
-  useCallback,
 } from "react";
-import { authService, AuthResponse } from "@/services/auth.service";
+import { authService } from "@/services/auth.service";
 import { TokenStorage } from "@/lib/token-storage";
 import { useRouter } from "next/navigation";
 import { apiClient } from "@/lib/api-client";

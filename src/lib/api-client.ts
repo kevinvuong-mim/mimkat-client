@@ -2,11 +2,8 @@
  * API Client with Auto Token Refresh using Axios
  * Wrapper around axios instance with interceptors
  */
-
 import { apiClient as axiosInstance } from "./api";
 import { AxiosRequestConfig } from "axios";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 class ApiClient {
   /**

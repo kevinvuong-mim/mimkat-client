@@ -180,23 +180,3 @@ export async function logout() {
     }
   }
 }
-
-/**
- * Check if user is authenticated (has valid tokens)
- */
-export async function isAuthenticated(): Promise<boolean> {
-  try {
-    const accessToken = TokenStorage.getAccessToken();
-
-    if (!accessToken) {
-      return false;
-    }
-
-    const response = await apiClient.get("/auth/me");
-    return response.status === 200;
-  } catch (error) {
-    // If error (including 401), auto refresh will handle it
-    // If refresh fails, user will be redirected
-    return false;
-  }
-}
