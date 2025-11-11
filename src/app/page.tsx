@@ -3,10 +3,26 @@
 import Link from "next/link";
 import { useI18n } from "@/i18n/context";
 import { useAuth } from "@/context/AuthContext";
+import { authService } from "@/services/auth.service";
+import { useRouter } from "next/navigation";
+import { TokenStorage } from "@/lib/token-storage";
 
 export default function Home() {
   const { t, locale, setLocale } = useI18n();
-  const { user, logout } = useAuth();
+  const { user, setUser } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      TokenStorage.clearTokens();
+      setUser(null);
+      router.push("/auth");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -75,7 +91,7 @@ export default function Home() {
                 Đổi mật khẩu
               </Link>
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="w-full bg-red-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-600 transition duration-200"
               >
                 Đăng xuất

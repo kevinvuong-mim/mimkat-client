@@ -10,7 +10,7 @@ import GoogleLoginButton from "@/components/GoogleLoginButton";
 export default function AuthPage() {
   const { t } = useI18n();
   const router = useRouter();
-  const { user, login, register } = useAuth();
+  const { user, setUser } = useAuth();
 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -37,11 +37,18 @@ export default function AuthPage() {
     try {
       if (isLogin) {
         // Login
-        await login(formData.email, formData.password);
+        const response = await authService.login({
+          email: formData.email,
+          password: formData.password,
+        });
+        setUser(response.user);
         router.push("/");
       } else {
         // Register
-        await register(formData.email, formData.password);
+        await authService.register({
+          email: formData.email,
+          password: formData.password,
+        });
         setSuccess(
           "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản."
         );
