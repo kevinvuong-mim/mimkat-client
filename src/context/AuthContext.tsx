@@ -8,7 +8,7 @@ import {
   ReactNode,
 } from "react";
 import { TokenStorage } from "@/lib/token-storage";
-import { apiClient } from "@/lib/api-client";
+import { apiClient } from "@/lib/api";
 
 interface User {
   id: string;
@@ -43,7 +43,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         // Use apiClient - it will auto handle token refresh via interceptor
-        const userData = await apiClient.get<User>("/auth/me");
+        const response = await apiClient.get<User>("/auth/me");
+        const userData = response.data;
         setUser(userData);
       } catch (error) {
         console.error("Error loading user data:", error);
