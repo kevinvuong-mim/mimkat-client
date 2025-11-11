@@ -7,7 +7,7 @@ import { authService } from "@/services/auth.service";
 import Link from "next/link";
 
 function ResetPasswordForm() {
-  const { t, isReady } = useI18n();
+  const { t } = useI18n();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -50,9 +50,7 @@ function ResetPasswordForm() {
 
     // Validate password match
     if (formData.password !== formData.confirmPassword) {
-      setError(
-        t.auth.passwordMismatch || "Mật khẩu xác nhận không khớp"
-      );
+      setError(t.auth.passwordMismatch || "Mật khẩu xác nhận không khớp");
       return;
     }
 
@@ -105,10 +103,6 @@ function ResetPasswordForm() {
       [e.target.name]: e.target.value,
     });
   };
-
-  if (!isReady) {
-    return null;
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-400 via-pink-400 to-purple-500">

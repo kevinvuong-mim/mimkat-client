@@ -9,9 +9,9 @@ import { TokenStorage } from "@/lib/token-storage";
 import Link from "next/link";
 
 export default function ChangePasswordPage() {
-  const { t, isReady } = useI18n();
+  const { t } = useI18n();
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
 
   const [formData, setFormData] = useState({
     currentPassword: "",
@@ -33,7 +33,7 @@ export default function ChangePasswordPage() {
   // Check if user has existing password by fetching profile
   useEffect(() => {
     const checkUserProfile = async () => {
-      if (!isAuthenticated) return;
+      if (!user) return;
 
       try {
         setIsCheckingProfile(true);
@@ -49,17 +49,14 @@ export default function ChangePasswordPage() {
     };
 
     checkUserProfile();
-  }, [isAuthenticated]);
+  }, [user]);
 
   useEffect(() => {
-    // Redirect if not authenticated
-    if (!isReady) return;
-
-    if (!isAuthenticated) {
+    if (!user) {
       router.push("/auth");
       return;
     }
-  }, [isAuthenticated, isReady, router]);
+  }, [user, router]);
 
   useEffect(() => {
     const password = formData.newPassword;
@@ -129,7 +126,7 @@ export default function ChangePasswordPage() {
     }
   };
 
-  if (!isReady || !isAuthenticated || isCheckingProfile) {
+  if (!user || isCheckingProfile) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>

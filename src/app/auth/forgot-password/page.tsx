@@ -7,7 +7,7 @@ import { authService } from "@/services/auth.service";
 import Link from "next/link";
 
 export default function ForgotPasswordPage() {
-  const { t, isReady } = useI18n();
+  const { t } = useI18n();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -31,10 +31,6 @@ export default function ForgotPasswordPage() {
       setIsLoading(false);
     }
   };
-
-  if (!isReady) {
-    return null;
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-400 via-pink-400 to-purple-500">

@@ -12,7 +12,6 @@ interface I18nContextType {
   locale: Locale;
   setLocale: (locale: Locale) => void;
   t: Messages;
-  isReady: boolean;
 }
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
@@ -62,10 +61,10 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("locale", newLocale);
   };
 
+  if (!isReady) return null;
+
   return (
-    <I18nContext.Provider
-      value={{ locale, setLocale, t: messages[locale], isReady }}
-    >
+    <I18nContext.Provider value={{ locale, setLocale, t: messages[locale] }}>
       {children}
     </I18nContext.Provider>
   );

@@ -8,9 +8,9 @@ import { authService } from "@/services/auth.service";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
 
 export default function AuthPage() {
-  const { t, isReady } = useI18n();
+  const { t } = useI18n();
   const router = useRouter();
-  const { isAuthenticated, login, register } = useAuth();
+  const { user, login, register } = useAuth();
 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -23,10 +23,10 @@ export default function AuthPage() {
 
   // Redirect if already authenticated
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       router.push("/");
     }
-  }, [isAuthenticated, router]);
+  }, [user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,7 +58,6 @@ export default function AuthPage() {
       setIsLoading(false);
     }
   };
-
 
   const handleResendVerification = async () => {
     if (!formData.email) {
@@ -92,10 +91,6 @@ export default function AuthPage() {
     setError("");
     setSuccess("");
   };
-
-  if (!isReady) {
-    return null;
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-400 via-sky-400 to-blue-500">

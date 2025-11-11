@@ -5,12 +5,8 @@ import { useI18n } from "@/i18n/context";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Home() {
-  const { t, locale, setLocale, isReady } = useI18n();
-  const { user, isAuthenticated, logout } = useAuth();
-
-  if (!isReady) {
-    return null;
-  }
+  const { t, locale, setLocale } = useI18n();
+  const { user, logout } = useAuth();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -45,7 +41,7 @@ export default function Home() {
         <p className="text-lg text-gray-600 mb-8">{t.home.description}</p>
 
         {/* User Info and Actions */}
-        {isAuthenticated && user ? (
+        {user ? (
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
             <div className="flex items-center justify-center gap-4 mb-4">
               {user.avatar && (

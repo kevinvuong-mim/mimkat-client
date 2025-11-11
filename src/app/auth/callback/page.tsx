@@ -16,14 +16,6 @@ function AuthCallbackContent() {
   useEffect(() => {
     const handleCallback = () => {
       const authDataEncoded = searchParams.get("authData");
-      const error = searchParams.get("error");
-
-      if (error) {
-        console.error("Authentication error:", error);
-        setStatus("error");
-        setTimeout(() => router.push("/auth"), 2000);
-        return;
-      }
 
       // Decode authData which contains user + tokens
       if (authDataEncoded) {
