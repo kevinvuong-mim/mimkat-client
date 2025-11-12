@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { TokenStorage } from "@/lib/token-storage";
+import { Token } from "@/lib/token";
 
 function AuthCallbackContent() {
   const searchParams = useSearchParams();
@@ -25,10 +25,7 @@ function AuthCallbackContent() {
 
           // Store tokens in localStorage
           if (authData.accessToken && authData.refreshToken) {
-            TokenStorage.saveTokens(
-              authData.accessToken,
-              authData.refreshToken
-            );
+            Token.save(authData.accessToken, authData.refreshToken);
           }
 
           // Set user in context

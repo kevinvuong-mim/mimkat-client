@@ -148,47 +148,47 @@
 ```
 mimkat-client/
 ├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── auth/              # Auth pages (login, register, etc)
-│   │   ├── globals.css        # Global styles
-│   │   ├── layout.tsx         # Root layout
-│   │   └── page.tsx           # Home page
+│   ├── app/                        # Next.js App Router
+│   │   ├── auth/                   # Auth pages (login, register, etc)
+│   │   ├── globals.css             # Global styles
+│   │   ├── layout.tsx              # Root layout
+│   │   └── page.tsx                # Home page
 │   │
-│   ├── components/            # React components
+│   ├── components/                 # React components
 │   │   ├── GoogleLoginButton.tsx
 │   │   ├── ProfileExample.tsx
 │   │   └── ProtectedRoute.tsx
 │   │
-│   ├── context/               # React contexts
-│   │   └── AuthContext.tsx   # Auth state + periodic refresh
+│   ├── context/                    # React contexts
+│   │   └── AuthContext.tsx         # Auth state + periodic refresh
 │   │
-│   ├── i18n/                  # Internationalization
-│   │   ├── context.tsx       # i18n context
-│   │   └── locales/          # Translation files
+│   ├── i18n/                       # Internationalization
+│   │   ├── context.tsx             # i18n context
+│   │   └── locales/                # Translation files
 │   │       ├── en.json
 │   │       └── vi.json
 │   │
-│   ├── lib/                   # Core libraries
-│   │   ├── api.ts            # Axios instance + interceptors ⭐
-│   │   ├── api-client.ts     # API wrapper ⭐
-│   │   ├── token-storage.ts  # Token management
+│   ├── lib/                        # Core libraries
+│   │   ├── api.ts                  # Axios instance + interceptors ⭐
+│   │   ├── api-client.ts           # API wrapper ⭐
+│   │   ├── token.ts                # Token management
 │   │   ├── api-client-examples.ts
-│   │   └── README.md         # API documentation
+│   │   └── README.md               # API documentation
 │   │
-│   └── services/              # API services
-│       └── auth.service.ts   # Authentication methods
+│   └── services/                   # API services
+│       └── auth.service.ts         # Authentication methods
 │
-├── public/                    # Static assets
-├── .env.local                 # Environment variables (gitignored)
-├── .env.example              # Environment template
-├── next.config.ts            # Next.js config
-├── tailwind.config.ts        # Tailwind config
-├── tsconfig.json             # TypeScript config
-├── package.json              # Dependencies
+├── public/                         # Static assets
+├── .env.local                      # Environment variables (gitignored)
+├── .env.example                    # Environment template
+├── next.config.ts                  # Next.js config
+├── tailwind.config.ts              # Tailwind config
+├── tsconfig.json                   # TypeScript config
+├── package.json                    # Dependencies
 │
-├── AUTO_REFRESH_TOKEN.md     # Token refresh documentation
-├── AXIOS_MIGRATION.md        # Axios migration guide
-└── README.md                 # This file
+├── AUTO_REFRESH_TOKEN.md           # Token refresh documentation
+├── AXIOS_MIGRATION.md              # Axios migration guide
+└── README.md                       # This file
 ```
 
 ---

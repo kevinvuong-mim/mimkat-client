@@ -7,7 +7,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { TokenStorage } from "@/lib/token-storage";
+import { Token } from "@/lib/token";
 import { apiClient } from "@/lib/api";
 
 interface User {
@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        const accessToken = TokenStorage.getAccessToken();
+        const accessToken = Token.getAccessToken();
 
         if (!accessToken) {
           return;
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch (error) {
         console.error("Error loading user data:", error);
         // If error (token invalid, etc), clear tokens
-        TokenStorage.clearTokens();
+        Token.clear();
       }
     };
 

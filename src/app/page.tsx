@@ -5,7 +5,7 @@ import { useI18n } from "@/i18n/context";
 import { useAuth } from "@/context/AuthContext";
 import { authService } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
-import { TokenStorage } from "@/lib/token-storage";
+import { Token } from "@/lib/token";
 
 export default function Home() {
   const { t, locale, setLocale } = useI18n();
@@ -18,7 +18,7 @@ export default function Home() {
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
-      TokenStorage.clearTokens();
+      Token.clear();
       setUser(null);
       router.push("/auth");
     }
@@ -68,13 +68,9 @@ export default function Home() {
                 />
               )}
               <div className="text-left">
-                <p className="font-semibold text-gray-800">
-                  {user.firstName && user.lastName
-                    ? `${user.firstName} ${user.lastName}`
-                    : user.email}
-                </p>
+                <p className="font-semibold text-gray-800">{user.fullName}</p>
                 <p className="text-sm text-gray-600">{user.email}</p>
-                {user.emailVerified && (
+                {user.isEmailVerified && (
                   <span className="inline-block mt-1 px-2 py-1 bg-green-100 text-green-700 text-xs rounded">
                     ✓ Email đã xác thực
                   </span>

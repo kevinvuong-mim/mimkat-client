@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TokenStorage } from "./token-storage";
+import { Token } from "./token";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
@@ -31,7 +31,7 @@ const processQueue = (error: unknown, token: string | null = null) => {
 // Request interceptor - Add access token to requests
 apiClient.interceptors.request.use(
   (config) => {
-    const token = TokenStorage.getAccessToken();
+    const token = Token.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -64,7 +64,7 @@ apiClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = TokenStorage.getRefreshToken();
+        const refreshToken = Token.getRefreshToken();
 
         if (!refreshToken) {
           throw new Error("No refresh token available");
@@ -78,7 +78,7 @@ apiClient.interceptors.response.use(
         const { accessToken, refreshToken: newRefreshToken } = response.data;
 
         // Save new tokens
-        TokenStorage.saveTokens(accessToken, newRefreshToken);
+        Token.save(accessToken, newRefreshToken);
 
         // Update authorization header
         apiClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -91,7 +91,7 @@ apiClient.interceptors.response.use(
       } catch (refreshError) {
         // Refresh failed - logout user
         processQueue(refreshError, null);
-        TokenStorage.clearTokens();
+        Token.clear();
 
         // Redirect to login page
         if (typeof window !== "undefined") {

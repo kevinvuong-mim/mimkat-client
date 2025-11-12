@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n/context";
 import { userService } from "@/services/user.service";
 import { useAuth } from "@/context/AuthContext";
-import { TokenStorage } from "@/lib/token-storage";
+import { Token } from "@/lib/token";
 import Link from "next/link";
 
 export default function ChangePasswordPage() {
@@ -92,7 +92,7 @@ export default function ChangePasswordPage() {
       // Wait 3 seconds to show success message, then clear tokens and redirect
       setTimeout(() => {
         // Clear tokens from localStorage (sessions already deleted by backend)
-        TokenStorage.clearTokens();
+        Token.clear();
         // Force reload to clear all React state and redirect to login
         window.location.href = "/auth";
       }, 3000);

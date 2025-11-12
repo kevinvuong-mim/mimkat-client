@@ -1,4 +1,4 @@
-import { TokenStorage } from "@/lib/token-storage";
+import { Token } from "@/lib/token";
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
@@ -81,7 +81,7 @@ class AuthService {
       const authData = response.data;
 
       // Store tokens in localStorage
-      TokenStorage.saveTokens(authData.accessToken, authData.refreshToken);
+      Token.save(authData.accessToken, authData.refreshToken);
 
       return authData;
     } catch (error) {
@@ -93,12 +93,12 @@ class AuthService {
   }
 
   async logout(): Promise<{ message: string }> {
-    const refreshToken = TokenStorage.getRefreshToken();
-    const accessToken = TokenStorage.getAccessToken();
+    const refreshToken = Token.getRefreshToken();
+    const accessToken = Token.getAccessToken();
 
     if (!refreshToken || !accessToken) {
       // Clear tokens anyway and return
-      TokenStorage.clearTokens();
+      Token.clear();
       return { message: "Already logged out" };
     }
 
@@ -121,7 +121,7 @@ class AuthService {
       throw error;
     } finally {
       // Always clear tokens from localStorage, even if logout request fails
-      TokenStorage.clearTokens();
+      Token.clear();
     }
   }
 
@@ -131,7 +131,7 @@ class AuthService {
     refreshToken: string;
     expiresIn: number;
   }> {
-    const refreshToken = TokenStorage.getRefreshToken();
+    const refreshToken = Token.getRefreshToken();
 
     if (!refreshToken) {
       throw new Error("No refresh token found");
@@ -148,12 +148,12 @@ class AuthService {
       const data = response.data;
 
       // Update tokens in localStorage
-      TokenStorage.saveTokens(data.accessToken, data.refreshToken);
+      Token.save(data.accessToken, data.refreshToken);
 
       return data;
     } catch (error) {
       // Clear tokens on refresh failure
-      TokenStorage.clearTokens();
+      Token.clear();
 
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message || "Token refresh failed");
