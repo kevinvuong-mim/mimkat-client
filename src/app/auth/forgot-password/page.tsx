@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n/context";
 import { authService } from "@/services/auth.service";
 import Link from "next/link";
 
 export default function ForgotPasswordPage() {
   const { t } = useI18n();
-  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");

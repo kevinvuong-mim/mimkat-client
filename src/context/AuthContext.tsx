@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         // Use apiClient - it will auto handle token refresh via interceptor
-        const response = await apiClient.get<User>("/auth/me");
+        const response = await apiClient.get<User>("/users/me");
         const userData = response.data;
         setUser(userData);
       } catch (error) {

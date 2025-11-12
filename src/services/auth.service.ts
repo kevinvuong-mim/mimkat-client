@@ -2,7 +2,6 @@ import { TokenStorage } from "@/lib/token-storage";
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-const API_BASE_PATH = "/auth";
 
 // Axios instance riêng cho auth (không dùng interceptors)
 const authAxios = axios.create({
@@ -63,7 +62,7 @@ class AuthService {
   async register(data: RegisterData): Promise<RegisterResponse> {
     try {
       const response = await authAxios.post<RegisterResponse>(
-        `${API_BASE_PATH}/register`,
+        "/auth/register",
         data
       );
       return response.data;
@@ -77,10 +76,7 @@ class AuthService {
 
   async login(data: LoginData): Promise<LoginResponse> {
     try {
-      const response = await authAxios.post<LoginResponse>(
-        `${API_BASE_PATH}/login`,
-        data
-      );
+      const response = await authAxios.post<LoginResponse>("/auth/login", data);
 
       const authData = response.data;
 
@@ -108,7 +104,7 @@ class AuthService {
 
     try {
       const response = await authAxios.post<{ message: string }>(
-        `${API_BASE_PATH}/logout`,
+        "/auth/logout",
         { refreshToken },
         {
           headers: {
@@ -147,7 +143,7 @@ class AuthService {
         accessToken: string;
         refreshToken: string;
         expiresIn: number;
-      }>(`${API_BASE_PATH}/refresh`, { refreshToken });
+      }>("/auth/refresh", { refreshToken });
 
       const data = response.data;
 
@@ -169,7 +165,7 @@ class AuthService {
   async verifyEmail(token: string): Promise<VerifyEmailResponse> {
     try {
       const response = await authAxios.get<VerifyEmailResponse>(
-        `${API_BASE_PATH}/verify-email?token=${token}`
+        `/verification/email?token=${token}`
       );
       return response.data;
     } catch (error) {
@@ -187,7 +183,7 @@ class AuthService {
   ): Promise<{ message: string }> {
     try {
       const response = await authAxios.post<{ message: string }>(
-        `${API_BASE_PATH}/resend-verification`,
+        "/verification/resend",
         data
       );
       return response.data;
@@ -204,7 +200,7 @@ class AuthService {
   async forgotPassword(data: ForgotPasswordData): Promise<{ message: string }> {
     try {
       const response = await authAxios.post<{ message: string }>(
-        `${API_BASE_PATH}/forgot-password`,
+        `/verification/forgot-password`,
         data
       );
       return response.data;
@@ -221,7 +217,7 @@ class AuthService {
   async resetPassword(data: ResetPasswordData): Promise<{ message: string }> {
     try {
       const response = await authAxios.post<{ message: string }>(
-        `${API_BASE_PATH}/reset-password`,
+        "/verification/reset-password",
         data
       );
       return response.data;
