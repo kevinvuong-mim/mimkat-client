@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { I18nProvider } from "@/i18n/context";
-import { AuthProvider } from "@/context/AuthContext";
+import { UserProvider } from "@/context/UserContext";
 
 export const metadata: Metadata = {
   title: "Mimkat Client",
@@ -16,9 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
+        <UserProvider>
           <I18nProvider>{children}</I18nProvider>
-        </AuthProvider>
+        </UserProvider>
       </body>
     </html>
   );

@@ -2,19 +2,19 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
+import { useUser } from "@/context/UserContext";
 import { Token } from "@/lib/token";
 
 function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { setUser } = useAuth();
+  const { setUser } = useUser();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
 
   useEffect(() => {
-    const handleCallback = () => {
+    (() => {
       const authDataEncoded = searchParams.get("authData");
 
       // Decode authData which contains user + tokens
@@ -43,10 +43,8 @@ function AuthCallbackContent() {
         setStatus("error");
         setTimeout(() => router.push("/auth"), 2000);
       }
-    };
-
-    handleCallback();
-  }, [searchParams, router, setUser]);
+    })();
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-400 via-sky-400 to-blue-500">

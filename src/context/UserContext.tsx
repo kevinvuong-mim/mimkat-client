@@ -9,34 +9,16 @@ import {
 } from "react";
 import { Token } from "@/lib/token";
 import { apiClient } from "@/lib/api";
+import { User, UserContextType } from "@/types/user";
 
-interface User {
-  id: string;
-  email: string;
-  fullName?: string;
-  username?: string;
-  avatar?: string;
-  isActive: boolean;
-  isEmailVerified: boolean;
-  hasPassword: boolean;
-  hasGoogleAuth: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
-interface AuthContextType {
-  user: User | null;
-  setUser: (user: User | null) => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   // Load user data on mount (fetch from API using localStorage tokens)
   useEffect(() => {
-    const loadUserData = async () => {
+    (async () => {
       try {
         const accessToken = Token.getAccessToken();
 
@@ -53,22 +35,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // If error (token invalid, etc), clear tokens
         Token.clear();
       }
-    };
-
-    loadUserData();
+    })();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
-    </AuthContext.Provider>
+    </UserContext.Provider>
   );
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
+export function useUser() {
+  const context = useContext(UserContext);
   if (!context) {
-    throw new Error("useAuth must be used within AuthProvider");
+    throw new Error("useUser must be used within UserProvider");
   }
   return context;
 }

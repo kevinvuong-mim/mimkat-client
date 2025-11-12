@@ -160,7 +160,7 @@ mimkat-client/
 │   │   └── ProtectedRoute.tsx
 │   │
 │   ├── context/                    # React contexts
-│   │   └── AuthContext.tsx         # Auth state + periodic refresh
+│   │   └── UserContext.tsx         # User state + periodic refresh
 │   │
 │   ├── i18n/                       # Internationalization
 │   │   ├── context.tsx             # i18n context
@@ -231,10 +231,10 @@ const user = await apiClient.get("/auth/me");
 
 #### Periodic Refresh:
 
-Auth Context tự động refresh token mỗi **50 phút** (token hết hạn sau 60 phút):
+User Context tự động refresh token mỗi **50 phút** (token hết hạn sau 60 phút):
 
 ```typescript
-// Trong AuthContext.tsx
+// Trong UserContext.tsx
 useEffect(() => {
   if (!user) return;
 

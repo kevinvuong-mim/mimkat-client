@@ -1,3 +1,14 @@
+import {
+  RegisterData,
+  LoginData,
+  LoginResponse,
+  RegisterResponse,
+  VerifyEmailResponse,
+  ResendVerificationData,
+  ForgotPasswordData,
+  ResetPasswordData,
+  RefreshTokenResponse,
+} from "@/types/auth";
 import { Token } from "@/lib/token";
 import axios from "axios";
 
@@ -10,53 +21,6 @@ const authAxios = axios.create({
     "Content-Type": "application/json",
   },
 });
-
-export interface RegisterData {
-  email: string;
-  password: string;
-}
-
-export interface LoginData {
-  email: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  user: {
-    id: string;
-    email: string;
-  };
-  message: string;
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
-}
-
-export interface RegisterResponse {
-  message: string;
-  user: {
-    id: string;
-    email: string;
-    createdAt: string;
-  };
-}
-
-export interface VerifyEmailResponse {
-  message: string;
-}
-
-export interface ResendVerificationData {
-  email: string;
-}
-
-export interface ForgotPasswordData {
-  email: string;
-}
-
-export interface ResetPasswordData {
-  token: string;
-  password: string;
-}
 
 class AuthService {
   async register(data: RegisterData): Promise<RegisterResponse> {
@@ -125,12 +89,7 @@ class AuthService {
     }
   }
 
-  async refreshToken(): Promise<{
-    message: string;
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: number;
-  }> {
+  async refreshToken(): Promise<RefreshTokenResponse> {
     const refreshToken = Token.getRefreshToken();
 
     if (!refreshToken) {
@@ -138,12 +97,10 @@ class AuthService {
     }
 
     try {
-      const response = await authAxios.post<{
-        message: string;
-        accessToken: string;
-        refreshToken: string;
-        expiresIn: number;
-      }>("/auth/refresh", { refreshToken });
+      const response = await authAxios.post<RefreshTokenResponse>(
+        "/auth/refresh",
+        { refreshToken }
+      );
 
       const data = response.data;
 

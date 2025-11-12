@@ -1,18 +1,9 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
+import { Locale, Messages, I18nContextType } from "@/types/i18n";
 import en from "./locales/en.json";
 import vi from "./locales/vi.json";
-
-type Locale = "en" | "vi";
-
-type Messages = typeof en;
-
-interface I18nContextType {
-  locale: Locale;
-  setLocale: (locale: Locale) => void;
-  t: Messages;
-}
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 

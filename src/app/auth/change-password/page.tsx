@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n/context";
 import { userService } from "@/services/user.service";
-import { useAuth } from "@/context/AuthContext";
+import { useUser } from "@/context/UserContext";
 import { Token } from "@/lib/token";
 import Link from "next/link";
 
 export default function ChangePasswordPage() {
   const { t } = useI18n();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user } = useUser();
 
   const [formData, setFormData] = useState({
     currentPassword: "",

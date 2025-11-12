@@ -3,14 +3,14 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n/context";
-import { useAuth } from "@/context/AuthContext";
+import { useUser } from "@/context/UserContext";
 import { authService } from "@/services/auth.service";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
 
 export default function AuthPage() {
   const { t } = useI18n();
   const router = useRouter();
-  const { user, setUser } = useAuth();
+  const { user, setUser } = useUser();
 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({

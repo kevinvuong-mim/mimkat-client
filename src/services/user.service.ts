@@ -1,28 +1,8 @@
 import { apiClient } from "@/lib/api";
+import { ChangePasswordData, SessionsResponse } from "@/types/session";
 import axios from "axios";
 
 const API_BASE_PATH = "/users";
-
-export interface ChangePasswordData {
-  currentPassword?: string;
-  newPassword: string;
-}
-
-export interface Session {
-  id: string;
-  deviceName: string;
-  deviceType: string;
-  ipAddress: string;
-  createdAt: string;
-  lastUsedAt: string;
-  expiresAt: string;
-  isCurrent: boolean;
-}
-
-export interface SessionsResponse {
-  sessions: Session[];
-  total: number;
-}
 
 class UserService {
   async changePassword(data: ChangePasswordData): Promise<{ message: string }> {

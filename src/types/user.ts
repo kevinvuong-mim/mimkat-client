@@ -1,0 +1,18 @@
+export interface User {
+  id: string;
+  email: string;
+  fullName?: string;
+  username?: string;
+  avatar?: string;
+  isActive: boolean;
+  isEmailVerified: boolean;
+  hasPassword: boolean;
+  hasGoogleAuth: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserContextType {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
