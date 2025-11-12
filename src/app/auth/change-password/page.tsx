@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n/context";
-import { authService } from "@/services/auth.service";
+import { userService } from "@/services/user.service";
 import { useAuth } from "@/context/AuthContext";
 import { TokenStorage } from "@/lib/token-storage";
 import Link from "next/link";
@@ -27,29 +27,6 @@ export default function ChangePasswordPage() {
     hasLowerCase: false,
     hasNumber: false,
   });
-  const [hasExistingPassword, setHasExistingPassword] = useState(true);
-  const [isCheckingProfile, setIsCheckingProfile] = useState(true);
-
-  // Check if user has existing password by fetching profile
-  useEffect(() => {
-    const checkUserProfile = async () => {
-      if (!user) return;
-
-      try {
-        setIsCheckingProfile(true);
-        const profile = await authService.getUserProfile();
-        setHasExistingPassword(profile.hasPassword);
-      } catch (error) {
-        console.error("Failed to fetch user profile:", error);
-        // Default to requiring password if fetch fails
-        setHasExistingPassword(true);
-      } finally {
-        setIsCheckingProfile(false);
-      }
-    };
-
-    checkUserProfile();
-  }, [user]);
 
   useEffect(() => {
     if (!user) {
@@ -93,7 +70,7 @@ export default function ChangePasswordPage() {
     setIsLoading(true);
 
     try {
-      const changeData = hasExistingPassword
+      const changeData = user?.hasPassword
         ? {
             currentPassword: formData.currentPassword,
             newPassword: formData.newPassword,
@@ -102,7 +79,7 @@ export default function ChangePasswordPage() {
             newPassword: formData.newPassword,
           };
 
-      const response = await authService.changePassword(changeData);
+      const response = await userService.changePassword(changeData);
       setSuccess(response.message);
 
       // Clear form
@@ -126,7 +103,7 @@ export default function ChangePasswordPage() {
     }
   };
 
-  if (!user || isCheckingProfile) {
+  if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -146,7 +123,7 @@ export default function ChangePasswordPage() {
           </p>
 
           {/* Info message for Google users without password */}
-          {!hasExistingPassword && (
+          {!user?.hasPassword && (
             <div className="mt-4 rounded-lg bg-blue-50 p-4 border border-blue-200">
               <div className="flex">
                 <div className="flex-shrink-0">
@@ -175,7 +152,7 @@ export default function ChangePasswordPage() {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             {/* Current Password - Only show if user has existing password */}
-            {hasExistingPassword && (
+            {user?.hasPassword && (
               <div>
                 <label
                   htmlFor="currentPassword"
@@ -187,7 +164,7 @@ export default function ChangePasswordPage() {
                   id="currentPassword"
                   name="currentPassword"
                   type="password"
-                  required={hasExistingPassword}
+                  required={user?.hasPassword}
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   placeholder={t.auth.enterCurrentPassword}
                   value={formData.currentPassword}

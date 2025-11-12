@@ -13,13 +13,15 @@ import { apiClient } from "@/lib/api";
 interface User {
   id: string;
   email: string;
-  emailVerified?: boolean;
   fullName?: string;
   username?: string;
-  firstName?: string;
-  lastName?: string;
   avatar?: string;
-  isActive?: boolean;
+  isActive: boolean;
+  isEmailVerified: boolean;
+  hasPassword: boolean;
+  hasGoogleAuth: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface AuthContextType {

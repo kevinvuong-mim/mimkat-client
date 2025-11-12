@@ -22,14 +22,10 @@ export interface LoginData {
   password: string;
 }
 
-export interface AuthResponse {
+export interface LoginResponse {
   user: {
     id: string;
     email: string;
-    emailVerified?: boolean;
-    firstName?: string;
-    lastName?: string;
-    avatar?: string;
   };
   message: string;
   accessToken: string;
@@ -42,30 +38,16 @@ export interface RegisterResponse {
   user: {
     id: string;
     email: string;
-    emailVerified: boolean;
     createdAt: string;
   };
 }
 
 export interface VerifyEmailResponse {
   message: string;
-  user: {
-    id: string;
-    email: string;
-    emailVerified: boolean;
-  };
 }
 
 export interface ResendVerificationData {
   email: string;
-}
-
-export interface RefreshTokenData {
-  refreshToken: string;
-}
-
-export interface LogoutData {
-  refreshToken: string;
 }
 
 export interface ForgotPasswordData {
@@ -77,29 +59,7 @@ export interface ResetPasswordData {
   password: string;
 }
 
-export interface ChangePasswordData {
-  currentPassword?: string;
-  newPassword: string;
-}
-
-export interface UserProfile {
-  id: string;
-  email: string;
-  fullName?: string;
-  username?: string;
-  avatar?: string;
-  isActive: boolean;
-  isEmailVerified: boolean;
-  hasPassword: boolean;
-  hasGoogleAuth: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
 class AuthService {
-  /**
-   * Đăng ký tài khoản mới với email và password
-   */
   async register(data: RegisterData): Promise<RegisterResponse> {
     try {
       const response = await authAxios.post<RegisterResponse>(
@@ -115,13 +75,9 @@ class AuthService {
     }
   }
 
-  /**
-   * Đăng nhập với email và password
-   * Tokens will be returned in response body and stored in localStorage
-   */
-  async login(data: LoginData): Promise<AuthResponse> {
+  async login(data: LoginData): Promise<LoginResponse> {
     try {
-      const response = await authAxios.post<AuthResponse>(
+      const response = await authAxios.post<LoginResponse>(
         `${API_BASE_PATH}/login`,
         data
       );
@@ -140,9 +96,6 @@ class AuthService {
     }
   }
 
-  /**
-   * Đăng xuất khỏi hệ thống (vô hiệu hóa refresh token)
-   */
   async logout(): Promise<{ message: string }> {
     const refreshToken = TokenStorage.getRefreshToken();
     const accessToken = TokenStorage.getAccessToken();
@@ -176,9 +129,6 @@ class AuthService {
     }
   }
 
-  /**
-   * Làm mới access token (uses localStorage)
-   */
   async refreshToken(): Promise<{
     message: string;
     accessToken: string;
@@ -216,9 +166,6 @@ class AuthService {
     }
   }
 
-  /**
-   * Xác thực email với token từ email
-   */
   async verifyEmail(token: string): Promise<VerifyEmailResponse> {
     try {
       const response = await authAxios.get<VerifyEmailResponse>(
@@ -235,9 +182,6 @@ class AuthService {
     }
   }
 
-  /**
-   * Gửi lại email xác thực
-   */
   async resendVerification(
     data: ResendVerificationData
   ): Promise<{ message: string }> {
@@ -257,9 +201,6 @@ class AuthService {
     }
   }
 
-  /**
-   * Yêu cầu reset mật khẩu (gửi email chứa link reset)
-   */
   async forgotPassword(data: ForgotPasswordData): Promise<{ message: string }> {
     try {
       const response = await authAxios.post<{ message: string }>(
@@ -277,9 +218,6 @@ class AuthService {
     }
   }
 
-  /**
-   * Reset mật khẩu với token từ email
-   */
   async resetPassword(data: ResetPasswordData): Promise<{ message: string }> {
     try {
       const response = await authAxios.post<{ message: string }>(
@@ -291,64 +229,6 @@ class AuthService {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
           error.response.data.message || "Failed to reset password"
-        );
-      }
-      throw error;
-    }
-  }
-
-  /**
-   * Đổi mật khẩu cho user đã đăng nhập
-   */
-  async changePassword(data: ChangePasswordData): Promise<{ message: string }> {
-    const accessToken = TokenStorage.getAccessToken();
-
-    if (!accessToken) {
-      throw new Error("No access token found. Please login first.");
-    }
-
-    try {
-      const response = await authAxios.put<{ message: string }>(
-        `${API_BASE_PATH}/change-password`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(
-          error.response.data.message || "Failed to change password"
-        );
-      }
-      throw error;
-    }
-  }
-
-  /**
-   * Lấy thông tin profile đầy đủ của user
-   */
-  async getUserProfile(): Promise<UserProfile> {
-    const accessToken = TokenStorage.getAccessToken();
-
-    if (!accessToken) {
-      throw new Error("No access token found. Please login first.");
-    }
-
-    try {
-      const response = await authAxios.get<UserProfile>(`${API_BASE_PATH}/me`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(
-          error.response.data.message || "Failed to get user profile"
         );
       }
       throw error;
