@@ -9,7 +9,7 @@ import {
 } from "react";
 import { Token } from "@/lib/token";
 import { apiClient } from "@/lib/api";
-import { User, UserContextType, GetUserResponse } from "@/types/user";
+import { User, UserContextType } from "@/types/user";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -28,9 +28,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
         // Use apiClient - it will auto handle token refresh via interceptor
         // Interceptor returns response.data, so we get GetUserResponse directly
-        const getUserResponse = (await apiClient.get(
-          "/users/me"
-        )) as GetUserResponse;
+        const getUserResponse = await apiClient.get("/users/me");
         const userData = getUserResponse.data; // Get User from GetUserResponse.data
         setUser(userData);
       } catch (error) {

@@ -1,4 +1,4 @@
-import { ApiResponse } from "./auth";
+import { ApiResponse } from "./api";
 
 export interface Session {
   id: string;
