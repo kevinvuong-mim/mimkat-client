@@ -8,6 +8,7 @@ import {
   ForgotPasswordData,
   ResetPasswordData,
   RefreshTokenResponse,
+  ApiResponse,
 } from "@/types/auth";
 import { Token } from "@/lib/token";
 import axios from "axios";
@@ -44,8 +45,10 @@ class AuthService {
 
       const authData = response.data;
 
-      // Store tokens in localStorage
-      Token.save(authData.accessToken, authData.refreshToken);
+      // Store tokens in localStorage - data is now inside the wrapper
+      if (authData.data) {
+        Token.save(authData.data.accessToken, authData.data.refreshToken);
+      }
 
       return authData;
     } catch (error) {
@@ -67,7 +70,7 @@ class AuthService {
     }
 
     try {
-      const response = await authAxios.post<{ message: string }>(
+      const response = await authAxios.post<ApiResponse<null>>(
         "/auth/logout",
         { refreshToken },
         {
@@ -77,7 +80,7 @@ class AuthService {
         }
       );
 
-      return response.data;
+      return { message: response.data.message };
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message || "Logout failed");
@@ -104,8 +107,10 @@ class AuthService {
 
       const data = response.data;
 
-      // Update tokens in localStorage
-      Token.save(data.accessToken, data.refreshToken);
+      // Update tokens in localStorage - data is now inside the wrapper
+      if (data.data) {
+        Token.save(data.data.accessToken, data.data.refreshToken);
+      }
 
       return data;
     } catch (error) {
@@ -139,11 +144,11 @@ class AuthService {
     data: ResendVerificationData
   ): Promise<{ message: string }> {
     try {
-      const response = await authAxios.post<{ message: string }>(
+      const response = await authAxios.post<ApiResponse<null>>(
         "/verification/resend",
         data
       );
-      return response.data;
+      return { message: response.data.message };
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
@@ -156,11 +161,11 @@ class AuthService {
 
   async forgotPassword(data: ForgotPasswordData): Promise<{ message: string }> {
     try {
-      const response = await authAxios.post<{ message: string }>(
+      const response = await authAxios.post<ApiResponse<null>>(
         `/verification/forgot-password`,
         data
       );
-      return response.data;
+      return { message: response.data.message };
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
@@ -173,11 +178,11 @@ class AuthService {
 
   async resetPassword(data: ResetPasswordData): Promise<{ message: string }> {
     try {
-      const response = await authAxios.post<{ message: string }>(
+      const response = await authAxios.post<ApiResponse<null>>(
         "/verification/reset-password",
         data
       );
-      return response.data;
+      return { message: response.data.message };
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(

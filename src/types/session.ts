@@ -1,3 +1,5 @@
+import { ApiResponse } from "./auth";
+
 export interface Session {
   id: string;
   deviceName: string;
@@ -9,12 +11,17 @@ export interface Session {
   isCurrent: boolean;
 }
 
-export interface SessionsResponse {
+export interface SessionsResponseData {
   sessions: Session[];
-  total: number;
 }
+
+export interface SessionsResponse extends ApiResponse<SessionsResponseData> {}
 
 export interface ChangePasswordData {
   currentPassword?: string;
   newPassword: string;
 }
+
+export interface ChangePasswordResponse extends ApiResponse<null> {}
+
+export interface LogoutDeviceResponse extends ApiResponse<null> {}

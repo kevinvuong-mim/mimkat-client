@@ -6,11 +6,12 @@ import { useI18n } from "@/i18n/context";
 import { useUser } from "@/context/UserContext";
 import { authService } from "@/services/auth.service";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
+import { Token } from "@/lib/token";
 
 export default function AuthPage() {
   const { t } = useI18n();
   const router = useRouter();
-  const { user, setUser } = useUser();
+  const { user } = useUser();
 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -37,12 +38,15 @@ export default function AuthPage() {
     try {
       if (isLogin) {
         // Login
-        const response = await authService.login({
+        const authData = await authService.login({
           email: formData.email,
           password: formData.password,
         });
-        setUser(response.user);
-        router.push("/");
+
+        Token.save(authData.data.accessToken, authData.data.refreshToken);
+        // After login, fetch user profile
+        // We don't get user data from login response anymore, need to fetch it
+        window.location.href = "/";
       } else {
         // Register
         await authService.register({

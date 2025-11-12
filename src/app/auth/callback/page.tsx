@@ -2,13 +2,11 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useUser } from "@/context/UserContext";
 import { Token } from "@/lib/token";
 
 function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { setUser } = useUser();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
@@ -17,23 +15,23 @@ function AuthCallbackContent() {
     (() => {
       const authDataEncoded = searchParams.get("authData");
 
-      // Decode authData which contains user + tokens
+      // Decode authData which contains tokens
       if (authDataEncoded) {
         try {
           const authDataString = atob(authDataEncoded);
           const authData = JSON.parse(authDataString);
 
-          // Store tokens in localStorage
+          // Backend returns: { accessToken, refreshToken }
           if (authData.accessToken && authData.refreshToken) {
+            // Store tokens in localStorage
             Token.save(authData.accessToken, authData.refreshToken);
+            setStatus("success");
+
+            // Redirect to home (UserContext will fetch user profile)
+            setTimeout(() => (window.location.href = "/"), 1000);
+          } else {
+            throw new Error("Missing tokens in response");
           }
-
-          // Set user in context
-          setUser(authData.user);
-          setStatus("success");
-
-          // Redirect to home
-          setTimeout(() => router.push("/"), 1000);
         } catch (err) {
           console.error("Error parsing auth data:", err);
           setStatus("error");

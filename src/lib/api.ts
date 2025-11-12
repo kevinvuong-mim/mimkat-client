@@ -42,7 +42,7 @@ apiClient.interceptors.request.use(
 
 // Response interceptor - Auto refresh token on 401
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => response.data,
   async (error) => {
     const originalRequest = error.config;
 
@@ -75,7 +75,13 @@ apiClient.interceptors.response.use(
           refreshToken,
         });
 
-        const { accessToken, refreshToken: newRefreshToken } = response.data;
+        const { data } = response.data; // API now returns { success, statusCode, message, data: { accessToken, refreshToken } }
+
+        if (!data || !data.accessToken || !data.refreshToken) {
+          throw new Error("Invalid refresh token response");
+        }
+
+        const { accessToken, refreshToken: newRefreshToken } = data;
 
         // Save new tokens
         Token.save(accessToken, newRefreshToken);
