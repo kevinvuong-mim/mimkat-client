@@ -17,6 +17,8 @@ export interface User {
 export interface UserContextType {
   user: User | null;
   setUser: (user: User | null) => void;
+  isLoading: boolean;
+  loadUserData: () => Promise<void>;
 }
 
 export interface GetUserResponse extends ApiResponse<User> {}

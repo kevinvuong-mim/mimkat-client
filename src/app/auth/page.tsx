@@ -6,7 +6,6 @@ import { useI18n } from "@/i18n/context";
 import { useUser } from "@/context/UserContext";
 import { authService } from "@/services/auth.service";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
-import { Token } from "@/lib/token";
 
 export default function AuthPage() {
   const { t } = useI18n();
@@ -43,7 +42,6 @@ export default function AuthPage() {
           password: formData.password,
         });
 
-        Token.save(authData.data.accessToken, authData.data.refreshToken);
         // After login, fetch user profile
         // We don't get user data from login response anymore, need to fetch it
         window.location.href = "/";

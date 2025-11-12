@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Token } from "./token";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
@@ -8,6 +7,7 @@ export const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // Enable cookies for CORS requests
 });
 
 // Flag to prevent multiple refresh attempts
@@ -17,24 +17,21 @@ let failedQueue: Array<{
   reject: (reason?: unknown) => void;
 }> = [];
 
-const processQueue = (error: unknown, token: string | null = null) => {
+const processQueue = (error: unknown, status: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
     } else {
-      prom.resolve(token);
+      prom.resolve(status);
     }
   });
   failedQueue = [];
 };
 
-// Request interceptor - Add access token to requests
+// Request interceptor - No longer needed to manually add token since cookies are sent automatically
+// Keep it simple for any future header modifications
 apiClient.interceptors.request.use(
   (config) => {
-    const token = Token.getAccessToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
     return config;
   },
   (error) => Promise.reject(error)
@@ -53,8 +50,7 @@ apiClient.interceptors.response.use(
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
-          .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
+          .then(() => {
             return apiClient(originalRequest);
           })
           .catch((err) => Promise.reject(err));
@@ -64,44 +60,32 @@ apiClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = Token.getRefreshToken();
+        // Call refresh token API - cookies will be sent automatically
+        const response = await axios.post(
+          `${API_URL}/auth/refresh`,
+          {},
+          {
+            withCredentials: true, // Important for cookie-based auth
+          }
+        );
 
-        if (!refreshToken) {
-          throw new Error("No refresh token available");
-        }
-
-        // Call refresh token API
-        const response = await axios.post(`${API_URL}/auth/refresh`, {
-          refreshToken,
-        });
-
-        const { data } = response.data; // API now returns { success, statusCode, message, data: { accessToken, refreshToken } }
-
-        if (!data || !data.accessToken || !data.refreshToken) {
-          throw new Error("Invalid refresh token response");
-        }
-
-        const { accessToken, refreshToken: newRefreshToken } = data;
-
-        // Save new tokens
-        Token.save(accessToken, newRefreshToken);
-
-        // Update authorization header
-        apiClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-
-        // Process all queued requests with new token
-        processQueue(null, accessToken);
+        // If refresh is successful, new tokens are stored in cookies automatically
+        // Process all queued requests
+        processQueue(null, "success");
 
         return apiClient(originalRequest);
       } catch (refreshError) {
-        // Refresh failed - logout user
+        // Refresh failed - redirect to login
         processQueue(refreshError, null);
-        Token.clear();
 
-        // Redirect to login page
+        // Redirect to login page only if not already on auth page
         if (typeof window !== "undefined") {
-          window.location.href = "/auth";
+          const currentPath = window.location.pathname;
+          const isAuthPage = currentPath.startsWith("/auth");
+
+          if (!isAuthPage) {
+            window.location.href = "/auth";
+          }
         }
 
         return Promise.reject(refreshError);

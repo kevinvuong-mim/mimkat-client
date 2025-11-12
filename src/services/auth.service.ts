@@ -8,9 +8,8 @@ import {
   ForgotPasswordData,
   ResetPasswordData,
   RefreshTokenResponse,
-  ApiResponse,
 } from "@/types/auth";
-import { Token } from "@/lib/token";
+import { ApiResponse } from "@/types/api";
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
@@ -21,6 +20,7 @@ const authAxios = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // Enable cookies for CORS requests
 });
 
 class AuthService {
@@ -42,15 +42,9 @@ class AuthService {
   async login(data: LoginData): Promise<LoginResponse> {
     try {
       const response = await authAxios.post<LoginResponse>("/auth/login", data);
-
-      const authData = response.data;
-
-      // Store tokens in localStorage - data is now inside the wrapper
-      if (authData.data) {
-        Token.save(authData.data.accessToken, authData.data.refreshToken);
-      }
-
-      return authData;
+      // Tokens are now automatically stored in httpOnly cookies by the server
+      // No need to manually save tokens on client side
+      return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message || "Login failed");
@@ -60,63 +54,30 @@ class AuthService {
   }
 
   async logout(): Promise<{ message: string }> {
-    const refreshToken = Token.getRefreshToken();
-    const accessToken = Token.getAccessToken();
-
-    if (!refreshToken || !accessToken) {
-      // Clear tokens anyway and return
-      Token.clear();
-      return { message: "Already logged out" };
-    }
-
     try {
       const response = await authAxios.post<ApiResponse<null>>(
         "/auth/logout",
-        { refreshToken },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+        {} // No need to send refresh token - server will get it from cookies
       );
-
+      // Cookies are automatically cleared by the server
       return { message: response.data.message };
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message || "Logout failed");
       }
       throw error;
-    } finally {
-      // Always clear tokens from localStorage, even if logout request fails
-      Token.clear();
     }
   }
 
   async refreshToken(): Promise<RefreshTokenResponse> {
-    const refreshToken = Token.getRefreshToken();
-
-    if (!refreshToken) {
-      throw new Error("No refresh token found");
-    }
-
     try {
       const response = await authAxios.post<RefreshTokenResponse>(
         "/auth/refresh",
-        { refreshToken }
+        {} // No need to send refresh token - server will get it from cookies
       );
-
-      const data = response.data;
-
-      // Update tokens in localStorage - data is now inside the wrapper
-      if (data.data) {
-        Token.save(data.data.accessToken, data.data.refreshToken);
-      }
-
-      return data;
+      // New tokens are automatically stored in httpOnly cookies by the server
+      return response.data;
     } catch (error) {
-      // Clear tokens on refresh failure
-      Token.clear();
-
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message || "Token refresh failed");
       }

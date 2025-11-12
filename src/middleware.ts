@@ -10,8 +10,8 @@ const authRoutes = ["/auth", "/auth/login", "/auth/register"];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Get tokens from cookies
-  const accessToken = request.cookies.get("accessToken")?.value;
+  // Get tokens from httpOnly cookies set by the API
+  const accessToken = request.cookies.get("accessToken")?.value; // Updated to match API cookie name
 
   // Check if the current path is a protected route
   const isProtectedRoute = protectedRoutes.some((route) =>

@@ -5,7 +5,7 @@ import {
   SessionsResponse,
   LogoutDeviceResponse,
 } from "@/types/session";
-import { ApiResponse } from "@/types/auth";
+import { ApiResponse } from "@/types/api";
 import axios from "axios";
 
 const API_BASE_PATH = "/users";

@@ -5,7 +5,6 @@ import { useI18n } from "@/i18n/context";
 import { useUser } from "@/context/UserContext";
 import { authService } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
-import { Token } from "@/lib/token";
 
 export default function Home() {
   const { t, locale, setLocale } = useI18n();
@@ -18,7 +17,6 @@ export default function Home() {
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
-      Token.clear();
       setUser(null);
       router.push("/auth");
     }

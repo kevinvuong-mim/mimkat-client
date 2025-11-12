@@ -2,7 +2,6 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Token } from "@/lib/token";
 
 function AuthCallbackContent() {
   const searchParams = useSearchParams();
@@ -15,19 +14,18 @@ function AuthCallbackContent() {
     (() => {
       const authDataEncoded = searchParams.get("authData");
 
-      // Decode authData which contains tokens
+      // With cookie-based authentication, tokens are automatically stored in httpOnly cookies
+      // The authData parameter is sent by the server for verification purposes
       if (authDataEncoded) {
         try {
           const authDataString = atob(authDataEncoded);
           const authData = JSON.parse(authDataString);
 
           // Backend returns: { accessToken, refreshToken }
+          // Tokens are automatically stored in httpOnly cookies by the server
           if (authData.accessToken && authData.refreshToken) {
-            // Store tokens in localStorage
-            Token.save(authData.accessToken, authData.refreshToken);
             setStatus("success");
-
-            // Redirect to home (UserContext will fetch user profile)
+            // Redirect to home (UserContext will fetch user profile using cookies)
             setTimeout(() => (window.location.href = "/"), 1000);
           } else {
             throw new Error("Missing tokens in response");

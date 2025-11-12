@@ -7,7 +7,6 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { Token } from "@/lib/token";
 import { apiClient } from "@/lib/api";
 import { User, UserContextType } from "@/types/user";
 
@@ -15,32 +14,45 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Load user data on mount (fetch from API using localStorage tokens)
+  // Function to load user data
+  const loadUserData = async () => {
+    try {
+      setIsLoading(true);
+      const getUserResponse = await apiClient.get("/users/me");
+      const userData = getUserResponse.data;
+      setUser(userData);
+    } catch (error) {
+      console.error("Error loading user data:", error);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Load user data on mount (using cookies for authentication)
   useEffect(() => {
     (async () => {
-      try {
-        const accessToken = Token.getAccessToken();
+      // Don't call API if we're on auth pages (user is not authenticated)
+      if (typeof window !== "undefined") {
+        const currentPath = window.location.pathname;
+        const isAuthPage =
+          currentPath.startsWith("/auth") &&
+          currentPath !== "/auth/change-password";
 
-        if (!accessToken) {
+        if (isAuthPage) {
+          setIsLoading(false);
           return;
         }
-
-        // Use apiClient - it will auto handle token refresh via interceptor
-        // Interceptor returns response.data, so we get GetUserResponse directly
-        const getUserResponse = await apiClient.get("/users/me");
-        const userData = getUserResponse.data; // Get User from GetUserResponse.data
-        setUser(userData);
-      } catch (error) {
-        console.error("Error loading user data:", error);
-        // If error (token invalid, etc), clear tokens
-        Token.clear();
       }
+
+      await loadUserData();
     })();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, isLoading, loadUserData }}>
       {children}
     </UserContext.Provider>
   );
