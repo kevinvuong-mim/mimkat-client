@@ -62,6 +62,8 @@ export default function Home() {
             <div className="flex items-center justify-center gap-4 mb-4">
               {user.avatar && (
                 <img
+                  style={{ cursor: "pointer" }}
+                  onClick={() => router.push("/profile")}
                   src={user.avatar}
                   alt={user.email}
                   className="w-16 h-16 rounded-full"

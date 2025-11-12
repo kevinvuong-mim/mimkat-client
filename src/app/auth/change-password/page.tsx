@@ -7,8 +7,9 @@ import { userService } from "@/services/user.service";
 import { useUser } from "@/context/UserContext";
 import { Token } from "@/lib/token";
 import Link from "next/link";
+import { withAuth } from "@/components/withAuth";
 
-export default function ChangePasswordPage() {
+function ChangePasswordPage() {
   const { t } = useI18n();
   const router = useRouter();
   const { user } = useUser();
@@ -27,13 +28,6 @@ export default function ChangePasswordPage() {
     hasLowerCase: false,
     hasNumber: false,
   });
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/auth");
-      return;
-    }
-  }, [user, router]);
 
   useEffect(() => {
     const password = formData.newPassword;
@@ -102,14 +96,6 @@ export default function ChangePasswordPage() {
       setIsLoading(false);
     }
   };
-
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-12">
@@ -376,3 +362,5 @@ export default function ChangePasswordPage() {
     </div>
   );
 }
+
+export default withAuth(ChangePasswordPage);
