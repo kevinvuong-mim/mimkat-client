@@ -1,11 +1,9 @@
 "use client";
 
-import { withAuth } from "@/components/withAuth";
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 
 /**
- * Example protected page using withAuth HOC
  * This page automatically redirects to /auth if user is not authenticated
  */
 function ProfilePage() {
@@ -110,5 +108,4 @@ function ProfilePage() {
   );
 }
 
-// Export with withAuth HOC - automatically protects this page
-export default withAuth(ProfilePage);
+export default ProfilePage;

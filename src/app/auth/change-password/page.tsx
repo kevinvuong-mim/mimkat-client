@@ -6,7 +6,6 @@ import { useI18n } from "@/i18n/context";
 import { userService } from "@/services/user.service";
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
-import { withAuth } from "@/components/withAuth";
 
 function ChangePasswordPage() {
   const { t } = useI18n();
@@ -360,4 +359,4 @@ function ChangePasswordPage() {
   );
 }
 
-export default withAuth(ChangePasswordPage);
+export default ChangePasswordPage;

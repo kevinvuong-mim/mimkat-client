@@ -5,6 +5,7 @@ import { useI18n } from "@/i18n/context";
 import { useUser } from "@/context/UserContext";
 import { authService } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Home() {
   const { t, locale, setLocale } = useI18n();
@@ -59,7 +60,9 @@ export default function Home() {
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
             <div className="flex items-center justify-center gap-4 mb-4">
               {user.avatar && (
-                <img
+                <Image
+                  width={64}
+                  height={64}
                   style={{ cursor: "pointer" }}
                   onClick={() => router.push("/profile")}
                   src={user.avatar}

@@ -41,7 +41,7 @@ function VerifyEmailContent() {
     };
 
     verifyEmail();
-  }, [searchParams]);
+  }, [searchParams, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-400 via-sky-400 to-blue-500">
