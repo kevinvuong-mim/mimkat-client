@@ -84,7 +84,7 @@ export default function Home() {
             {/* Action buttons */}
             <div className="space-y-2">
               <Link
-                href="/auth/change-password"
+                href="/change-password"
                 className="block w-full bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition duration-200"
               >
                 Đổi mật khẩu

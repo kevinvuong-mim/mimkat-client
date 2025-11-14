@@ -1,15 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n/context";
 import { userService } from "@/services/user.service";
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 
-function ChangePasswordPage() {
+export default function ChangePasswordPage() {
   const { t } = useI18n();
-  const router = useRouter();
   const { user } = useUser();
 
   const [formData, setFormData] = useState({
@@ -358,5 +356,3 @@ function ChangePasswordPage() {
     </div>
   );
 }
-
-export default ChangePasswordPage;

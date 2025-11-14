@@ -34,14 +34,19 @@ export function UserProvider({ children }: { children: ReactNode }) {
   // Load user data on mount (using cookies for authentication)
   useEffect(() => {
     (async () => {
-      // Don't call API if we're on auth pages (user is not authenticated)
+      // Don't call API if we're on public pages (user is not authenticated)
       if (typeof window !== "undefined") {
         const currentPath = window.location.pathname;
-        const isAuthPage =
-          currentPath.startsWith("/auth") &&
-          currentPath !== "/auth/change-password";
+        const isPublicPage =
+          currentPath.startsWith("/auth") ||
+          currentPath.startsWith("/forgot-password") ||
+          currentPath.startsWith("/reset-password") ||
+          currentPath.startsWith("/verify-email");
 
-        if (isAuthPage) {
+        // Exception: change-password requires authentication
+        const isProtectedAuthPage = currentPath === "/change-password";
+
+        if (isPublicPage && !isProtectedAuthPage) {
           setIsLoading(false);
           return;
         }

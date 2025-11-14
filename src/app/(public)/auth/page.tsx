@@ -152,7 +152,7 @@ export default function AuthPage() {
               </label>
               {isLogin && (
                 <a
-                  href="/auth/forgot-password"
+                  href="/forgot-password"
                   className="text-sm text-indigo-600 hover:text-indigo-700 transition"
                 >
                   {t.auth.forgotPasswordLink || "Quên mật khẩu?"}

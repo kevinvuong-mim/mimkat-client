@@ -244,7 +244,7 @@ function ResetPasswordForm() {
           </Link>
           {!token && (
             <Link
-              href="/auth/forgot-password"
+              href="/forgot-password"
               className="text-red-600 font-semibold hover:text-red-700 transition block"
             >
               {t.auth.requestResetLink || "Yêu cầu link reset"} →

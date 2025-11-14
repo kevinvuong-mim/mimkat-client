@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Define protected routes that require authentication
-const protectedRoutes = ["/auth/change-password", "/profile"];
+// Define protected routes that require authentication (using new structure)
+const protectedRoutes = ["/change-password", "/profile"];
 
-// Define public routes (authentication pages)
-const authRoutes = ["/auth", "/auth/login", "/auth/register"];
+// Define public routes (authentication pages) - using new structure
+const authRoutes = [
+  "/auth",
+  "/forgot-password",
+  "/reset-password",
+  "/verify-email",
+];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -28,7 +33,8 @@ export function middleware(request: NextRequest) {
   }
 
   // Redirect to home if trying to access auth pages while already authenticated
-  if (isAuthRoute && accessToken && pathname !== "/auth/change-password") {
+  // Exception: allow access to change-password even when authenticated
+  if (isAuthRoute && accessToken && pathname !== "/change-password") {
     const url = new URL("/", request.url);
     return NextResponse.redirect(url);
   }

@@ -103,7 +103,7 @@ export default function ForgotPasswordPage() {
           </Link>
           {success && (
             <Link
-              href="/auth/reset-password"
+              href="/reset-password"
               className="text-red-600 font-semibold hover:text-red-700 transition block"
             >
               {t.auth.alreadyHaveToken || "Đã có mã reset?"} →

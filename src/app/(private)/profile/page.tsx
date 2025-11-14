@@ -89,7 +89,7 @@ function ProfilePage() {
 
             <div className="pt-4 flex gap-4">
               <Link
-                href="/auth/change-password"
+                href="/change-password"
                 className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Change Password
