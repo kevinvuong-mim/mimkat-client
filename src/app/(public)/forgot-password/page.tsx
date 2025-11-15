@@ -94,9 +94,9 @@ export default function ForgotPasswordPage() {
           </form>
         )}
 
-        <div className="mt-6 text-center space-y-3">
+        <div className="mt-6 text-center space-y-2">
           <Link
-            href="/auth"
+            href="/login"
             className="text-gray-600 hover:text-gray-800 transition block"
           >
             ← {t.auth.backToLogin || "Quay lại đăng nhập"}

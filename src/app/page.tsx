@@ -19,7 +19,7 @@ export default function Home() {
       console.error("Logout error:", error);
     } finally {
       setUser(null);
-      router.push("/auth");
+      router.push("/login");
     }
   };
 
@@ -99,7 +99,7 @@ export default function Home() {
           </div>
         ) : (
           <Link
-            href="/auth"
+            href="/login"
             className="inline-block bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg"
           >
             {t.home.authButton}

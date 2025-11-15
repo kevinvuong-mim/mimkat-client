@@ -88,7 +88,7 @@ function ResetPasswordForm() {
 
       // Redirect to login after 3 seconds
       setTimeout(() => {
-        router.push("/auth");
+        router.push("/login");
       }, 3000);
     } catch (err: any) {
       setError(err.message || "Không thể reset mật khẩu");
@@ -237,7 +237,7 @@ function ResetPasswordForm() {
 
         <div className="mt-6 text-center space-y-3">
           <Link
-            href="/auth"
+            href="/login"
             className="text-gray-600 hover:text-gray-800 transition block"
           >
             ← {t.auth.backToLogin || "Quay lại đăng nhập"}

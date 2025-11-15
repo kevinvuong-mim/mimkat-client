@@ -32,7 +32,7 @@ function VerifyEmailContent() {
 
         // Redirect to login page after 3 seconds
         setTimeout(() => {
-          router.push("/auth");
+          router.push("/login");
         }, 3000);
       } catch (error: any) {
         setStatus("error");
@@ -82,7 +82,7 @@ function VerifyEmailContent() {
                 {t.auth.redirectingToLoginShortly}
               </p>
               <Link
-                href="/auth"
+                href="/login"
                 className="inline-block mt-6 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200"
               >
                 {t.auth.goToLogin}
@@ -113,7 +113,7 @@ function VerifyEmailContent() {
               <p className="text-gray-600 mb-6">{message}</p>
               <div className="space-y-3">
                 <Link
-                  href="/auth"
+                  href="/login"
                   className="block w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200"
                 >
                   {t.auth.backToLoginPage}

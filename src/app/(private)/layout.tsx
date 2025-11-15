@@ -15,7 +15,7 @@ export default function PrivateLayout({
   useEffect(() => {
     // Only redirect if not loading and no user
     if (!isLoading && !user) {
-      router.push("/auth");
+      router.push("/login");
     }
   }, [user, isLoading, router]);
 

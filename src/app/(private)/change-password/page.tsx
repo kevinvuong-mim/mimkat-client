@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useI18n } from "@/i18n/context";
-import { userService } from "@/services/user.service";
 import { useUser } from "@/context/UserContext";
+import { useChangePassword } from "@/hooks/useUser";
 import Link from "next/link";
 
 export default function ChangePasswordPage() {
   const { t } = useI18n();
   const { user } = useUser();
+  const changePasswordMutation = useChangePassword();
 
   const [formData, setFormData] = useState({
     currentPassword: "",
@@ -17,7 +18,6 @@ export default function ChangePasswordPage() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState({
     hasLength: false,
     hasUpperCase: false,
@@ -57,38 +57,40 @@ export default function ChangePasswordPage() {
       return;
     }
 
-    setIsLoading(true);
+    const changeData = user?.hasPassword
+      ? {
+          currentPassword: formData.currentPassword,
+          newPassword: formData.newPassword,
+        }
+      : {
+          newPassword: formData.newPassword,
+        };
 
-    try {
-      const changeData = user?.hasPassword
-        ? {
-            currentPassword: formData.currentPassword,
-            newPassword: formData.newPassword,
-          }
-        : {
-            newPassword: formData.newPassword,
-          };
+    changePasswordMutation.mutate(changeData, {
+      onSuccess: (response) => {
+        setError("");
+        setSuccess(response.message);
 
-      const response = await userService.changePassword(changeData);
-      setSuccess(response.message);
+        // Clear form
+        setFormData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
 
-      // Clear form
-      setFormData({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
-
-      // Wait 3 seconds to show success message, then clear tokens and redirect
-      setTimeout(() => {
-        // Force reload to clear all React state and redirect to login
-        window.location.href = "/auth";
-      }, 3000);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t.auth.changePasswordError);
-    } finally {
-      setIsLoading(false);
-    }
+        // Wait 3 seconds to show success message, then clear tokens and redirect
+        setTimeout(() => {
+          // Force reload to clear all React state and redirect to login
+          window.location.href = "/login";
+        }, 3000);
+      },
+      onError: (err) => {
+        setSuccess("");
+        setError(
+          err instanceof Error ? err.message : t.auth.changePasswordError
+        );
+      },
+    });
   };
 
   return (
@@ -309,10 +311,10 @@ export default function ChangePasswordPage() {
           <div>
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={changePasswordMutation.isPending}
               className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              {isLoading ? (
+              {changePasswordMutation.isPending ? (
                 <span className="flex items-center">
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

@@ -78,13 +78,16 @@ apiClient.interceptors.response.use(
         // Refresh failed - redirect to login
         processQueue(refreshError, null);
 
-        // Redirect to login page only if not already on auth page
+        // Redirect to login page only if not already on auth pages
         if (typeof window !== "undefined") {
           const currentPath = window.location.pathname;
-          const isAuthPage = currentPath.startsWith("/auth");
+          const isAuthPage =
+            currentPath.startsWith("/auth") ||
+            currentPath.startsWith("/login") ||
+            currentPath.startsWith("/register");
 
           if (!isAuthPage) {
-            window.location.href = "/auth";
+            window.location.href = "/login";
           }
         }
 

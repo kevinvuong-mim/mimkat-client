@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { I18nProvider } from "@/i18n/context";
 import { UserProvider } from "@/context/UserContext";
+import { QueryProvider } from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Mimkat Client",
@@ -16,9 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <UserProvider>
-          <I18nProvider>{children}</I18nProvider>
-        </UserProvider>
+        <QueryProvider>
+          <UserProvider>
+            <I18nProvider>{children}</I18nProvider>
+          </UserProvider>
+        </QueryProvider>
       </body>
     </html>
   );

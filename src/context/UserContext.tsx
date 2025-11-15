@@ -39,6 +39,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         const currentPath = window.location.pathname;
         const isPublicPage =
           currentPath.startsWith("/auth") ||
+          currentPath.startsWith("/login") ||
+          currentPath.startsWith("/register") ||
           currentPath.startsWith("/forgot-password") ||
           currentPath.startsWith("/reset-password") ||
           currentPath.startsWith("/verify-email");
