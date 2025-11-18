@@ -8,6 +8,7 @@ import {
   ReactNode,
 } from "react";
 import { apiClient } from "@/lib/api";
+import { isPublicRoute } from "@/lib/constants";
 import { User, UserContextType } from "@/types/user";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -37,18 +38,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
       // Don't call API if we're on public pages (user is not authenticated)
       if (typeof window !== "undefined") {
         const currentPath = window.location.pathname;
-        const isPublicPage =
-          currentPath.startsWith("/auth") ||
-          currentPath.startsWith("/login") ||
-          currentPath.startsWith("/register") ||
-          currentPath.startsWith("/forgot-password") ||
-          currentPath.startsWith("/reset-password") ||
-          currentPath.startsWith("/verify-email");
 
-        // Exception: change-password requires authentication
-        const isProtectedAuthPage = currentPath === "/change-password";
-
-        if (isPublicPage && !isProtectedAuthPage) {
+        if (isPublicRoute(currentPath)) {
           setIsLoading(false);
           return;
         }

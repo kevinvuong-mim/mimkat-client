@@ -5,6 +5,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/i18n/context";
 import { authService } from "@/services/auth.service";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ArrowLeft, CheckCircle2 } from "lucide-react";
 
 function ResetPasswordForm() {
   const { t } = useI18n();
@@ -105,153 +117,164 @@ function ResetPasswordForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-400 via-pink-400 to-purple-500">
-      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md border border-gray-100">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-400 via-pink-400 to-purple-500 p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-3xl text-center">
             {t.auth.resetPassword || "Reset mật khẩu"}
-          </h1>
-          <p className="text-gray-600 text-sm">
+          </CardTitle>
+          <CardDescription className="text-center">
             {t.auth.resetPasswordDescription ||
               "Nhập mật khẩu mới cho tài khoản của bạn"}
-          </p>
-        </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
-            {error}
-          </div>
-        )}
-
-        {/* Success Message */}
-        {success && (
-          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4">
-            <p className="font-medium">{success}</p>
-            <p className="text-sm mt-2">
-              {t.auth.redirectingToLogin ||
-                "Đang chuyển hướng đến trang đăng nhập..."}
-            </p>
-          </div>
-        )}
-
-        {!success && (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                {t.auth.newPassword || "Mật khẩu mới"}
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition text-gray-900 bg-white"
-                placeholder={t.auth.passwordPlaceholder || "••••••••"}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                {t.auth.confirmPassword || "Xác nhận mật khẩu"}
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition text-gray-900 bg-white"
-                placeholder={t.auth.passwordPlaceholder || "••••••••"}
-              />
-            </div>
-
-            {/* Password Strength Indicator */}
-            {formData.password && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-2">
-                <p className="text-sm font-medium text-gray-700">
-                  {t.auth.passwordRequirementsTitle || "Yêu cầu mật khẩu:"}
-                </p>
-                <ul className="text-sm space-y-1">
-                  <li
-                    className={
-                      passwordStrength.hasLength
-                        ? "text-green-600"
-                        : "text-gray-500"
-                    }
-                  >
-                    {passwordStrength.hasLength ? "✓" : "○"} Ít nhất 8 ký tự
-                  </li>
-                  <li
-                    className={
-                      passwordStrength.hasUpperCase
-                        ? "text-green-600"
-                        : "text-gray-500"
-                    }
-                  >
-                    {passwordStrength.hasUpperCase ? "✓" : "○"} Có chữ hoa (A-Z)
-                  </li>
-                  <li
-                    className={
-                      passwordStrength.hasLowerCase
-                        ? "text-green-600"
-                        : "text-gray-500"
-                    }
-                  >
-                    {passwordStrength.hasLowerCase ? "✓" : "○"} Có chữ thường
-                    (a-z)
-                  </li>
-                  <li
-                    className={
-                      passwordStrength.hasNumber
-                        ? "text-green-600"
-                        : "text-gray-500"
-                    }
-                  >
-                    {passwordStrength.hasNumber ? "✓" : "○"} Có số (0-9)
-                  </li>
-                </ul>
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading
-                ? t.auth.resetting || "Đang reset..."
-                : t.auth.resetPasswordButton || "Reset mật khẩu"}
-            </button>
-          </form>
-        )}
-
-        <div className="mt-6 text-center space-y-3">
-          <Link
-            href="/login"
-            className="text-gray-600 hover:text-gray-800 transition block"
-          >
-            ← {t.auth.backToLogin || "Quay lại đăng nhập"}
-          </Link>
-          {!token && (
-            <Link
-              href="/forgot-password"
-              className="text-red-600 font-semibold hover:text-red-700 transition block"
-            >
-              {t.auth.requestResetLink || "Yêu cầu link reset"} →
-            </Link>
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Error Message */}
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
           )}
-        </div>
-      </div>
+
+          {/* Success Message */}
+          {success && (
+            <Alert>
+              <AlertDescription>
+                <p className="font-medium">{success}</p>
+                <p className="text-sm mt-2">
+                  {t.auth.redirectingToLogin ||
+                    "Đang chuyển hướng đến trang đăng nhập..."}
+                </p>
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {!success && (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="password">
+                  {t.auth.newPassword || "Mật khẩu mới"}
+                </Label>
+                <Input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  placeholder={t.auth.passwordPlaceholder || "••••••••"}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">
+                  {t.auth.confirmPassword || "Xác nhận mật khẩu"}
+                </Label>
+                <Input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  placeholder={t.auth.passwordPlaceholder || "••••••••"}
+                />
+              </div>
+
+              {/* Password Strength Indicator */}
+              {formData.password && (
+                <Card className="bg-muted">
+                  <CardContent className="pt-4 space-y-2">
+                    <p className="text-sm font-medium">
+                      {t.auth.passwordRequirementsTitle || "Yêu cầu mật khẩu:"}
+                    </p>
+                    <ul className="text-sm space-y-1">
+                      <li
+                        className={
+                          passwordStrength.hasLength
+                            ? "text-green-600 flex items-center gap-2"
+                            : "text-muted-foreground flex items-center gap-2"
+                        }
+                      >
+                        {passwordStrength.hasLength ? (
+                          <CheckCircle2 className="h-4 w-4" />
+                        ) : (
+                          <span className="h-4 w-4 rounded-full border border-current" />
+                        )}
+                        Ít nhất 8 ký tự
+                      </li>
+                      <li
+                        className={
+                          passwordStrength.hasUpperCase
+                            ? "text-green-600 flex items-center gap-2"
+                            : "text-muted-foreground flex items-center gap-2"
+                        }
+                      >
+                        {passwordStrength.hasUpperCase ? (
+                          <CheckCircle2 className="h-4 w-4" />
+                        ) : (
+                          <span className="h-4 w-4 rounded-full border border-current" />
+                        )}
+                        Có chữ hoa (A-Z)
+                      </li>
+                      <li
+                        className={
+                          passwordStrength.hasLowerCase
+                            ? "text-green-600 flex items-center gap-2"
+                            : "text-muted-foreground flex items-center gap-2"
+                        }
+                      >
+                        {passwordStrength.hasLowerCase ? (
+                          <CheckCircle2 className="h-4 w-4" />
+                        ) : (
+                          <span className="h-4 w-4 rounded-full border border-current" />
+                        )}
+                        Có chữ thường (a-z)
+                      </li>
+                      <li
+                        className={
+                          passwordStrength.hasNumber
+                            ? "text-green-600 flex items-center gap-2"
+                            : "text-muted-foreground flex items-center gap-2"
+                        }
+                      >
+                        {passwordStrength.hasNumber ? (
+                          <CheckCircle2 className="h-4 w-4" />
+                        ) : (
+                          <span className="h-4 w-4 rounded-full border border-current" />
+                        )}
+                        Có số (0-9)
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              <Button type="submit" disabled={isLoading} className="w-full">
+                {isLoading
+                  ? t.auth.resetting || "Đang reset..."
+                  : t.auth.resetPasswordButton || "Reset mật khẩu"}
+              </Button>
+            </form>
+          )}
+
+          <div className="space-y-2 text-center">
+            <Button asChild variant="ghost" className="w-full">
+              <Link href="/login">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                {t.auth.backToLogin || "Quay lại đăng nhập"}
+              </Link>
+            </Button>
+            {!token && (
+              <Button asChild variant="link" className="w-full">
+                <Link href="/forgot-password">
+                  {t.auth.requestResetLink || "Yêu cầu link reset"}
+                </Link>
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -260,10 +283,12 @@ export default function ResetPasswordPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-400 via-pink-400 to-purple-500">
-          <div className="bg-white p-10 rounded-2xl shadow-2xl">
-            <p className="text-gray-600">Loading...</p>
-          </div>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-400 via-pink-400 to-purple-500 p-4">
+          <Card>
+            <CardContent className="pt-6">
+              <p className="text-muted-foreground">Loading...</p>
+            </CardContent>
+          </Card>
         </div>
       }
     >

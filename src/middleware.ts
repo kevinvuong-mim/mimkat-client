@@ -1,41 +1,25 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
-// Define protected routes that require authentication (using new structure)
-const protectedRoutes = ["/change-password", "/profile"];
-
-// Define public routes (authentication pages) - using new structure
-const authRoutes = [
-  "/auth",
-  "/forgot-password",
-  "/reset-password",
-  "/verify-email",
-];
+import { isPublicRoute } from "@/lib/constants";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Get tokens from httpOnly cookies set by the API
-  const accessToken = request.cookies.get("accessToken")?.value; // Updated to match API cookie name
+  const accessToken = request.cookies.get("accessToken")?.value;
 
-  // Check if the current path is a protected route
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname.startsWith(route)
-  );
+  // Check if the current path is a public route
+  const isPublic = isPublicRoute(pathname);
 
-  // Check if the current path is an auth route
-  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
-
-  // Redirect to /auth if trying to access protected route without token
-  if (isProtectedRoute && !accessToken) {
-    const url = new URL("/auth", request.url);
+  // If it's a public route and user is authenticated, redirect to home
+  if (isPublic && accessToken) {
+    const url = new URL("/", request.url);
     return NextResponse.redirect(url);
   }
 
-  // Redirect to home if trying to access auth pages while already authenticated
-  // Exception: allow access to change-password even when authenticated
-  if (isAuthRoute && accessToken && pathname !== "/change-password") {
-    const url = new URL("/", request.url);
+  // If it's a private route (not in publicRoutes) and no token, redirect to login
+  if (!isPublic && !accessToken) {
+    const url = new URL("/login", request.url);
     return NextResponse.redirect(url);
   }
 

@@ -1,16 +1,19 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { API_URL } from "@/lib/constants";
+
 export default function GoogleLoginButton() {
   const handleGoogleLogin = () => {
     // Redirect trực tiếp đến backend Google OAuth endpoint
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
     window.location.href = `${API_URL}/auth/google`;
   };
 
   return (
-    <button
+    <Button
       onClick={handleGoogleLogin}
-      className="flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg px-6 py-3 font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition duration-200 shadow-sm hover:shadow-md"
+      variant="outline"
+      className="gap-3"
     >
       <svg className="w-5 h-5" viewBox="0 0 24 24">
         <path
@@ -31,6 +34,6 @@ export default function GoogleLoginButton() {
         />
       </svg>
       <span>Đăng nhập với Google</span>
-    </button>
+    </Button>
   );
 }

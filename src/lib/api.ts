@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+import { API_URL, isPublicRoute } from "@/lib/constants";
 
 export const apiClient = axios.create({
   baseURL: API_URL,
@@ -81,12 +80,8 @@ apiClient.interceptors.response.use(
         // Redirect to login page only if not already on auth pages
         if (typeof window !== "undefined") {
           const currentPath = window.location.pathname;
-          const isAuthPage =
-            currentPath.startsWith("/auth") ||
-            currentPath.startsWith("/login") ||
-            currentPath.startsWith("/register");
 
-          if (!isAuthPage) {
+          if (!isPublicRoute(currentPath)) {
             window.location.href = "/login";
           }
         }

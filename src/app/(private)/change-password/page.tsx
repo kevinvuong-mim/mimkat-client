@@ -5,6 +5,18 @@ import { useI18n } from "@/i18n/context";
 import { useUser } from "@/context/UserContext";
 import { useChangePassword } from "@/hooks/useUser";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { CheckCircle2, Info, AlertCircle } from "lucide-react";
 
 export default function ChangePasswordPage() {
   const { t } = useI18n();
@@ -95,59 +107,39 @@ export default function ChangePasswordPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-12">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl">
-        <div>
-          <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+      <Card className="max-w-md w-full">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-3xl text-center">
             {t.auth.changePassword}
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          </CardTitle>
+          <CardDescription className="text-center">
             {t.auth.changePasswordDescription}
-          </p>
+          </CardDescription>
 
           {/* Info message for Google users without password */}
           {!user?.hasPassword && (
-            <div className="mt-4 rounded-lg bg-blue-50 p-4 border border-blue-200">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-blue-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-blue-800">
-                    {t.auth.setPasswordForGoogleUser}
-                  </p>
-                </div>
-              </div>
-            </div>
+            <Alert>
+              <Info className="h-4 w-4" />
+              <AlertDescription>
+                {t.auth.setPasswordForGoogleUser}
+              </AlertDescription>
+            </Alert>
           )}
-        </div>
+        </CardHeader>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
+        <CardContent>
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {/* Current Password - Only show if user has existing password */}
             {user?.hasPassword && (
-              <div>
-                <label
-                  htmlFor="currentPassword"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+              <div className="space-y-2">
+                <Label htmlFor="currentPassword">
                   {t.auth.currentPassword}
-                </label>
-                <input
+                </Label>
+                <Input
                   id="currentPassword"
                   name="currentPassword"
                   type="password"
                   required={user?.hasPassword}
-                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   placeholder={t.auth.enterCurrentPassword}
                   value={formData.currentPassword}
                   onChange={(e) =>
@@ -161,19 +153,13 @@ export default function ChangePasswordPage() {
             )}
 
             {/* New Password */}
-            <div>
-              <label
-                htmlFor="newPassword"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                {t.auth.newPassword}
-              </label>
-              <input
+            <div className="space-y-2">
+              <Label htmlFor="newPassword">{t.auth.newPassword}</Label>
+              <Input
                 id="newPassword"
                 name="newPassword"
                 type="password"
                 required
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                 placeholder={t.auth.enterNewPassword}
                 value={formData.newPassword}
                 onChange={(e) =>
@@ -183,73 +169,77 @@ export default function ChangePasswordPage() {
 
               {/* Password Strength Indicators */}
               {formData.newPassword && (
-                <div className="mt-2 space-y-1 text-xs">
-                  <div
-                    className={`flex items-center ${
-                      passwordStrength.hasLength
-                        ? "text-green-600"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    <span className="mr-2">
-                      {passwordStrength.hasLength ? "✓" : "○"}
-                    </span>
-                    {t.auth.passwordLengthRequirement}
-                  </div>
-                  <div
-                    className={`flex items-center ${
-                      passwordStrength.hasUpperCase
-                        ? "text-green-600"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    <span className="mr-2">
-                      {passwordStrength.hasUpperCase ? "✓" : "○"}
-                    </span>
-                    {t.auth.passwordUppercaseRequirement}
-                  </div>
-                  <div
-                    className={`flex items-center ${
-                      passwordStrength.hasLowerCase
-                        ? "text-green-600"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    <span className="mr-2">
-                      {passwordStrength.hasLowerCase ? "✓" : "○"}
-                    </span>
-                    {t.auth.passwordLowercaseRequirement}
-                  </div>
-                  <div
-                    className={`flex items-center ${
-                      passwordStrength.hasNumber
-                        ? "text-green-600"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    <span className="mr-2">
-                      {passwordStrength.hasNumber ? "✓" : "○"}
-                    </span>
-                    {t.auth.passwordNumberRequirement}
-                  </div>
-                </div>
+                <Card className="bg-muted">
+                  <CardContent className="pt-3 pb-3 space-y-1">
+                    <div
+                      className={`flex items-center gap-2 text-xs ${
+                        passwordStrength.hasLength
+                          ? "text-green-600"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {passwordStrength.hasLength ? (
+                        <CheckCircle2 className="h-3 w-3" />
+                      ) : (
+                        <span className="h-3 w-3 rounded-full border border-current" />
+                      )}
+                      {t.auth.passwordLengthRequirement}
+                    </div>
+                    <div
+                      className={`flex items-center gap-2 text-xs ${
+                        passwordStrength.hasUpperCase
+                          ? "text-green-600"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {passwordStrength.hasUpperCase ? (
+                        <CheckCircle2 className="h-3 w-3" />
+                      ) : (
+                        <span className="h-3 w-3 rounded-full border border-current" />
+                      )}
+                      {t.auth.passwordUppercaseRequirement}
+                    </div>
+                    <div
+                      className={`flex items-center gap-2 text-xs ${
+                        passwordStrength.hasLowerCase
+                          ? "text-green-600"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {passwordStrength.hasLowerCase ? (
+                        <CheckCircle2 className="h-3 w-3" />
+                      ) : (
+                        <span className="h-3 w-3 rounded-full border border-current" />
+                      )}
+                      {t.auth.passwordLowercaseRequirement}
+                    </div>
+                    <div
+                      className={`flex items-center gap-2 text-xs ${
+                        passwordStrength.hasNumber
+                          ? "text-green-600"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {passwordStrength.hasNumber ? (
+                        <CheckCircle2 className="h-3 w-3" />
+                      ) : (
+                        <span className="h-3 w-3 rounded-full border border-current" />
+                      )}
+                      {t.auth.passwordNumberRequirement}
+                    </div>
+                  </CardContent>
+                </Card>
               )}
             </div>
 
             {/* Confirm Password */}
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                {t.auth.confirmPassword}
-              </label>
-              <input
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">{t.auth.confirmPassword}</Label>
+              <Input
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
                 required
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                 placeholder={t.auth.confirmNewPassword}
                 value={formData.confirmPassword}
                 onChange={(e) =>
@@ -257,104 +247,43 @@ export default function ChangePasswordPage() {
                 }
               />
             </div>
-          </div>
 
-          {/* Error Message */}
-          {error && (
-            <div className="rounded-lg bg-red-50 p-4 border border-red-200">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-red-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-red-800">{error}</p>
-                </div>
-              </div>
-            </div>
-          )}
+            {/* Error Message */}
+            {error && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
 
-          {/* Success Message */}
-          {success && (
-            <div className="rounded-lg bg-green-50 p-4 border border-green-200">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-green-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-green-800">{success}</p>
-                </div>
-              </div>
-            </div>
-          )}
+            {/* Success Message */}
+            {success && (
+              <Alert>
+                <CheckCircle2 className="h-4 w-4" />
+                <AlertDescription>{success}</AlertDescription>
+              </Alert>
+            )}
 
-          {/* Submit Button */}
-          <div>
-            <button
+            {/* Submit Button */}
+            <Button
               type="submit"
               disabled={changePasswordMutation.isPending}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full"
             >
-              {changePasswordMutation.isPending ? (
-                <span className="flex items-center">
-                  <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  {t.auth.changing}
-                </span>
-              ) : (
-                t.auth.changePasswordButton
-              )}
-            </button>
-          </div>
+              {changePasswordMutation.isPending
+                ? t.auth.changing
+                : t.auth.changePasswordButton}
+            </Button>
 
-          {/* Back to Home Link */}
-          <div className="text-center">
-            <Link
-              href="/"
-              className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
-            >
-              {t.auth.backToHome}
-            </Link>
-          </div>
-        </form>
-      </div>
+            {/* Back to Home Link */}
+            <div className="text-center">
+              <Button asChild variant="link">
+                <Link href="/">{t.auth.backToHome}</Link>
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }

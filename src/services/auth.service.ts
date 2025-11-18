@@ -10,9 +10,8 @@ import {
   RefreshTokenResponse,
 } from "@/types/auth";
 import { ApiResponse } from "@/types/api";
+import { API_URL } from "@/lib/constants";
 import axios from "axios";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 // Axios instance riêng cho auth (không dùng interceptors)
 const authAxios = axios.create({
