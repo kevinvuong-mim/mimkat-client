@@ -27,15 +27,6 @@ const processQueue = (error: unknown, status: string | null = null) => {
   failedQueue = [];
 };
 
-// Request interceptor - No longer needed to manually add token since cookies are sent automatically
-// Keep it simple for any future header modifications
-apiClient.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
 // Response interceptor - Auto refresh token on 401
 apiClient.interceptors.response.use(
   (response) => response.data,
@@ -60,7 +51,7 @@ apiClient.interceptors.response.use(
 
       try {
         // Call refresh token API - cookies will be sent automatically
-        const response = await axios.post(
+        await axios.post(
           `${API_URL}/auth/refresh`,
           {},
           {

@@ -15,20 +15,16 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Function to load user data
   const loadUserData = async () => {
     try {
-      setIsLoading(true);
       const getUserResponse = await apiClient.get("/users/me");
       const userData = getUserResponse.data;
       setUser(userData);
     } catch (error) {
       console.error("Error loading user data:", error);
       setUser(null);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -40,7 +36,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
         const currentPath = window.location.pathname;
 
         if (isPublicRoute(currentPath)) {
-          setIsLoading(false);
           return;
         }
       }
@@ -50,7 +45,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLoading, loadUserData }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );

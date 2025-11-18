@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useI18n } from "@/i18n/context";
 import { useUser } from "@/context/UserContext";
-import { useChangePassword } from "@/hooks/useUser";
+import { useMutation } from "@tanstack/react-query";
+import { userService } from "@/services/user.service";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +22,9 @@ import { CheckCircle2, Info, AlertCircle } from "lucide-react";
 export default function ChangePasswordPage() {
   const { t } = useI18n();
   const { user } = useUser();
-  const changePasswordMutation = useChangePassword();
+  const changePasswordMutation = useMutation({
+    mutationFn: userService.changePassword,
+  });
 
   const [formData, setFormData] = useState({
     currentPassword: "",
