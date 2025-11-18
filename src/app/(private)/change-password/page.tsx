@@ -84,7 +84,6 @@ export default function ChangePasswordPage() {
     changePasswordMutation.mutate(changeData, {
       onSuccess: (response) => {
         setError("");
-        setSuccess(response.message);
 
         // Clear form
         setFormData({
