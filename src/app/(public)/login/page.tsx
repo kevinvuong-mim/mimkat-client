@@ -44,7 +44,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const authData = await authService.login({
+      await authService.login({
         email: formData.email,
         password: formData.password,
       });

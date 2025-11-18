@@ -1,23 +1,15 @@
 import { apiClient } from "@/lib/api";
-import {
-  ChangePasswordData,
-  ChangePasswordResponse,
-  SessionsResponse,
-  LogoutDeviceResponse,
-} from "@/types/session";
-import { ApiResponse } from "@/types/api";
+import { ChangePasswordData, SessionsResponse } from "@/types";
+import { ApiResponse } from "@/types";
 import axios from "axios";
 
 const API_BASE_PATH = "/users";
 
 class UserService {
-  async changePassword(data: ChangePasswordData): Promise<{ message: string }> {
+  async changePassword(data: ChangePasswordData) {
     try {
-      const response = await apiClient.put<ChangePasswordResponse>(
-        `${API_BASE_PATH}/password`,
-        data
-      );
-      return { message: response.data.message };
+      const response = await apiClient.put(`${API_BASE_PATH}/password`, data);
+      return response;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
@@ -28,18 +20,9 @@ class UserService {
     }
   }
 
-  async getSessions(refreshToken?: string): Promise<SessionsResponse> {
+  async getSessions(): Promise<SessionsResponse> {
     try {
-      const config = refreshToken
-        ? {
-            data: { refreshToken },
-          }
-        : undefined;
-
-      const response = await apiClient.get<SessionsResponse>(
-        `${API_BASE_PATH}/sessions`,
-        config
-      );
+      const response = await apiClient.get(`${API_BASE_PATH}/sessions`);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -51,12 +34,12 @@ class UserService {
     }
   }
 
-  async logoutDevice(tokenId: string): Promise<{ message: string }> {
+  async logoutDevice(tokenId: string) {
     try {
-      const response = await apiClient.delete<LogoutDeviceResponse>(
+      const response = await apiClient.delete(
         `${API_BASE_PATH}/sessions/${tokenId}`
       );
-      return { message: response.data.message };
+      return response;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
@@ -67,12 +50,10 @@ class UserService {
     }
   }
 
-  async logoutAllDevices(): Promise<{ message: string }> {
+  async logoutAllDevices() {
     try {
-      const response = await apiClient.delete<ApiResponse<null>>(
-        `${API_BASE_PATH}/sessions`
-      );
-      return { message: response.data.message };
+      const response = await apiClient.delete(`${API_BASE_PATH}/sessions`);
+      return response;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(

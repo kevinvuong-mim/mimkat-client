@@ -18,10 +18,6 @@ export interface LoginResponseData {
 
 export interface LoginResponse extends ApiResponse<LoginResponseData> {}
 
-export interface RegisterResponse extends ApiResponse<null> {}
-
-export interface VerifyEmailResponse extends ApiResponse<null> {}
-
 export interface ResendVerificationData {
   email: string;
 }

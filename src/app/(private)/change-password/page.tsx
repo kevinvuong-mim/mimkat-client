@@ -92,12 +92,6 @@ export default function ChangePasswordPage() {
           newPassword: "",
           confirmPassword: "",
         });
-
-        // Wait 3 seconds to show success message, then clear tokens and redirect
-        setTimeout(() => {
-          // Force reload to clear all React state and redirect to login
-          window.location.href = "/login";
-        }, 3000);
       },
       onError: (err) => {
         setSuccess("");

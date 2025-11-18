@@ -20,3 +20,8 @@ export interface UserContextType {
 }
 
 export interface GetUserResponse extends ApiResponse<User> {}
+
+export interface ChangePasswordData {
+  currentPassword?: string;
+  newPassword: string;
+}

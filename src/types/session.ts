@@ -16,12 +16,3 @@ export interface SessionsResponseData {
 }
 
 export interface SessionsResponse extends ApiResponse<SessionsResponseData> {}
-
-export interface ChangePasswordData {
-  currentPassword?: string;
-  newPassword: string;
-}
-
-export interface ChangePasswordResponse extends ApiResponse<null> {}
-
-export interface LogoutDeviceResponse extends ApiResponse<null> {}

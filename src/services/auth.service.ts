@@ -2,14 +2,12 @@ import {
   RegisterData,
   LoginData,
   LoginResponse,
-  RegisterResponse,
-  VerifyEmailResponse,
   ResendVerificationData,
   ForgotPasswordData,
   ResetPasswordData,
   RefreshTokenResponse,
-} from "@/types/auth";
-import { ApiResponse } from "@/types/api";
+} from "@/types";
+import { ApiResponse } from "@/types";
 import { API_URL } from "@/lib/constants";
 import axios from "axios";
 
@@ -23,12 +21,9 @@ const authAxios = axios.create({
 });
 
 class AuthService {
-  async register(data: RegisterData): Promise<RegisterResponse> {
+  async register(data: RegisterData) {
     try {
-      const response = await authAxios.post<RegisterResponse>(
-        "/auth/register",
-        data
-      );
+      const response = await authAxios.post("/auth/register", data);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -40,9 +35,7 @@ class AuthService {
 
   async login(data: LoginData): Promise<LoginResponse> {
     try {
-      const response = await authAxios.post<LoginResponse>("/auth/login", data);
-      // Tokens are now automatically stored in httpOnly cookies by the server
-      // No need to manually save tokens on client side
+      const response = await authAxios.post("/auth/login", data);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -52,14 +45,10 @@ class AuthService {
     }
   }
 
-  async logout(): Promise<{ message: string }> {
+  async logout() {
     try {
-      const response = await authAxios.post<ApiResponse<null>>(
-        "/auth/logout",
-        {} // No need to send refresh token - server will get it from cookies
-      );
-      // Cookies are automatically cleared by the server
-      return { message: response.data.message };
+      const response = await authAxios.post("/auth/logout");
+      return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message || "Logout failed");
@@ -70,11 +59,7 @@ class AuthService {
 
   async refreshToken(): Promise<RefreshTokenResponse> {
     try {
-      const response = await authAxios.post<RefreshTokenResponse>(
-        "/auth/refresh",
-        {} // No need to send refresh token - server will get it from cookies
-      );
-      // New tokens are automatically stored in httpOnly cookies by the server
+      const response = await authAxios.post("/auth/refresh");
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -84,9 +69,9 @@ class AuthService {
     }
   }
 
-  async verifyEmail(token: string): Promise<VerifyEmailResponse> {
+  async verifyEmail(token: string) {
     try {
-      const response = await authAxios.get<VerifyEmailResponse>(
+      const response = await authAxios.get(
         `/verification/email?token=${token}`
       );
       return response.data;
@@ -100,15 +85,13 @@ class AuthService {
     }
   }
 
-  async resendVerification(
-    data: ResendVerificationData
-  ): Promise<{ message: string }> {
+  async resendVerification(data: ResendVerificationData) {
     try {
       const response = await authAxios.post<ApiResponse<null>>(
         "/verification/resend",
         data
       );
-      return { message: response.data.message };
+      return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
@@ -119,13 +102,13 @@ class AuthService {
     }
   }
 
-  async forgotPassword(data: ForgotPasswordData): Promise<{ message: string }> {
+  async forgotPassword(data: ForgotPasswordData) {
     try {
-      const response = await authAxios.post<ApiResponse<null>>(
+      const response = await authAxios.post(
         `/verification/forgot-password`,
         data
       );
-      return { message: response.data.message };
+      return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
@@ -136,13 +119,13 @@ class AuthService {
     }
   }
 
-  async resetPassword(data: ResetPasswordData): Promise<{ message: string }> {
+  async resetPassword(data: ResetPasswordData) {
     try {
-      const response = await authAxios.post<ApiResponse<null>>(
+      const response = await authAxios.post(
         "/verification/reset-password",
         data
       );
-      return { message: response.data.message };
+      return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
