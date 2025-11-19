@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useI18n } from "@/i18n/context";
-import { useUser } from "@/context/UserContext";
 import { authService } from "@/services/auth.service";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
 import { Button } from "@/components/ui/button";
@@ -22,7 +21,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 export default function LoginPage() {
   const { t } = useI18n();
   const router = useRouter();
-  const { user } = useUser();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -30,13 +28,6 @@ export default function LoginPage() {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

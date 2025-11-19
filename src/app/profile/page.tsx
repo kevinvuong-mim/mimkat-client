@@ -13,9 +13,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 
-/**
- * This page automatically redirects to /auth if user is not authenticated
- */
 function ProfilePage() {
   const { user } = useUser();
 

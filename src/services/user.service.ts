@@ -1,7 +1,6 @@
 import { apiClient } from "@/lib/api";
 import { ChangePasswordData, SessionsResponse } from "@/types";
-import { ApiResponse } from "@/types";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const API_BASE_PATH = "/users";
 
@@ -20,10 +19,10 @@ class UserService {
     }
   }
 
-  async getSessions(): Promise<SessionsResponse> {
+  async getSessions(): Promise<AxiosResponse<SessionsResponse>> {
     try {
       const response = await apiClient.get(`${API_BASE_PATH}/sessions`);
-      return response.data;
+      return response;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(

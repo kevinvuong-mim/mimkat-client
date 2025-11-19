@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useI18n } from "@/i18n/context";
-import { useUser } from "@/context/UserContext";
 import { authService } from "@/services/auth.service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +14,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 export default function RegisterPage() {
   const { t } = useI18n();
   const router = useRouter();
-  const { user } = useUser();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -24,13 +22,6 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
