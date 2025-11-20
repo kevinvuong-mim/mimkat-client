@@ -39,7 +39,6 @@
 - **Next.js 14** - React Framework với App Router
 - **React 18** - UI Library
 - **TypeScript** - Type Safety
-- **Tailwind CSS** - Styling
 
 ### HTTP Client
 
@@ -182,7 +181,6 @@ mimkat-client/
 ├── .env.local                      # Environment variables (gitignored)
 ├── .env.example                    # Environment template
 ├── next.config.ts                  # Next.js config
-├── tailwind.config.ts              # Tailwind config
 ├── tsconfig.json                   # TypeScript config
 ├── package.json                    # Dependencies
 │
@@ -436,7 +434,6 @@ const secret = process.env.SECRET_KEY;
 - [Next.js Documentation](https://nextjs.org/docs)
 - [React Documentation](https://react.dev)
 - [Axios Documentation](https://axios-http.com)
-- [Tailwind CSS](https://tailwindcss.com)
 
 ---
 
@@ -484,30 +481,6 @@ const secret = process.env.SECRET_KEY;
 - Auto redirect to `/auth`
 
 ---
-
-## 🎨 Styling
-
-### Tailwind CSS
-
-Dự án sử dụng **Tailwind CSS** cho styling:
-
-```tsx
-// Example
-<div className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
-  <h1 className="text-2xl font-bold text-gray-800">Welcome</h1>
-  <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-    Click Me
-  </button>
-</div>
-```
-
-### Global Styles
-
-Global styles trong `src/app/globals.css`:
-
-- Tailwind base, components, utilities
-- Custom CSS variables
-- Reset styles
 
 ---
 
@@ -699,7 +672,6 @@ This project is licensed under the MIT License.
 
 - Next.js team for the amazing framework
 - Axios team for the HTTP client
-- Tailwind CSS for the utility-first CSS framework
 
 ---
 
