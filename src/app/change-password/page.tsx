@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useI18n } from "@/i18n/context";
 import { useUser } from "@/context/UserContext";
@@ -10,6 +11,7 @@ import { userService } from "@/services/user.service";
 export default function ChangePasswordPage() {
   const { t } = useI18n();
   const { user } = useUser();
+  const router = useRouter();
   const { mutate } = useMutation({ mutationFn: userService.changePassword });
 
   const [formData, setFormData] = useState({
@@ -71,6 +73,9 @@ export default function ChangePasswordPage() {
           newPassword: "",
           confirmPassword: "",
         });
+
+        // Redirect to login page after 3 seconds
+        setTimeout(() => router.push("/login"), 3000);
       },
       onError: (err) => {
         console.error("Error changing password: ", err);

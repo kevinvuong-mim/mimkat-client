@@ -3,16 +3,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useI18n } from "@/i18n/context";
+import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { authService } from "@/services/auth.service";
 
 export default function Home() {
+  const router = useRouter();
   const { t, locale, setLocale } = useI18n();
   const { mutate } = useMutation({ mutationFn: authService.logout });
 
   const handleLogout = async () => {
     mutate(undefined, {
-      onSuccess: () => (window.location.href = "/login"),
+      onSuccess: () => router.push("/login"),
       onError: (err) => {
         console.error("Logout error:", err);
       },
