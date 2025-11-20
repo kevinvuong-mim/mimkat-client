@@ -1,53 +1,26 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
-import { apiClient } from "@/lib/api";
-import { isPublicRoute } from "@/lib/constants";
-import { User, UserContextType } from "@/types/user";
+import { createContext, useContext, ReactNode } from "react";
+import { isPublicRoute } from "@/lib/utils";
+import { UserContextType } from "@/types/user";
+import { useQuery } from "@tanstack/react-query";
+import { userService } from "@/services/user.service";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const { data: user } = useQuery({
+    queryKey: ["getProfile"],
+    queryFn: userService.getProfile,
+    enabled: () => {
+      if (typeof window === "undefined") return false;
 
-  // Function to load user data
-  const loadUserData = async () => {
-    try {
-      const getUserResponse = await apiClient.get("/users/me");
-      const userData = getUserResponse.data;
-      setUser(userData);
-    } catch (error) {
-      console.error("Error loading user data:", error);
-      setUser(null);
-    }
-  };
-
-  // Load user data on mount (using cookies for authentication)
-  useEffect(() => {
-    (async () => {
-      // Don't call API if we're on public pages (user is not authenticated)
-      if (typeof window !== "undefined") {
-        const currentPath = window.location.pathname;
-
-        if (isPublicRoute(currentPath)) {
-          return;
-        }
-      }
-
-      await loadUserData();
-    })();
-  }, []);
+      return !isPublicRoute(window.location.pathname);
+    },
+  });
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
   );
 }
 

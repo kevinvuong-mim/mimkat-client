@@ -42,8 +42,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const initialLocale = getInitialLocale();
-    setLocaleState(initialLocale);
+    setLocaleState(getInitialLocale());
     setIsReady(true);
   }, []);
 

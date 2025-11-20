@@ -1,5 +1,6 @@
 import axios from "axios";
-import { API_URL, isPublicRoute } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
+import { isPublicRoute } from "@/lib/utils";
 
 export const apiClient = axios.create({
   baseURL: API_URL,

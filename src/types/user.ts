@@ -16,7 +16,6 @@ export interface User {
 
 export interface UserContextType {
   user: User | null;
-  setUser: (user: User | null) => void;
 }
 
 export interface GetUserResponse extends ApiResponse<User> {}

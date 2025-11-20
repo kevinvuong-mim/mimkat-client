@@ -1,159 +1,93 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useI18n } from "@/i18n/context";
+import { useMutation } from "@tanstack/react-query";
 import { authService } from "@/services/auth.service";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function RegisterPage() {
   const { t } = useI18n();
   const router = useRouter();
+  const { mutate: registerMutate } = useMutation({
+    mutationFn: authService.register,
+  });
+  const { mutate: resendVerificationMutate } = useMutation({
+    mutationFn: authService.resendVerification,
+  });
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isShowButtonResend, setIsShowButtonResend] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-    setIsLoading(true);
 
-    try {
-      await authService.register({
+    registerMutate(
+      {
         email: formData.email,
         password: formData.password,
-      });
-      setSuccess(
-        "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản."
-      );
-      setFormData({ email: "", password: "" });
+      },
+      {
+        onSuccess: () => {
+          // Clear form
+          setFormData({ email: "", password: "" });
 
-      // Redirect to login page after 3 seconds
-      setTimeout(() => {
-        router.push("/login");
-      }, 3000);
-    } catch (err: any) {
-      setError(err.message || "Đã xảy ra lỗi. Vui lòng thử lại.");
-    } finally {
-      setIsLoading(false);
-    }
+          // Redirect to login page after 3 seconds
+          setTimeout(() => router.push("/login"), 3000);
+        },
+        onError: (err) => {
+          setIsShowButtonResend(true);
+          console.error("Register error: ", err);
+        },
+      }
+    );
   };
 
   const handleResendVerification = async () => {
     if (!formData.email) {
-      setError("Vui lòng nhập email để gửi lại email xác thực");
+      console.error("Please enter your email to resend verification");
       return;
     }
 
-    setIsLoading(true);
-    setError("");
-
-    try {
-      await authService.resendVerification({ email: formData.email });
-      setSuccess("Email xác thực đã được gửi lại! Vui lòng kiểm tra hộp thư.");
-    } catch (err: any) {
-      setError(err.message || "Không thể gửi lại email xác thực");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    resendVerificationMutate(
+      { email: formData.email },
+      {
+        onSuccess: () => {
+          alert("Verification email resent. Please check your inbox.");
+        },
+        onError: (err) => {
+          console.error("Error resending verification email: ", err);
+        },
+      }
+    );
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-400 via-sky-400 to-blue-500 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold text-center">
-            {t.auth.register}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Error Message */}
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+    <form onSubmit={handleSubmit}>
+      <input
+        value={formData.email}
+        placeholder={t.register.email}
+        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+      />
 
-          {/* Success Message */}
-          {success && (
-            <Alert>
-              <AlertDescription>{success}</AlertDescription>
-            </Alert>
-          )}
+      <input
+        value={formData.password}
+        placeholder={t.register.password}
+        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+      />
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">{t.auth.email}</Label>
-              <Input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder={t.auth.emailPlaceholder}
-              />
-            </div>
+      <button type="submit">{t.common.submit}</button>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">{t.auth.password}</Label>
-              <Input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                placeholder={t.auth.passwordPlaceholder}
-              />
-            </div>
-
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Đang xử lý..." : t.auth.registerButton}
-            </Button>
-          </form>
-
-          {/* Resend Verification Email Button */}
-          {(success || error.toLowerCase().includes("verify")) && (
-            <Button
-              onClick={handleResendVerification}
-              disabled={isLoading}
-              variant="secondary"
-              className="w-full"
-            >
-              Gửi lại email xác thực
-            </Button>
-          )}
-
-          <div className="text-center text-sm">
-            <span className="text-muted-foreground">{t.auth.haveAccount} </span>
-            <Link
-              href="/login"
-              className="text-primary hover:underline font-medium"
-            >
-              {t.auth.loginNow}
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+      {isShowButtonResend && (
+        <button onClick={handleResendVerification}>
+          {t.register.resendVerification}
+        </button>
+      )}
+      <Link href="/login">{t.common.login}</Link>
+    </form>
   );
 }

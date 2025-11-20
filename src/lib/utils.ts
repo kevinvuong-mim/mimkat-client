@@ -1,6 +1,6 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { PUBLIC_ROUTES } from "./constants";
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+// Helper function to check if a path is a public route
+export const isPublicRoute = (pathname: string): boolean => {
+  return PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
+};

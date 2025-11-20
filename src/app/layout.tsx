@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import type { Metadata } from "next";
 import { I18nProvider } from "@/i18n/context";
 import { UserProvider } from "@/context/UserContext";
 import { QueryProvider } from "@/providers/QueryProvider";

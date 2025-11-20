@@ -530,8 +530,8 @@ export default function MyComponent() {
 
   return (
     <div>
-      <h1>{t("welcome.title")}</h1>
-      <p>{t("welcome.description")}</p>
+      <h1>{t.welcome.title}</h1>
+      <p>{t.welcome.description}</p>
 
       <button onClick={() => setLocale("vi")}>Tiếng Việt</button>
     </div>
