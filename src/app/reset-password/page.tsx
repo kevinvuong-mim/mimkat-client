@@ -67,9 +67,6 @@ export default function ResetPasswordPage() {
       },
       {
         onSuccess: () => {
-          // Clear form
-          setFormData({ password: "", confirmPassword: "" });
-
           // Redirect to login after 3 seconds
           setTimeout(() => router.push("/login"), 3000);
         },

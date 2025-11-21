@@ -33,9 +33,6 @@ export default function RegisterPage() {
       },
       {
         onSuccess: () => {
-          // Clear form
-          setFormData({ email: "", password: "" });
-
           // Redirect to login page after 3 seconds
           setTimeout(() => router.push("/login"), 3000);
         },

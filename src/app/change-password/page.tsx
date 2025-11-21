@@ -67,13 +67,6 @@ export default function ChangePasswordPage() {
 
     mutate(changeData, {
       onSuccess: () => {
-        // Clear form
-        setFormData({
-          currentPassword: "",
-          newPassword: "",
-          confirmPassword: "",
-        });
-
         // Redirect to login page after 3 seconds
         setTimeout(() => router.push("/login"), 3000);
       },
