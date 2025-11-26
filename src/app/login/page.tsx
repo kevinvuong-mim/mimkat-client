@@ -25,8 +25,10 @@ export default function LoginPage() {
       { email: formData.email, password: formData.password },
       {
         onSuccess: () => {
-          // After login, redirect to home
-          window.location.href = "/";
+          setFormData({ email: "", password: "" });
+
+          // Redirect to home page after 3 seconds
+          setTimeout(() => (window.location.href = "/"), 3000);
         },
         onError: (err) => {
           console.error("Login error: ", err);
@@ -43,7 +45,6 @@ export default function LoginPage() {
           placeholder={t.login.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
-
         <input
           value={formData.password}
           placeholder={t.login.password}
@@ -51,13 +52,11 @@ export default function LoginPage() {
             setFormData({ ...formData, password: e.target.value })
           }
         />
-
         <Link href="/forgot-password">{t.common.forgotPassword}</Link>
-        <Link href="/register">{t.common.register}</Link>
         <button type="submit">{t.common.submit}</button>
       </form>
-
       <GoogleLoginButton />
+      <Link href="/register">{t.common.register}</Link>
     </div>
   );
 }

@@ -30,15 +30,16 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        value={email}
-        placeholder={t.forgotPassword.email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button type="submit">{t.common.submit}</button>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          value={email}
+          placeholder={t.forgotPassword.email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button type="submit">{t.common.submit}</button>
+      </form>
       <Link href="/login">{t.common.backToLogin}</Link>
-      <Link href="/reset-password">{t.common.alreadyHaveToken}</Link>
-    </form>
+    </div>
   );
 }

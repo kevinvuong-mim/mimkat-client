@@ -17,7 +17,7 @@ export default function ProfilePage() {
           alt=""
           width={100}
           height={100}
-          src={user?.avatar || "/images/default-avatar.png"}
+          src={user?.avatar || "/images/logo.png"}
         />
       </p>
       <p>

@@ -44,8 +44,9 @@ export default function VerifyEmailPage() {
     </p>
   ) : isSuccess ? (
     <p>
-      {t.common.success} —{" "}
-      {t.common.redirectingIn.replace("{countdown}", countdown.toString())}
+      {t.common.success +
+        " - " +
+        t.common.redirectingIn.replace("{countdown}", countdown.toString())}
     </p>
   ) : (
     "Verify email page"

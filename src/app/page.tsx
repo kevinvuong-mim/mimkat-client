@@ -24,21 +24,25 @@ export default function Home() {
   return (
     <div>
       <Image alt="" width={100} height={100} src={"/images/logo.png"} />
-      <button
-        onClick={() => setLocale("en")}
-        style={{ fontWeight: locale === "en" ? "bold" : "normal" }}
-      >
-        {t.home.english}
-      </button>
-      <button
-        onClick={() => setLocale("vi")}
-        style={{ fontWeight: locale === "vi" ? "bold" : "normal" }}
-      >
-        {t.home.vietnamese}
-      </button>
+      <div>
+        <button
+          onClick={() => setLocale("en")}
+          style={{ fontWeight: locale === "en" ? "bold" : "normal" }}
+        >
+          {t.home.english}
+        </button>
+        <button
+          onClick={() => setLocale("vi")}
+          style={{ fontWeight: locale === "vi" ? "bold" : "normal" }}
+        >
+          {t.home.vietnamese}
+        </button>
+      </div>
       <button onClick={handleLogout}>{t.home.logout}</button>
-      <Link href="/profile">{t.common.profile}</Link>
-      <Link href="/change-password">{t.common.changePassword}</Link>
+      <div>
+        <Link href="/profile">{t.common.profile}</Link>
+        <Link href="/change-password">{t.common.changePassword}</Link>
+      </div>
     </div>
   );
 }
