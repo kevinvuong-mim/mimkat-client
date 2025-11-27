@@ -1,54 +1,110 @@
 {
-  "common": {
-    "submit": "Submit",
-    "loading": "Loading",
-    "success": "Success",
-    "error": "Error",
-    "backToHome": "Back to home",
-    "backToLogin": "Back to login",
-    "alreadyHaveToken": "Already have a reset token?",
-    "forgotPassword": "Forgot password?",
-    "register": "Register",
-    "changePassword": "Change password",
-    "login": "Login",
-    "redirectingIn": "Redirecting in {countdown} seconds",
-    "googleLogin": "Login with Google",
-    "profile": "Profile"
-  },
   "changePassword": {
+    "titleHasPassword": "Change password",
+    "titleNoPassword": "Set your password",
+    "descriptionHasPassword": "Enter your current password and choose a new one",
+    "descriptionNoPassword": "Set up your new password",
     "currentPassword": "Current password",
     "newPassword": "New password",
-    "confirmPassword": "Confirm new password"
-  },
-  "forgotPassword": {
-    "email": "Email address"
-  },
-  "login": {
-    "email": "Email",
-    "password": "Password"
+    "confirmPassword": "Confirm new password",
+    "submitHasPassword": "Change Password",
+    "submitNoPassword": "Set Password",
+    "backToHome": "Back to home",
+    "currentPasswordRequired": "Current password is required",
+    "newPasswordMinLength": "Password must be at least 8 characters long",
+    "newPasswordPattern": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+    "confirmPasswordRequired": "Please confirm your password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "passwordChangedSuccessfully": "Password changed successfully!"
   },
   "profile": {
-    "avatar": "Avatar",
+    "contact": "Contact info",
     "email": "Email",
-    "fullName": "Full Name",
-    "username": "Username",
-    "isActive": "Is Active",
-    "isEmailVerified": "Is Email Verified",
-    "hasPassword": "Has Password",
-    "hasGoogleAuth": "Has Google Auth"
+    "accountStatus": "Account Status",
+    "isActive": "Đang hoạt động",
+    "isEmailVerified": "Email has been verified",
+    "hasPassword": "Has password",
+    "hasGoogleAuth": "Has Google authentication",
+    "changePassword": "Change Password",
+    "backToHome": "Back to Home",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "description": "Enter your email address and we'll send you a link to reset your password",
+    "email": "Email address",
+    "sending": "Sending...",
+    "submit": "Submit",
+    "backToLogin": "Back to Login",
+    "invalidEmail": "Invalid email address",
+    "emailSentSuccess": "Password reset email has been sent! Please check your inbox."
+  },
+  "login": {
+    "title": "Welcome Back",
+    "description": "Sign in to your account",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "submit": "Login",
+    "orContinueWith": "Or continue with",
+    "googleLogin": "Login with Google",
+    "noAccount": "Don't have an account?",
+    "register": "Register",
+    "invalidEmail": "Invalid email address",
+    "passwordRequired": "Password is required",
+    "loginSuccess": "Login successful!"
   },
   "register": {
+    "title": "Create an account",
+    "description": "Enter your email and password to get started",
     "email": "Email",
     "password": "Password",
-    "resendVerification": "Resend verification email"
+    "submit": "Register",
+    "didNotReceiveEmail": "Didn't receive the email?",
+    "resendVerification": "Resend verification email",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Login",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email address",
+    "passwordMinLength": "Password must be at least 8 characters",
+    "passwordPattern": "Password must contain uppercase, lowercase and number",
+    "successMessage": "Registration successful! Please check your email to verify your account.",
+    "resendSuccess": "Verification email sent successfully!"
   },
   "resetPassword": {
-    "password": "Password",
-    "confirmPassword": "Confirm Password"
+    "title": "Reset Password",
+    "description": "Enter your new password below",
+    "password": "New Password",
+    "confirmPassword": "Confirm Password",
+    "submit": "Reset Password",
+    "login": "Back to Login",
+    "passwordMinLength": "Password must be at least 8 characters",
+    "passwordPattern": "Password must contain uppercase, lowercase and number",
+    "confirmPasswordRequired": "Please confirm your password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "noToken": "No reset token provided",
+    "passwordResetSuccess": "Password reset successfully!"
+  },
+  "verifyEmail": {
+    "loading": "Loading...",
+    "verifying": "Verifying your email...",
+    "error": "An error occurred during email verification.",
+    "backToLogin": "Back to login",
+    "success": "Email verified successfully!",
+    "successMessage": "Your email has been verified successfully!",
+    "redirectingIn": "Redirecting to login in {countdown} seconds",
+    "loginNow": "Login now",
+    "title": "Email Verification",
+    "checkEmailLink": "Please check the verification link in your email"
   },
   "home": {
+    "welcome": "Welcome",
+    "language": "Language",
     "english": "English",
     "vietnamese": "Vietnamese",
+    "profile": "Profile",
+    "changePassword": "Change Password",
     "logout": "Logout"
   }
 }

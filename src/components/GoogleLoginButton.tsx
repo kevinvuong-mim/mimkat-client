@@ -2,17 +2,22 @@
 
 import { useI18n } from "@/i18n/context";
 import { API_URL } from "@/lib/constants";
+import { Button } from "@/components/ui/button";
 
 export default function GoogleLoginButton() {
   const { t } = useI18n();
 
   const handleGoogleLogin = () => {
-    // Redirect to the backend Google OAuth endpoint
     window.location.href = `${API_URL}/auth/google`;
   };
 
   return (
-    <button onClick={handleGoogleLogin}>
+    <Button
+      type="button"
+      variant="outline"
+      onClick={handleGoogleLogin}
+      className="w-full flex items-center justify-center gap-3"
+    >
       <svg className="w-5 h-5" viewBox="0 0 24 24">
         <path
           fill="#4285F4"
@@ -31,7 +36,7 @@ export default function GoogleLoginButton() {
           d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
         />
       </svg>
-      <span>{t.common.googleLogin}</span>
-    </button>
+      <span className="font-medium">{t.login.googleLogin}</span>
+    </Button>
   );
 }

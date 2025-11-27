@@ -1,26 +1,22 @@
-import { ApiResponse } from "./api";
-
 export interface User {
   id: string;
   email: string;
-  fullName?: string;
-  username?: string;
   avatar?: string;
+  createdAt: string;
+  fullName?: string;
   isActive: boolean;
-  isEmailVerified: boolean;
+  updatedAt: string;
+  username?: string;
   hasPassword: boolean;
   hasGoogleAuth: boolean;
-  createdAt: string;
-  updatedAt: string;
+  isEmailVerified: boolean;
 }
 
 export interface UserContextType {
-  user: User | null;
+  user: null | User;
 }
 
-export interface GetUserResponse extends ApiResponse<User> {}
-
 export interface ChangePasswordData {
-  currentPassword?: string;
   newPassword: string;
+  currentPassword?: string;
 }

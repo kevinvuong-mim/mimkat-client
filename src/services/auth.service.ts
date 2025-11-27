@@ -1,34 +1,34 @@
+import axios from "axios";
+
 import {
-  RegisterData,
   LoginData,
+  RegisterData,
   LoginResponse,
-  ResendVerificationData,
-  ForgotPasswordData,
   ResetPasswordData,
+  ForgotPasswordData,
   RefreshTokenResponse,
+  ResendVerificationData,
 } from "@/types";
 import { ApiResponse } from "@/types";
 import { API_URL } from "@/lib/constants";
-import axios from "axios";
 
-// Axios instance riêng cho auth (không dùng interceptors)
 const authAxios = axios.create({
   baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-  withCredentials: true, // Enable cookies for CORS requests
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" },
 });
 
 class AuthService {
   async register(data: RegisterData) {
     try {
       const response = await authAxios.post("/auth/register", data);
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message || "Registration failed");
+        throw new Error(error.response.data.message);
       }
+
       throw error;
     }
   }
@@ -36,10 +36,11 @@ class AuthService {
   async login(data: LoginData): Promise<LoginResponse> {
     try {
       const response = await authAxios.post("/auth/login", data);
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message || "Login failed");
+        throw new Error(error.response.data.message);
       }
       throw error;
     }
@@ -48,10 +49,11 @@ class AuthService {
   async logout() {
     try {
       const response = await authAxios.post("/auth/logout");
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message || "Logout failed");
+        throw new Error(error.response.data.message);
       }
       throw error;
     }
@@ -60,10 +62,11 @@ class AuthService {
   async refreshToken(): Promise<RefreshTokenResponse> {
     try {
       const response = await authAxios.post("/auth/refresh");
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message || "Token refresh failed");
+        throw new Error(error.response.data.message);
       }
       throw error;
     }
@@ -74,12 +77,11 @@ class AuthService {
       const response = await authAxios.get(
         `/verification/email?token=${token}`
       );
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw new Error(
-          error.response.data.message || "Email verification failed"
-        );
+        throw new Error(error.response.data.message);
       }
       throw error;
     }
@@ -91,12 +93,11 @@ class AuthService {
         "/verification/resend",
         data
       );
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw new Error(
-          error.response.data.message || "Failed to resend verification email"
-        );
+        throw new Error(error.response.data.message);
       }
       throw error;
     }
@@ -108,12 +109,11 @@ class AuthService {
         `/verification/forgot-password`,
         data
       );
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw new Error(
-          error.response.data.message || "Failed to send password reset email"
-        );
+        throw new Error(error.response.data.message);
       }
       throw error;
     }
@@ -125,12 +125,11 @@ class AuthService {
         "/verification/reset-password",
         data
       );
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw new Error(
-          error.response.data.message || "Failed to reset password"
-        );
+        throw new Error(error.response.data.message);
       }
       throw error;
     }

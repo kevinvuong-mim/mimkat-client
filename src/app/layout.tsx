@@ -1,12 +1,14 @@
-import "./globals.css";
 import type { Metadata } from "next";
+
+import "./globals.css";
 import { I18nProvider } from "@/i18n/context";
+import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from "@/context/UserContext";
 import { QueryProvider } from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
-  title: "Mimkat Client",
-  description: "Mimkat Client Application",
+  title: "Mimkat",
+  description: "Mimkat Application",
 };
 
 export default function RootLayout({
@@ -22,6 +24,7 @@ export default function RootLayout({
             <I18nProvider>{children}</I18nProvider>
           </UserProvider>
         </QueryProvider>
+        <Toaster position="top-center" />
       </body>
     </html>
   );

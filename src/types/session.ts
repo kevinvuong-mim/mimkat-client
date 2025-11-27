@@ -2,17 +2,14 @@ import { ApiResponse } from "./api";
 
 export interface Session {
   id: string;
+  createdAt: string;
+  expiresAt: string;
+  ipAddress: string;
   deviceName: string;
   deviceType: string;
-  ipAddress: string;
-  createdAt: string;
-  lastUsedAt: string;
-  expiresAt: string;
   isCurrent: boolean;
+  lastUsedAt: string;
 }
 
-export interface SessionsResponseData {
-  sessions: Session[];
-}
-
-export interface SessionsResponse extends ApiResponse<SessionsResponseData> {}
+export interface SessionsResponse
+  extends ApiResponse<{ sessions: Session[] }> {}

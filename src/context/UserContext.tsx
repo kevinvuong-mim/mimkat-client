@@ -1,9 +1,10 @@
 "use client";
 
-import { createContext, useContext, ReactNode } from "react";
-import { isPublicRoute } from "@/lib/utils";
-import { UserContextType } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
+import { ReactNode, useContext, createContext } from "react";
+
+import { UserContextType } from "@/types/user";
+import { isPublicRoute } from "@/lib/public-route";
 import { userService } from "@/services/user.service";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -26,8 +27,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
 export function useUser() {
   const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUser must be used within UserProvider");
-  }
+
+  if (!context) throw new Error("useUser must be used within UserProvider");
+
   return context;
 }

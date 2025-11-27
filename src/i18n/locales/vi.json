@@ -1,54 +1,110 @@
 {
-  "common": {
-    "submit": "Gửi",
-    "loading": "Đang tải",
-    "success": "Thành công",
-    "error": "Lỗi",
-    "backToHome": "Quay về trang chủ",
-    "backToLogin": "Quay về đăng nhập",
-    "alreadyHaveToken": "Đã có mã đặt lại?",
-    "forgotPassword": "Quên mật khẩu?",
-    "register": "Đăng ký",
-    "changePassword": "Đổi mật khẩu",
-    "login": "Đăng nhập",
-    "redirectingIn": "Chuyển hướng trong {countdown} giây",
-    "googleLogin": "Đăng nhập với Google",
-    "profile": "Hồ sơ"
-  },
   "changePassword": {
+    "titleHasPassword": "Đổi mật khẩu",
+    "titleNoPassword": "Thiết lập mật khẩu",
+    "descriptionHasPassword": "Nhập mật khẩu hiện tại và chọn mật khẩu mới",
+    "descriptionNoPassword": "Thiết lập mật khẩu mới",
     "currentPassword": "Mật khẩu hiện tại",
     "newPassword": "Mật khẩu mới",
-    "confirmPassword": "Xác nhận mật khẩu mới"
-  },
-  "forgotPassword": {
-    "email": "Địa chỉ email"
-  },
-  "login": {
-    "email": "Email",
-    "password": "Mật khẩu"
+    "confirmPassword": "Xác nhận mật khẩu mới",
+    "submitHasPassword": "Đổi mật khẩu",
+    "submitNoPassword": "Thiết lập mật khẩu",
+    "backToHome": "Quay về trang chủ",
+    "currentPasswordRequired": "Mật khẩu hiện tại là bắt buộc",
+    "newPasswordMinLength": "Mật khẩu phải có ít nhất 8 ký tự",
+    "newPasswordPattern": "Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường và một số",
+    "confirmPasswordRequired": "Vui lòng xác nhận mật khẩu của bạn",
+    "passwordsDoNotMatch": "Mật khẩu không khớp",
+    "passwordChangedSuccessfully": "Đổi mật khẩu thành công!"
   },
   "profile": {
-    "avatar": "Ảnh đại diện",
+    "contact": "Thông tin liên hệ",
     "email": "Email",
-    "fullName": "Họ và tên",
-    "username": "Tên người dùng",
+    "accountStatus": "Trạng thái tài khoản",
     "isActive": "Đang hoạt động",
     "isEmailVerified": "Email đã được xác minh",
     "hasPassword": "Có mật khẩu",
-    "hasGoogleAuth": "Có xác thực Google"
+    "hasGoogleAuth": "Có xác thực Google",
+    "changePassword": "Đổi mật khẩu",
+    "backToHome": "Quay về trang chủ",
+    "yes": "Có",
+    "no": "Không"
   },
-  "register": {
+  "forgotPassword": {
+    "title": "Quên mật khẩu",
+    "description": "Nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn một liên kết để đặt lại mật khẩu",
+    "email": "Địa chỉ email",
+    "sending": "Đang gửi...",
+    "submit": "Gửi",
+    "backToLogin": "Quay về đăng nhập",
+    "invalidEmail": "Email không hợp lệ",
+    "emailSentSuccess": "Email đặt lại mật khẩu đã được gửi! Vui lòng kiểm tra hộp thư của bạn."
+  },
+  "login": {
+    "title": "Chào mừng trở lại",
+    "description": "Đăng nhập vào tài khoản của bạn",
     "email": "Email",
     "password": "Mật khẩu",
-    "resendVerification": "Gửi lại email xác nhận"
+    "forgotPassword": "Quên mật khẩu?",
+    "submit": "Đăng nhập",
+    "orContinueWith": "Hoặc tiếp tục với",
+    "googleLogin": "Đăng nhập với Google",
+    "noAccount": "Chưa có tài khoản?",
+    "register": "Đăng ký",
+    "invalidEmail": "Email không hợp lệ",
+    "passwordRequired": "Mật khẩu là bắt buộc",
+    "loginSuccess": "Đăng nhập thành công!"
+  },
+  "register": {
+    "title": "Tạo tài khoản",
+    "description": "Nhập email và mật khẩu để bắt đầu",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "submit": "Đăng ký",
+    "didNotReceiveEmail": "Chưa nhận được email?",
+    "resendVerification": "Gửi lại email xác nhận",
+    "alreadyHaveAccount": "Đã có tài khoản?",
+    "login": "Đăng nhập",
+    "emailRequired": "Email là bắt buộc",
+    "emailInvalid": "Email không hợp lệ",
+    "passwordMinLength": "Mật khẩu phải có ít nhất 8 ký tự",
+    "passwordPattern": "Mật khẩu phải chứa chữ hoa, chữ thường và số",
+    "successMessage": "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản.",
+    "resendSuccess": "Email xác nhận đã được gửi thành công!"
   },
   "resetPassword": {
-    "password": "Mật khẩu",
-    "confirmPassword": "Xác nhận mật khẩu"
+    "title": "Đặt lại mật khẩu",
+    "description": "Nhập mật khẩu mới của bạn bên dưới",
+    "password": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "submit": "Đặt lại mật khẩu",
+    "login": "Quay về đăng nhập",
+    "passwordMinLength": "Mật khẩu phải có ít nhất 8 ký tự",
+    "passwordPattern": "Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường và một số",
+    "confirmPasswordRequired": "Vui lòng xác nhận mật khẩu của bạn",
+    "passwordsDoNotMatch": "Mật khẩu không khớp",
+    "noToken": "Không có mã đặt lại mật khẩu",
+    "passwordResetSuccess": "Đặt lại mật khẩu thành công!"
+  },
+  "verifyEmail": {
+    "loading": "Đang tải...",
+    "verifying": "Đang xác thực email của bạn...",
+    "error": "Đã xảy ra lỗi trong quá trình xác thực email.",
+    "backToLogin": "Quay lại đăng nhập",
+    "success": "Email đã được xác thực thành công!",
+    "successMessage": "Email của bạn đã được xác thực thành công!",
+    "redirectingIn": "Chuyển hướng đến đăng nhập trong {countdown} giây",
+    "loginNow": "Đăng nhập ngay",
+    "title": "Xác thực Email",
+    "checkEmailLink": "Vui lòng kiểm tra link xác thực trong email của bạn"
   },
   "home": {
+    "welcome": "Chào mừng",
+    "language": "Ngôn ngữ",
     "english": "Tiếng Anh",
     "vietnamese": "Tiếng Việt",
+    "profile": "Hồ sơ",
+    "changePassword": "Đổi mật khẩu",
     "logout": "Đăng xuất"
   }
 }

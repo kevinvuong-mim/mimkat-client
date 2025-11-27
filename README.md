@@ -1,6 +1,6 @@
 # Mimkat Client
 
-> Next.js client application với auto token refresh system sử dụng Axios interceptors.
+> Next.js 15 client application với auto token refresh system sử dụng Axios interceptors và React Query.
 
 ## 📋 Table of Contents
 
@@ -13,22 +13,23 @@
 - [API Client Usage](#api-client-usage)
 - [Development](#development)
 - [Environment Variables](#environment-variables)
-- [Documentation](#documentation)
 
 ---
 
 ## 🎯 Tổng Quan
 
-**Mimkat Client** là ứng dụng web client được xây dựng với Next.js, tích hợp hệ thống authentication hoàn chỉnh với auto token refresh sử dụng Axios interceptors.
+**Mimkat Client** là ứng dụng web client được xây dựng với Next.js 15, tích hợp hệ thống authentication hoàn chỉnh với auto token refresh sử dụng Axios interceptors và React Query.
 
 ### Highlights:
 
 - ✅ **Auto Token Refresh** - Tự động refresh access token khi hết hạn
 - ✅ **Request Queuing** - Tránh duplicate refresh calls
-- ✅ **Axios Interceptors** - Clean và powerful
+- ✅ **Axios Interceptors** - Clean và powerful HTTP client
+- ✅ **React Query** - Server state management với caching
 - ✅ **Type-Safe** - Full TypeScript support
-- ✅ **Next.js 14** - App Router với Server Components
+- ✅ **Next.js 15** - App Router với React 19
 - ✅ **Internationalization** - Multi-language support (EN/VI)
+- ✅ **UI Components** - Shadcn UI với Tailwind CSS
 
 ---
 
@@ -36,22 +37,32 @@
 
 ### Core
 
-- **Next.js 14** - React Framework với App Router
-- **React 18** - UI Library
-- **TypeScript** - Type Safety
+- **Next.js 15** - React Framework với App Router
+- **React 19** - UI Library
+- **TypeScript 5** - Type Safety
 
-### HTTP Client
+### HTTP Client & State
 
 - **Axios** - Promise based HTTP client với interceptors
+- **React Query (TanStack Query)** - Server state management với caching và devtools
 
-### State Management
+### UI Components
 
-- **React Context API** - Authentication state
-- **React Hooks** - Local state management
+- **Shadcn UI** - Re-usable components built with Radix UI
+- **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Unstyled, accessible components
+- **Lucide React** - Beautiful & consistent icons
+- **Sonner** - Toast notifications
+
+### Form Management
+
+- **React Hook Form** - Performant forms với easy validation
+- **Zod** - TypeScript-first schema validation
+- **@hookform/resolvers** - Zod resolver cho React Hook Form
 
 ### Internationalization
 
-- **Custom i18n Context** - Multi-language support
+- **next-intl** - Internationalization cho Next.js App Router
 
 ---
 
@@ -63,27 +74,29 @@
 - ✅ Google OAuth Login
 - ✅ Email Verification
 - ✅ Password Reset/Recovery
-- ✅ Session Management
-- ✅ Protected Routes
-- ✅ Auto Token Refresh
-- ✅ Persistent Login
+- ✅ Change Password (cả users có và không có password)
+- ✅ Protected Routes với Middleware
+- ✅ Auto Token Refresh với Axios Interceptors
+- ✅ Cookie-based Session Management
 
 ### API Integration
 
-- ✅ Axios Instance với Interceptors
-- ✅ Request/Response Interceptors
-- ✅ Auto Bearer Token Injection
-- ✅ Auto 401 Handling
-- ✅ Request Queuing
+- ✅ Axios Instance với Response Interceptor
+- ✅ Auto 401 Handling & Token Refresh
+- ✅ Request Queuing để tránh duplicate refresh
 - ✅ Type-Safe API Client
+- ✅ React Query integration
+- ✅ Automatic retry với stale queries
 
 ### UI/UX
 
 - ✅ Responsive Design
-- ✅ Multi-language (EN/VI)
+- ✅ Multi-language (EN/VI) với next-intl
 - ✅ Loading States
-- ✅ Error Handling
-- ✅ Form Validation
+- ✅ Toast Notifications (Sonner)
+- ✅ Form Validation với Zod
+- ✅ Shadcn UI Components
+- ✅ Route Groups cho public/private routes
 
 ---
 
@@ -91,8 +104,8 @@
 
 ### Prerequisites
 
-- Node.js **24.x** (sử dụng nvm)
-- npm **11.x**
+- Node.js **18.x hoặc cao hơn**
+- npm hoặc yarn
 - Git
 
 ### Installation
@@ -104,40 +117,38 @@
    cd mimkat-client
    ```
 
-2. **Switch to Node 24**
-
-   ```bash
-   nvm use 24
-   ```
-
-3. **Install dependencies**
+2. **Install dependencies**
 
    ```bash
    npm install
+   # or
+   yarn install
    ```
 
-4. **Setup environment variables**
+3. **Setup environment variables**
 
    ```bash
-   cp .env.example .env.local
+   cp .env.example .env
    ```
 
-   Cập nhật các biến trong `.env.local`:
+   Cập nhật các biến trong `.env`:
 
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:3000
    NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
    ```
 
-5. **Run development server**
+4. **Run development server**
 
    ```bash
    npm run dev
+   # or
+   yarn dev
    ```
 
-6. **Open browser**
+5. **Open browser**
    ```
-   http://localhost:3001
+   http://localhost:3000
    ```
 
 ---
@@ -148,44 +159,68 @@
 mimkat-client/
 ├── src/
 │   ├── app/                        # Next.js App Router
-│   │   ├── auth/                   # Auth pages (login, register, etc)
+│   │   ├── (private)/              # Protected routes group
+│   │   │   ├── profile/            # User profile page
+│   │   │   └── change-password/    # Change password page
+│   │   ├── (public)/               # Public routes group
+│   │   │   ├── login/              # Login page
+│   │   │   ├── register/           # Register page
+│   │   │   ├── verify-email/       # Email verification
+│   │   │   ├── forgot-password/    # Forgot password
+│   │   │   └── reset-password/     # Reset password
 │   │   ├── globals.css             # Global styles
 │   │   ├── layout.tsx              # Root layout
 │   │   └── page.tsx                # Home page
 │   │
 │   ├── components/                 # React components
-│   │   ├── GoogleLoginButton.tsx
-│   │   ├── ProfileExample.tsx
-│   │   └── ProtectedRoute.tsx
+│   │   ├── ui/                     # Shadcn UI components
+│   │   │   ├── avatar.tsx
+│   │   │   ├── button.tsx
+│   │   │   ├── form.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── label.tsx
+│   │   │   └── sonner.tsx
+│   │   └── GoogleLoginButton.tsx   # Google OAuth component
 │   │
 │   ├── context/                    # React contexts
-│   │   └── UserContext.tsx         # User state + periodic refresh
+│   │   └── UserContext.tsx         # User state management
 │   │
 │   ├── i18n/                       # Internationalization
-│   │   ├── context.tsx             # i18n context
 │   │   └── locales/                # Translation files
 │   │       ├── en.json
 │   │       └── vi.json
 │   │
 │   ├── lib/                        # Core libraries
 │   │   ├── api.ts                  # Axios instance + interceptors ⭐
-│   │   ├── api-client.ts           # API wrapper ⭐
-│   │   ├── token.ts                # Token management
-│   │   ├── api-client-examples.ts
-│   │   └── README.md               # API documentation
+│   │   ├── constants.ts            # App constants
+│   │   ├── public-route.ts         # Public route checker
+│   │   └── utils.ts                # Utility functions
 │   │
-│   └── services/                   # API services
-│       └── auth.service.ts         # Authentication methods
+│   ├── providers/                  # App providers
+│   │   └── QueryProvider.tsx       # React Query provider
+│   │
+│   ├── services/                   # API services
+│   │   ├── auth.service.ts         # Authentication methods
+│   │   └── user.service.ts         # User-related methods
+│   │
+│   ├── types/                      # TypeScript types
+│   │   ├── api.ts
+│   │   ├── auth.ts
+│   │   ├── i18n.ts
+│   │   ├── index.ts
+│   │   ├── session.ts
+│   │   └── user.ts
+│   │
+│   └── middleware.ts               # Next.js middleware (route protection)
 │
 ├── public/                         # Static assets
-├── .env.local                      # Environment variables (gitignored)
+├── .env                            # Environment variables (gitignored)
 ├── .env.example                    # Environment template
 ├── next.config.ts                  # Next.js config
 ├── tsconfig.json                   # TypeScript config
+├── tailwind.config.ts              # Tailwind CSS config
+├── components.json                 # Shadcn UI config
 ├── package.json                    # Dependencies
-│
-├── AUTO_REFRESH_TOKEN.md           # Token refresh documentation
-├── AXIOS_MIGRATION.md              # Axios migration guide
 └── README.md                       # This file
 ```
 
@@ -195,13 +230,12 @@ mimkat-client/
 
 ### Auto Token Refresh với Axios Interceptors
 
-Hệ thống sử dụng **Axios interceptors** để tự động refresh token khi hết hạn:
+Hệ thống sử dụng **Axios response interceptor** để tự động refresh token khi hết hạn:
 
 #### Architecture:
 
 ```
-Request → Request Interceptor (add token)
-       → API Call
+Request → API Call (với cookies)
        → Response Interceptor (check 401)
        → Auto Refresh Token
        → Retry Request
@@ -210,38 +244,33 @@ Request → Request Interceptor (add token)
 
 #### Flow:
 
-1. **Request Interceptor** tự động thêm `Authorization` header
+1. API calls tự động gửi kèm **cookies** (withCredentials: true)
 2. Nếu nhận **401 Unauthorized**:
    - Queue các concurrent requests
-   - Refresh access token
+   - Call `/auth/refresh` để refresh access token
    - Retry tất cả queued requests với token mới
-3. Nếu refresh thất bại → redirect về `/auth`
+3. Nếu refresh thất bại:
+   - Reject tất cả queued requests
+   - Redirect về `/login` (chỉ khi không phải public route)
 
 #### Code Example:
 
 ```typescript
-// Tự động handle tất cả!
-import { apiClient } from "@/lib/api-client";
+// src/lib/api.ts
+import { apiClient } from "@/lib/api";
 
+// Tất cả requests tự động handle 401!
 const user = await apiClient.get("/auth/me");
-// Token tự động thêm, 401 tự động refresh!
 ```
 
-#### Periodic Refresh:
+#### Middleware Protection:
 
-User Context tự động refresh token mỗi **50 phút** (token hết hạn sau 60 phút):
+Next.js middleware tự động bảo vệ protected routes:
 
 ```typescript
-// Trong UserContext.tsx
-useEffect(() => {
-  if (!user) return;
-
-  const refreshInterval = setInterval(async () => {
-    await authService.refreshToken();
-  }, 50 * 60 * 1000); // 50 phút
-
-  return () => clearInterval(refreshInterval);
-}, [user]);
+// src/middleware.ts
+// Redirect về /login nếu chưa authenticated
+// Cho phép access public routes
 ```
 
 ---
@@ -251,43 +280,65 @@ useEffect(() => {
 ### Basic Usage
 
 ```typescript
-import { apiClient } from "@/lib/api-client";
+import { apiClient } from "@/lib/api";
 
-// GET request
+// GET request - response interceptor tự động return response.data
 const user = await apiClient.get("/auth/me");
 
 // POST request
-const post = await apiClient.post("/posts", {
-  title: "Hello",
-  content: "World",
-});
-
-// PUT request
-const updated = await apiClient.put("/users/123", {
-  name: "New Name",
+const result = await apiClient.post("/auth/login", {
+  email: "user@example.com",
+  password: "password123",
 });
 
 // PATCH request
-const patched = await apiClient.patch("/users/123", {
-  avatar: "new-avatar.jpg",
+const updated = await apiClient.patch("/auth/change-password", {
+  currentPassword: "old123",
+  newPassword: "new123",
 });
-
-// DELETE request
-const deleted = await apiClient.delete("/posts/123");
 ```
 
-### With TypeScript
+### With Services Layer
 
 ```typescript
-interface User {
-  id: string;
-  email: string;
-  name: string;
-}
+// src/services/auth.service.ts
+import { apiClient } from "@/lib/api";
 
-// Type-safe response
-const user = await apiClient.get<User>("/auth/me");
-console.log(user.name); // TypeScript knows this!
+export const authService = {
+  login: (email: string, password: string) =>
+    apiClient.post("/auth/login", { email, password }),
+
+  register: (email: string, password: string) =>
+    apiClient.post("/auth/register", { email, password }),
+
+  logout: () => apiClient.post("/auth/logout"),
+
+  getCurrentUser: () => apiClient.get("/auth/me"),
+
+  refreshToken: () =>
+    axios.post(`${API_URL}/auth/refresh`, {}, { withCredentials: true }),
+};
+```
+
+### With React Query
+
+```typescript
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { userService } from "@/services/user.service";
+
+export function ProfilePage() {
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["user"],
+    queryFn: userService.getCurrentUser,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  return <div>Welcome, {user.email}</div>;
+}
 ```
 
 ### Error Handling
@@ -296,38 +347,13 @@ console.log(user.name); // TypeScript knows this!
 import axios from "axios";
 
 try {
-  const data = await apiClient.get("/users/me");
+  await authService.login(email, password);
 } catch (error) {
   if (axios.isAxiosError(error)) {
-    console.error("Status:", error.response?.status);
-    console.error("Message:", error.response?.data.message);
+    const message = error.response?.data?.message || "Login failed";
+    toast.error(message);
   }
 }
-```
-
-### Advanced Usage
-
-```typescript
-// With query params
-const posts = await apiClient.get("/posts", {
-  params: {
-    page: 1,
-    limit: 10,
-    search: "axios",
-  },
-});
-
-// Custom headers
-const data = await apiClient.post("/posts", postData, {
-  headers: {
-    "X-Custom-Header": "value",
-  },
-});
-
-// With timeout
-const data = await apiClient.get("/slow-endpoint", {
-  timeout: 5000, // 5 seconds
-});
 ```
 
 ---
@@ -348,9 +374,6 @@ npm start
 
 # Lint code
 npm run lint
-
-# Type check
-npm run type-check
 ```
 
 ### Development Workflow
@@ -363,29 +386,23 @@ npm run type-check
 
 2. **Make changes** - Files auto-reload
 
-3. **Check types**
-
-   ```bash
-   npm run type-check
-   ```
-
-4. **Lint code**
+3. **Lint code**
 
    ```bash
    npm run lint
    ```
 
-5. **Build for production**
+4. **Build for production**
    ```bash
    npm run build
    ```
 
 ### Hot Reload
 
-Next.js tự động reload khi bạn save files:
+Next.js 15 tự động reload khi bạn save files:
 
 - **Fast Refresh** cho React components
-- **Server-side reload** cho API routes
+- **Turbopack** cho faster development build
 
 ---
 
@@ -397,43 +414,24 @@ Next.js tự động reload khi bạn save files:
 # API URL (Backend)
 NEXT_PUBLIC_API_URL=http://localhost:3000
 
-# Google OAuth (Optional)
+# Google OAuth Client ID
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id_here
 ```
 
 ### Environment Files
 
-- `.env.local` - Local development (gitignored)
-- `.env.development` - Development environment
-- `.env.production` - Production environment
+- `.env` - Environment variables (gitignored)
 - `.env.example` - Template for other developers
 
 ### Usage in Code
 
 ```typescript
 // Client-side (NEXT_PUBLIC_ prefix required)
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import { API_URL } from "@/lib/constants";
 
-// Server-side (no prefix needed)
-const secret = process.env.SECRET_KEY;
+// src/lib/constants.ts
+export const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 ```
-
----
-
-## 📚 Documentation
-
-### Main Docs
-
-- **[AUTO_REFRESH_TOKEN.md](./AUTO_REFRESH_TOKEN.md)** - Auto refresh token system
-- **[AXIOS_MIGRATION.md](./AXIOS_MIGRATION.md)** - Migration từ fetch sang axios
-- **[src/lib/README.md](./src/lib/README.md)** - API client documentation
-- **[src/lib/api-client-examples.ts](./src/lib/api-client-examples.ts)** - Usage examples
-
-### External Links
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [React Documentation](https://react.dev)
-- [Axios Documentation](https://axios-http.com)
 
 ---
 
@@ -441,14 +439,14 @@ const secret = process.env.SECRET_KEY;
 
 ### 1. Auto Token Refresh
 
-**Problem:** Access tokens hết hạn sau 60 phút → User bị logout
+**Problem:** Access tokens hết hạn → User bị logout
 
 **Solution:**
 
 - Axios response interceptor detect 401
-- Auto refresh access token
-- Retry failed requests
-- Periodic refresh mỗi 50 phút
+- Auto call `/auth/refresh` để lấy token mới
+- Retry failed requests với token mới
+- Request queuing để tránh duplicate refresh calls
 
 ### 2. Request Queuing
 
@@ -458,29 +456,28 @@ const secret = process.env.SECRET_KEY;
 
 - Request đầu tiên trigger refresh
 - Các requests sau được queue lại
-- Sau khi refresh xong, retry tất cả
+- Sau khi refresh xong, retry tất cả requests trong queue
 
-### 3. Type Safety
+### 3. Route Groups
+
+**Problem:** Cần tổ chức routes và apply layouts khác nhau
+
+**Solution:**
+
+- `(public)/` - Public routes (login, register, etc.)
+- `(private)/` - Protected routes (profile, change-password)
+- Middleware tự động check authentication
+
+### 4. Type Safety
 
 **Problem:** Runtime errors vì type mismatch
 
 **Solution:**
 
 - Full TypeScript support
-- Generics cho API responses
+- Type definitions cho API responses
+- Zod schema validation
 - Compile-time type checking
-
-### 4. Protected Routes
-
-**Problem:** Users chưa login access protected pages
-
-**Solution:**
-
-- `ProtectedRoute` component
-- Check authentication state
-- Auto redirect to `/auth`
-
----
 
 ---
 
@@ -491,22 +488,20 @@ const secret = process.env.SECRET_KEY;
 - 🇺🇸 English (en)
 - 🇻🇳 Vietnamese (vi)
 
-### Usage
+### Usage với next-intl
 
 ```tsx
 "use client";
 
-import { useI18n } from "@/i18n/context";
+import { useTranslations } from "next-intl";
 
-export default function MyComponent() {
-  const { t, locale, setLocale } = useI18n();
+export default function LoginPage() {
+  const t = useTranslations("login");
 
   return (
     <div>
-      <h1>{t.welcome.title}</h1>
-      <p>{t.welcome.description}</p>
-
-      <button onClick={() => setLocale("vi")}>Tiếng Việt</button>
+      <h1>{t("title")}</h1>
+      <p>{t("description")}</p>
     </div>
   );
 }
@@ -514,10 +509,25 @@ export default function MyComponent() {
 
 ### Adding Translations
 
-Edit files in `src/i18n/locales/`:
+Edit files trong `src/i18n/locales/`:
 
-- `en.json` - English translations
-- `vi.json` - Vietnamese translations
+```json
+// en.json
+{
+  "login": {
+    "title": "Welcome back",
+    "description": "Sign in to your account"
+  }
+}
+
+// vi.json
+{
+  "login": {
+    "title": "Chào mừng trở lại",
+    "description": "Đăng nhập vào tài khoản của bạn"
+  }
+}
+```
 
 ---
 
@@ -528,20 +538,30 @@ Edit files in `src/i18n/locales/`:
 1. **Authentication Flow**
 
    - Register new account
-   - Verify email
-   - Login
-   - Check token refresh
+   - Verify email từ inbox
+   - Login với credentials
+   - Access protected routes
+   - Test token auto-refresh (wait for 401)
+   - Change password
    - Logout
 
-2. **API Calls**
+2. **Google OAuth**
 
-   - Make authenticated requests
-   - Check auto token refresh
-   - Test error handling
+   - Click "Sign in with Google"
+   - Complete OAuth flow
+   - Check session creation
 
-3. **Protected Routes**
-   - Access protected pages
-   - Check auto redirect
+3. **Password Reset**
+
+   - Request password reset
+   - Check email inbox
+   - Reset password với token
+   - Login với password mới
+
+4. **Protected Routes**
+   - Try access `/profile` without login → redirect to `/login`
+   - Login → can access `/profile`
+   - Logout → redirect to `/login`
 
 ---
 
@@ -561,87 +581,91 @@ npm start
 
 ### Deploy to Vercel
 
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
-```
+1. Push code to GitHub
+2. Import project trong Vercel Dashboard
+3. Set environment variables
+4. Deploy
 
 ### Environment Variables in Production
 
 Set trong Vercel Dashboard:
 
-- `NEXT_PUBLIC_API_URL`
-- `NEXT_PUBLIC_GOOGLE_CLIENT_ID`
+- `NEXT_PUBLIC_API_URL` - Production API URL
+- `NEXT_PUBLIC_GOOGLE_CLIENT_ID` - Google OAuth Client ID
 
 ---
 
 ## 📝 Best Practices
 
-### 1. Use API Client
+### 1. Use Services Layer
 
 ✅ **DO:**
 
 ```typescript
-const data = await apiClient.get("/users");
+import { authService } from "@/services/auth.service";
+
+await authService.login(email, password);
 ```
 
 ❌ **DON'T:**
 
 ```typescript
-const response = await fetch(url, { headers: {...} });
+await apiClient.post("/auth/login", { email, password });
 ```
 
-### 2. Type Your API Responses
+### 2. Use React Query for Data Fetching
 
 ✅ **DO:**
 
 ```typescript
-const user = await apiClient.get<User>("/auth/me");
+const { data, isLoading } = useQuery({
+  queryKey: ["user"],
+  queryFn: userService.getCurrentUser,
+});
 ```
 
 ❌ **DON'T:**
 
 ```typescript
-const user = await apiClient.get("/auth/me");
+const [user, setUser] = useState(null);
+useEffect(() => {
+  userService.getCurrentUser().then(setUser);
+}, []);
 ```
 
-### 3. Handle Errors
+### 3. Handle Errors with Toast
 
 ✅ **DO:**
 
 ```typescript
+import { toast } from "sonner";
+
 try {
-  const data = await apiClient.get("/api");
+  await authService.login(email, password);
+  toast.success("Login successful!");
 } catch (error) {
   if (axios.isAxiosError(error)) {
-    console.error(error.response?.data);
+    toast.error(error.response?.data?.message || "Login failed");
   }
 }
 ```
 
-❌ **DON'T:**
-
-```typescript
-const data = await apiClient.get("/api"); // No error handling
-```
-
-### 4. Use Protected Routes
+### 4. Use Route Groups
 
 ✅ **DO:**
 
-```tsx
-<ProtectedRoute>
-  <DashboardPage />
-</ProtectedRoute>
+```
+app/
+├── (public)/login/
+└── (private)/profile/
 ```
 
 ❌ **DON'T:**
 
-```tsx
-// Check auth manually in every page
+```
+app/
+├── login/
+└── profile/ (manual auth check)
 ```
 
 ---
@@ -656,33 +680,34 @@ const data = await apiClient.get("/api"); // No error handling
 
 ---
 
+## 📚 Resources
+
+### Official Documentation
+
+- [Next.js 15 Documentation](https://nextjs.org/docs)
+- [React 19 Documentation](https://react.dev)
+- [TanStack Query](https://tanstack.com/query/latest)
+- [Axios Documentation](https://axios-http.com)
+- [Shadcn UI](https://ui.shadcn.com)
+- [next-intl](https://next-intl-docs.vercel.app)
+
+### Useful Links
+
+- [Zod Schema Validation](https://zod.dev)
+- [React Hook Form](https://react-hook-form.com)
+- [Tailwind CSS](https://tailwindcss.com)
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License.
 
 ---
 
-## 👥 Authors
+## 👥 Team
 
 - **Mimkat Team**
-
----
-
-## 🙏 Acknowledgments
-
-- Next.js team for the amazing framework
-- Axios team for the HTTP client
-
----
-
-## 📞 Support
-
-Nếu có vấn đề hoặc câu hỏi:
-
-1. Check [Documentation](#documentation)
-2. Check [AUTO_REFRESH_TOKEN.md](./AUTO_REFRESH_TOKEN.md)
-3. Check [AXIOS_MIGRATION.md](./AXIOS_MIGRATION.md)
-4. Open an issue
 
 ---
 
