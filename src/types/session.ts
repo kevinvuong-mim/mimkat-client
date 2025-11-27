@@ -1,5 +1,3 @@
-import { ApiResponse } from "./api";
-
 export interface Session {
   id: string;
   createdAt: string;
@@ -10,6 +8,3 @@ export interface Session {
   isCurrent: boolean;
   lastUsedAt: string;
 }
-
-export interface SessionsResponse
-  extends ApiResponse<{ sessions: Session[] }> {}

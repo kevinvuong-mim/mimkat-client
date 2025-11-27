@@ -5,7 +5,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { User, Globe, LogOut, KeyRound } from "lucide-react";
+import { User, Globe, LogOut, Monitor, KeyRound } from "lucide-react";
 
 import { useI18n } from "@/i18n/context";
 import { Button } from "@/components/ui/button";
@@ -88,6 +88,17 @@ export default function Home() {
                 <Link href="/change-password">
                   <KeyRound className="mr-2 h-4 w-4" />
                   {t.home.changePassword}
+                </Link>
+              </Button>
+
+              <Button
+                asChild
+                variant="outline"
+                className="w-full justify-start"
+              >
+                <Link href="/sessions">
+                  <Monitor className="mr-2 h-4 w-4" />
+                  {t.home.sessions}
                 </Link>
               </Button>
             </div>

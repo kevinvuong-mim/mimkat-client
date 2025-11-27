@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Key, Mail, Shield, XCircle, CheckCircle } from "lucide-react";
+import { Key, Mail, Shield, Monitor, XCircle, CheckCircle } from "lucide-react";
 
 import { useI18n } from "@/i18n/context";
 import { useUser } from "@/context/UserContext";
@@ -71,9 +71,20 @@ export default function ProfilePage() {
           </div>
 
           <div className="pt-4 border-t space-y-3">
-            <Button asChild className="w-full">
-              <Link href="/change-password">{t.profile.changePassword}</Link>
-            </Button>
+            <div className="grid grid-cols-2 gap-3">
+              <Button asChild className="w-full">
+                <Link href="/change-password">
+                  <Key className="mr-2 h-4 w-4" />
+                  {t.profile.changePassword}
+                </Link>
+              </Button>
+              <Button asChild variant="secondary" className="w-full">
+                <Link href="/sessions">
+                  <Monitor className="mr-2 h-4 w-4" />
+                  {t.home.sessions}
+                </Link>
+              </Button>
+            </div>
             <Button asChild variant="outline" className="w-full">
               <Link href="/">{t.profile.backToHome}</Link>
             </Button>

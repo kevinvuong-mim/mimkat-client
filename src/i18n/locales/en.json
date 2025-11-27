@@ -105,6 +105,30 @@
     "vietnamese": "Vietnamese",
     "profile": "Profile",
     "changePassword": "Change Password",
+    "sessions": "Active Sessions",
     "logout": "Logout"
+  },
+  "sessions": {
+    "title": "Active Sessions",
+    "description": "Manage your active login sessions across different devices",
+    "currentDevice": "Current Device",
+    "deviceName": "Device",
+    "ipAddress": "IP Address",
+    "lastUsed": "Last Used",
+    "createdAt": "Signed In",
+    "expiresAt": "Expires",
+    "logoutDevice": "Logout",
+    "logoutAllOthers": "Logout All Other Devices",
+    "logoutAllConfirmTitle": "Logout from all other devices?",
+    "logoutAllConfirmDescription": "This will logout all other active sessions. You will remain logged in on this device.",
+    "logoutDeviceConfirmTitle": "Logout from this device?",
+    "logoutDeviceConfirmDescription": "This will terminate the session on this device.",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "backToHome": "Back to Home",
+    "noSessions": "No active sessions found",
+    "logoutSuccess": "Logged out successfully",
+    "logoutAllSuccess": "All other devices logged out successfully",
+    "loading": "Loading sessions..."
   }
 }

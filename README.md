@@ -500,8 +500,8 @@ export default function LoginPage() {
 
   return (
     <div>
-      <h1>{t("title")}</h1>
-      <p>{t("description")}</p>
+      <h1>{t.title}</h1>
+      <p>{t.description}</p>
     </div>
   );
 }
