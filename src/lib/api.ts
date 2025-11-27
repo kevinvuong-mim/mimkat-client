@@ -31,6 +31,12 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    if (error.response?.status === 403) {
+      if (typeof window !== "undefined") window.location.href = "/login";
+
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
