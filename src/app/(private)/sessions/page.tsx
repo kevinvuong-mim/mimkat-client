@@ -149,7 +149,7 @@ export default function SessionsPage() {
                     key={session.id}
                     className={`transition-all border-2 ${
                       session.isCurrent
-                        ? "border-primary bg-primary/5"
+                        ? "border-primary"
                         : "border-transparent bg-white hover:border-muted/40"
                     } rounded-xl`}
                   >
