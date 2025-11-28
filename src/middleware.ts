@@ -6,15 +6,15 @@ import { isPublicRoute } from "@/lib/public-route";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isPublic = isPublicRoute(pathname);
-  const accessToken = request.cookies.get("accessToken")?.value;
+  const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  if (isPublic && accessToken) {
+  if (isPublic && refreshToken) {
     const url = new URL("/", request.url);
 
     return NextResponse.redirect(url);
   }
 
-  if (!isPublic && !accessToken) {
+  if (!isPublic && !refreshToken) {
     const url = new URL("/login", request.url);
     url.searchParams.set("redirect", pathname);
 
