@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Key, Mail, Shield, Monitor, XCircle, CheckCircle } from "lucide-react";
 
 import { useI18n } from "@/i18n/context";
-import { useUser } from "@/context/UserContext";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/user-context";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export default function ProfilePage() {
@@ -38,7 +38,13 @@ export default function ProfilePage() {
           <div className="space-y-3">
             <h2 className="text-lg font-semibold mb-4">{t.profile.contact}</h2>
 
-            <InfoRow icon={Mail} value={user?.email} label={t.profile.email} />
+            <div className="grid grid-cols-2 gap-3">
+              <InfoRow
+                icon={Mail}
+                value={user?.email}
+                label={t.profile.email}
+              />
+            </div>
           </div>
 
           <div className="space-y-3">

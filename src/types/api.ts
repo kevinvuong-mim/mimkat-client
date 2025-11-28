@@ -6,3 +6,15 @@ export interface ApiResponse<T = any> {
   timestamp: string;
   statusCode: number;
 }
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  meta: {
+    page: number;
+    total: number;
+    perPage: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+}

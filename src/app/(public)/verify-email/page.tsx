@@ -16,7 +16,7 @@ export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
   const [countdown, setCountdown] = useState(10);
 
-  const { error, isSuccess, isLoading } = useQuery({
+  const { error, isLoading, isSuccess } = useQuery({
     enabled: Boolean(searchParams.get("token")),
     queryKey: ["verifyEmail", searchParams.get("token")],
     queryFn: () => authService.verifyEmail(searchParams.get("token") || ""),

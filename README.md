@@ -46,13 +46,14 @@
 - **Axios** - Promise based HTTP client với interceptors
 - **React Query (TanStack Query)** - Server state management với caching và devtools
 
-### UI Components
+### UI Components & Theming
 
 - **Shadcn UI** - Re-usable components built with Radix UI
 - **Tailwind CSS** - Utility-first CSS framework
 - **Radix UI** - Unstyled, accessible components
 - **Lucide React** - Beautiful & consistent icons
 - **Sonner** - Toast notifications
+- **next-themes** - Theme management (dark/light mode)
 
 ### Form Management
 
@@ -62,7 +63,7 @@
 
 ### Internationalization
 
-- **next-intl** - Internationalization cho Next.js App Router
+- **Custom i18n Context** - Custom implementation với React Context API
 
 ---
 
@@ -78,6 +79,7 @@
 - ✅ Protected Routes với Middleware
 - ✅ Auto Token Refresh với Axios Interceptors
 - ✅ Cookie-based Session Management
+- ✅ Session Management Dashboard (view & revoke active sessions)
 
 ### API Integration
 
@@ -91,7 +93,8 @@
 ### UI/UX
 
 - ✅ Responsive Design
-- ✅ Multi-language (EN/VI) với next-intl
+- ✅ Multi-language (EN/VI) với custom i18n context
+- ✅ Dark/Light Mode với next-themes
 - ✅ Loading States
 - ✅ Toast Notifications (Sonner)
 - ✅ Form Validation với Zod
@@ -161,6 +164,7 @@ mimkat-client/
 │   ├── app/                        # Next.js App Router
 │   │   ├── (private)/              # Protected routes group
 │   │   │   ├── profile/            # User profile page
+│   │   │   ├── sessions/           # Session management page
 │   │   │   └── change-password/    # Change password page
 │   │   ├── (public)/               # Public routes group
 │   │   │   ├── login/              # Login page
@@ -174,24 +178,28 @@ mimkat-client/
 │   │
 │   ├── components/                 # React components
 │   │   ├── ui/                     # Shadcn UI components
+│   │   │   ├── alert-dialog.tsx
 │   │   │   ├── avatar.tsx
 │   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
 │   │   │   ├── form.tsx
 │   │   │   ├── input.tsx
 │   │   │   ├── label.tsx
+│   │   │   ├── scroll-area.tsx
 │   │   │   └── sonner.tsx
-│   │   └── GoogleLoginButton.tsx   # Google OAuth component
+│   │   └── google-login-button.tsx # Google OAuth component
 │   │
 │   ├── context/                    # React contexts
-│   │   └── UserContext.tsx         # User state management
+│   │   └── user-context.tsx        # User state management
 │   │
 │   ├── i18n/                       # Internationalization
+│   │   ├── context.tsx             # Custom i18n context provider
 │   │   └── locales/                # Translation files
 │   │       ├── en.json
 │   │       └── vi.json
 │   │
 │   ├── lib/                        # Core libraries
-│   │   ├── api.ts                  # Axios instance + interceptors ⭐
+│   │   ├── api-client.ts           # Axios instance + interceptors ⭐
 │   │   ├── constants.ts            # App constants
 │   │   ├── public-route.ts         # Public route checker
 │   │   └── utils.ts                # Utility functions
@@ -488,20 +496,23 @@ export const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 - 🇺🇸 English (en)
 - 🇻🇳 Vietnamese (vi)
 
-### Usage với next-intl
+### Usage với Custom i18n Context
 
 ```tsx
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useI18n } from "@/i18n/context";
 
 export default function LoginPage() {
-  const t = useTranslations("login");
+  const { t, locale, setLocale } = useI18n();
 
   return (
     <div>
-      <h1>{t.title}</h1>
-      <p>{t.description}</p>
+      <h1>{t.login.title}</h1>
+      <p>{t.login.description}</p>
+      <button onClick={() => setLocale(locale === "en" ? "vi" : "en")}>
+        Switch Language
+      </button>
     </div>
   );
 }
@@ -689,7 +700,7 @@ app/
 - [TanStack Query](https://tanstack.com/query/latest)
 - [Axios Documentation](https://axios-http.com)
 - [Shadcn UI](https://ui.shadcn.com)
-- [next-intl](https://next-intl-docs.vercel.app)
+- [next-themes](https://github.com/pacocoursey/next-themes)
 
 ### Useful Links
 

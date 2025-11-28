@@ -5,7 +5,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { User, Globe, LogOut, Monitor, KeyRound } from "lucide-react";
+import { User, Globe, LogOut, Monitor, Loader2, KeyRound } from "lucide-react";
 
 import { useI18n } from "@/i18n/context";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import { authService } from "@/services/auth.service";
 export default function Home() {
   const router = useRouter();
   const { t, locale, setLocale } = useI18n();
-  const { mutate } = useMutation({ mutationFn: authService.logout });
+  const { mutate, isPending } = useMutation({ mutationFn: authService.logout });
 
   const handleLogout = () => {
     mutate(undefined, {
@@ -107,11 +107,18 @@ export default function Home() {
           <div className="pt-4 border-t">
             <Button
               className="w-full"
+              disabled={isPending}
               variant="destructive"
               onClick={handleLogout}
             >
-              <LogOut className="mr-2 h-4 w-4" />
-              {t.home.logout}
+              {isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  {t.home.logout}
+                </>
+              )}
             </Button>
           </div>
         </div>

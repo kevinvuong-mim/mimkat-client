@@ -9,7 +9,6 @@ import {
   RefreshTokenResponse,
   ResendVerificationData,
 } from "@/types";
-import { ApiResponse } from "@/types";
 import { API_URL } from "@/lib/constants";
 
 const authAxios = axios.create({
@@ -89,10 +88,7 @@ class AuthService {
 
   async resendVerification(data: ResendVerificationData) {
     try {
-      const response = await authAxios.post<ApiResponse<null>>(
-        "/verification/resend",
-        data
-      );
+      const response = await authAxios.post("/verification/resend", data);
 
       return response.data;
     } catch (error) {

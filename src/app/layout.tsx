@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { I18nProvider } from "@/i18n/context";
 import { Toaster } from "@/components/ui/sonner";
-import { UserProvider } from "@/context/UserContext";
+import { UserProvider } from "@/context/user-context";
 import { QueryProvider } from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {

@@ -34,10 +34,6 @@ export default function RegisterPage() {
     mutationFn: authService.register,
   });
 
-  const [countdown, setCountdown] = useState(0);
-  const [showPassword, setShowPassword] = useState(false);
-  const [registeredEmail, setRegisteredEmail] = useState("");
-
   const formSchema = z.object({
     email: z
       .string()
@@ -48,15 +44,17 @@ export default function RegisterPage() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
   });
 
+  const [countdown, setCountdown] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState("");
+
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
+    const mins = Math.floor(seconds / 60);
+
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
@@ -69,6 +67,7 @@ export default function RegisterPage() {
       {
         onSuccess: () => {
           form.reset();
+
           setCountdown(300);
           setRegisteredEmail(values.email);
 

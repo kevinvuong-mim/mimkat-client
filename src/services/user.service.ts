@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { apiClient } from "@/lib/api-client";
-import { Session, ChangePasswordData } from "@/types";
+import { Session, PaginatedResponse, ChangePasswordData } from "@/types";
 
 const API_BASE_PATH = "/users";
 
@@ -15,6 +15,7 @@ class UserService {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message);
       }
+
       throw error;
     }
   }
@@ -28,11 +29,12 @@ class UserService {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message);
       }
+
       throw error;
     }
   }
 
-  async getSessions(): Promise<{ sessions: Session[] }> {
+  async getSessions(): Promise<PaginatedResponse<Session>> {
     try {
       const response = await apiClient.get(`${API_BASE_PATH}/sessions`);
 
@@ -41,6 +43,7 @@ class UserService {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message);
       }
+
       throw error;
     }
   }
@@ -56,6 +59,7 @@ class UserService {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message);
       }
+
       throw error;
     }
   }
@@ -69,6 +73,7 @@ class UserService {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(error.response.data.message);
       }
+
       throw error;
     }
   }

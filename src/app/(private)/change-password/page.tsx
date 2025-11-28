@@ -20,8 +20,8 @@ import {
 } from "@/components/ui/form";
 import { useI18n } from "@/i18n/context";
 import { Input } from "@/components/ui/input";
-import { useUser } from "@/context/UserContext";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/user-context";
 import { userService } from "@/services/user.service";
 
 export default function ChangePasswordPage() {
@@ -30,12 +30,6 @@ export default function ChangePasswordPage() {
   const router = useRouter();
   const { mutate, isPending } = useMutation({
     mutationFn: userService.changePassword,
-  });
-
-  const [showPassword, setShowPassword] = useState({
-    new: false,
-    confirm: false,
-    current: false,
   });
 
   const formSchema = z
@@ -55,8 +49,8 @@ export default function ChangePasswordPage() {
         : z.string().optional(),
     })
     .refine((data) => data.newPassword === data.confirmPassword, {
-      message: t.changePassword.passwordsDoNotMatch,
       path: ["confirmPassword"],
+      message: t.changePassword.passwordsDoNotMatch,
     });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -66,6 +60,12 @@ export default function ChangePasswordPage() {
       confirmPassword: "",
       currentPassword: "",
     },
+  });
+
+  const [showPassword, setShowPassword] = useState({
+    new: false,
+    confirm: false,
+    current: false,
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -83,9 +83,9 @@ export default function ChangePasswordPage() {
       onSuccess: () => {
         form.reset();
 
-        toast.success(t.changePassword.passwordChangedSuccessfully);
-
         setTimeout(() => router.push("/login"), 3000);
+
+        toast.success(t.changePassword.passwordChangedSuccessfully);
       },
     });
   };

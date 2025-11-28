@@ -22,7 +22,7 @@ import { useI18n } from "@/i18n/context";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { authService } from "@/services/auth.service";
-import GoogleLoginButton from "@/components/GoogleLoginButton";
+import GoogleLoginButton from "@/components/google-login-button";
 
 export default function LoginPage() {
   const { t } = useI18n();
@@ -30,8 +30,6 @@ export default function LoginPage() {
   const { mutate, isPending } = useMutation({
     mutationFn: authService.login,
   });
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const formSchema = z.object({
     email: z.string().email(t.login.invalidEmail),
@@ -42,6 +40,8 @@ export default function LoginPage() {
     resolver: zodResolver(formSchema),
     defaultValues: { email: "", password: "" },
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     mutate(values, {

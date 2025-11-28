@@ -31,11 +31,6 @@ export default function ResetPasswordPage() {
     mutationFn: authService.resetPassword,
   });
 
-  const [showPassword, setShowPassword] = useState({
-    new: false,
-    confirm: false,
-  });
-
   const formSchema = z
     .object({
       password: z
@@ -50,8 +45,8 @@ export default function ResetPasswordPage() {
         .min(1, t.resetPassword.confirmPasswordRequired),
     })
     .refine((data) => data.password === data.confirmPassword, {
-      message: t.resetPassword.passwordsDoNotMatch,
       path: ["confirmPassword"],
+      message: t.resetPassword.passwordsDoNotMatch,
     });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -60,6 +55,11 @@ export default function ResetPasswordPage() {
       password: "",
       confirmPassword: "",
     },
+  });
+
+  const [showPassword, setShowPassword] = useState({
+    new: false,
+    confirm: false,
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -80,9 +80,9 @@ export default function ResetPasswordPage() {
         onSuccess: () => {
           form.reset();
 
-          toast.success(t.resetPassword.passwordResetSuccess);
-
           setTimeout(() => router.push("/login"), 3000);
+
+          toast.success(t.resetPassword.passwordResetSuccess);
         },
       }
     );

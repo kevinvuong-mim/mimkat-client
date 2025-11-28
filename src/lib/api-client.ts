@@ -23,6 +23,7 @@ const processQueue = (error: unknown, status: string | null = null) => {
       prom.resolve(status);
     }
   });
+
   failedQueue = [];
 };
 
