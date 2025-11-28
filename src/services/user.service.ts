@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api-client";
 import { Session, ChangePasswordData } from "@/types";
 
 const API_BASE_PATH = "/users";

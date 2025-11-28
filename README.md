@@ -256,8 +256,8 @@ Request → API Call (với cookies)
 #### Code Example:
 
 ```typescript
-// src/lib/api.ts
-import { apiClient } from "@/lib/api";
+// src/lib/api-client.ts
+import { apiClient } from "@/lib/api-client";
 
 // Tất cả requests tự động handle 401!
 const user = await apiClient.get("/auth/me");
@@ -280,7 +280,7 @@ Next.js middleware tự động bảo vệ protected routes:
 ### Basic Usage
 
 ```typescript
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api-client";
 
 // GET request - response interceptor tự động return response.data
 const user = await apiClient.get("/auth/me");
@@ -302,7 +302,7 @@ const updated = await apiClient.patch("/auth/change-password", {
 
 ```typescript
 // src/services/auth.service.ts
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api-client";
 
 export const authService = {
   login: (email: string, password: string) =>
