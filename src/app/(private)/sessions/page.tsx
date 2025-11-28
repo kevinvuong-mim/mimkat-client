@@ -118,7 +118,7 @@ export default function SessionsPage() {
             </p>
           </div>
 
-          {data?.meta.total && (
+          {(data?.meta.total ?? 0) > 1 && (
             <div className="flex justify-end border-b pb-4">
               <Button
                 variant="destructive"
@@ -241,9 +241,7 @@ export default function SessionsPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>
-              {t.sessions.cancel}
-            </AlertDialogCancel>
+            <AlertDialogCancel>{t.sessions.cancel}</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 if (selectedSessionId) {
@@ -276,9 +274,7 @@ export default function SessionsPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>
-              {t.sessions.cancel}
-            </AlertDialogCancel>
+            <AlertDialogCancel>{t.sessions.cancel}</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => logoutAllDevicesMutation()}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
