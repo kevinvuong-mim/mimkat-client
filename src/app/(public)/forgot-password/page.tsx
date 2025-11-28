@@ -31,20 +31,20 @@ export default function ForgotPasswordPage() {
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
     defaultValues: { email: "" },
+    resolver: zodResolver(formSchema),
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     mutate(
       { email: values.email },
       {
+        onError: (err) => toast.error(err.message),
         onSuccess: () => {
           form.reset();
 
           toast.success(t.forgotPassword.emailSentSuccess);
         },
-        onError: (err) => toast.error(err.message),
       }
     );
   };

@@ -14,7 +14,6 @@ import {
   CardContent,
   CardDescription,
 } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   AlertDialog,
   AlertDialogTitle,
@@ -29,6 +28,7 @@ import { useI18n } from "@/i18n/context";
 import { Session } from "@/types/session";
 import { Button } from "@/components/ui/button";
 import { userService } from "@/services/user.service";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function SessionsPage() {
   const { t } = useI18n();

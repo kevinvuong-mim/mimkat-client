@@ -33,16 +33,13 @@ export default function ChangePasswordPage() {
   });
 
   const [showPassword, setShowPassword] = useState({
-    current: false,
     new: false,
     confirm: false,
+    current: false,
   });
 
   const formSchema = z
     .object({
-      currentPassword: user?.hasPassword
-        ? z.string().min(1, t.changePassword.currentPasswordRequired)
-        : z.string().optional(),
       newPassword: z
         .string()
         .min(8, t.changePassword.newPasswordMinLength)
@@ -53,6 +50,9 @@ export default function ChangePasswordPage() {
       confirmPassword: z
         .string()
         .min(1, t.changePassword.confirmPasswordRequired),
+      currentPassword: user?.hasPassword
+        ? z.string().min(1, t.changePassword.currentPasswordRequired)
+        : z.string().optional(),
     })
     .refine((data) => data.newPassword === data.confirmPassword, {
       message: t.changePassword.passwordsDoNotMatch,
@@ -63,16 +63,16 @@ export default function ChangePasswordPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       newPassword: "",
-      currentPassword: "",
       confirmPassword: "",
+      currentPassword: "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const changeData = user?.hasPassword
       ? {
-          currentPassword: values.currentPassword,
           newPassword: values.newPassword,
+          currentPassword: values.currentPassword,
         }
       : {
           newPassword: values.newPassword,
@@ -114,7 +114,7 @@ export default function ChangePasswordPage() {
           </div>
 
           <Form {...form}>
-            <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
+            <form className="space-y-1" onSubmit={form.handleSubmit(onSubmit)}>
               {user?.hasPassword && (
                 <FormField
                   control={form.control}

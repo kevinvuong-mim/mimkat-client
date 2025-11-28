@@ -96,9 +96,9 @@ export default function ProfilePage() {
 }
 
 const InfoRow = ({
-  icon: Icon,
   label,
   value,
+  icon: Icon,
 }: {
   icon: any;
   label: string;
