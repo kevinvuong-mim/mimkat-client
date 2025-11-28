@@ -9,6 +9,7 @@ import { QueryProvider } from "@/providers/QueryProvider";
 export const metadata: Metadata = {
   title: "Mimkat",
   description: "Mimkat Application",
+  icons: { icon: "/images/logo.png" },
 };
 
 export default function RootLayout({
