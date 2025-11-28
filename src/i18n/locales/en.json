@@ -112,7 +112,6 @@
     "title": "Active Sessions",
     "description": "Manage your active login sessions across different devices",
     "logoutAllOthers": "Logout All {count} Devices",
-    "noSessions": "No active sessions found",
     "currentDevice": "Current Device",
     "logoutDevice": "Logout",
     "createdAt": "Signed In",
@@ -123,10 +122,9 @@
     "logoutDeviceConfirmDescription": "This will terminate the session on this device.",
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "logoutAllConfirmTitle": "Logout from all other devices?",
-    "logoutAllConfirmDescription": "This will logout all other active sessions. You will remain logged in on this device.",
+    "logoutAllConfirmTitle": "Logout from all devices?",
+    "logoutAllConfirmDescription": "This will logout all active sessions.",
     "logoutSuccess": "Logged out successfully",
-    "logoutAllSuccess": "All other devices logged out successfully",
-    "loading": "Loading sessions..."
+    "logoutAllSuccess": "All other devices logged out successfully"
   }
 }

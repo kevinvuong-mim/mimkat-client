@@ -112,7 +112,6 @@
     "title": "Phiên đăng nhập đang hoạt động",
     "description": "Quản lý các phiên đăng nhập trên các thiết bị khác nhau",
     "logoutAllOthers": "Đăng xuất tất cả {count} thiết bị",
-    "noSessions": "Không có phiên đăng nhập nào",
     "currentDevice": "Thiết bị hiện tại",
     "logoutDevice": "Đăng xuất",
     "createdAt": "Đăng nhập lúc",
@@ -123,10 +122,9 @@
     "logoutDeviceConfirmDescription": "Thao tác này sẽ kết thúc phiên đăng nhập trên thiết bị này.",
     "cancel": "Hủy",
     "confirm": "Xác nhận",
-    "logoutAllConfirmTitle": "Đăng xuất khỏi tất cả thiết bị khác?",
-    "logoutAllConfirmDescription": "Thao tác này sẽ đăng xuất tất cả các phiên đăng nhập khác. Bạn sẽ vẫn đăng nhập trên thiết bị này.",
+    "logoutAllConfirmTitle": "Đăng xuất khỏi tất cả thiết bị?",
+    "logoutAllConfirmDescription": "Thao tác này sẽ đăng xuất tất cả các phiên đăng nhập.",
     "logoutSuccess": "Đăng xuất thành công",
-    "logoutAllSuccess": "Đã đăng xuất tất cả thiết bị khác thành công",
-    "loading": "Đang tải phiên đăng nhập..."
+    "logoutAllSuccess": "Đã đăng xuất tất cả thiết bị khác thành công"
   }
 }
