@@ -69,7 +69,7 @@
     "emailInvalid": "Invalid email address",
     "passwordMinLength": "Password must be at least 8 characters",
     "passwordPattern": "Password must contain uppercase, lowercase and number",
-    "successMessage": "Registration successful! Please check your email to verify your account.",
+    "successMessage": "Registration successful! Please check your email to verify your account",
     "resendSuccess": "Verification email sent successfully!"
   },
   "resetPassword": {
@@ -89,7 +89,7 @@
   "verifyEmail": {
     "loading": "Loading...",
     "verifying": "Verifying your email...",
-    "error": "An error occurred during email verification.",
+    "error": "An error occurred during email verification",
     "backToLogin": "Back to login",
     "success": "Email verified successfully!",
     "successMessage": "Your email has been verified successfully!",
@@ -119,17 +119,17 @@
     "expiresAt": "Expires",
     "backToHome": "Back to Home",
     "logoutDeviceConfirmTitle": "Logout from this device?",
-    "logoutDeviceConfirmDescription": "This will terminate the session on this device.",
+    "logoutDeviceConfirmDescription": "This will terminate the session on this device",
     "cancel": "Cancel",
     "confirm": "Confirm",
     "logoutAllConfirmTitle": "Logout from all devices?",
-    "logoutAllConfirmDescription": "This will logout all active sessions.",
+    "logoutAllConfirmDescription": "This will logout all active sessions",
     "logoutSuccess": "Logged out successfully",
     "logoutAllSuccess": "All other devices logged out successfully"
   },
   "notFound": {
     "title": "Page not found",
-    "description": "Sorry, the page you are looking for could not be found.",
+    "description": "Sorry, the page you are looking for could not be found",
     "backToHome": "Back to Home"
   }
 }

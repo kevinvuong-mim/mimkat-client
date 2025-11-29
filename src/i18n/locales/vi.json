@@ -69,7 +69,7 @@
     "emailInvalid": "Email không hợp lệ",
     "passwordMinLength": "Mật khẩu phải có ít nhất 8 ký tự",
     "passwordPattern": "Mật khẩu phải chứa chữ hoa, chữ thường và số",
-    "successMessage": "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản.",
+    "successMessage": "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản",
     "resendSuccess": "Email xác nhận đã được gửi thành công!"
   },
   "resetPassword": {
@@ -89,7 +89,7 @@
   "verifyEmail": {
     "loading": "Đang tải...",
     "verifying": "Đang xác thực email của bạn...",
-    "error": "Đã xảy ra lỗi trong quá trình xác thực email.",
+    "error": "Đã xảy ra lỗi trong quá trình xác thực email",
     "backToLogin": "Quay lại đăng nhập",
     "success": "Email đã được xác thực thành công!",
     "successMessage": "Email của bạn đã được xác thực thành công!",
@@ -119,11 +119,11 @@
     "expiresAt": "Hết hạn",
     "backToHome": "Quay về trang chủ",
     "logoutDeviceConfirmTitle": "Đăng xuất khỏi thiết bị này?",
-    "logoutDeviceConfirmDescription": "Thao tác này sẽ kết thúc phiên đăng nhập trên thiết bị này.",
+    "logoutDeviceConfirmDescription": "Thao tác này sẽ kết thúc phiên đăng nhập trên thiết bị này",
     "cancel": "Hủy",
     "confirm": "Xác nhận",
     "logoutAllConfirmTitle": "Đăng xuất khỏi tất cả thiết bị?",
-    "logoutAllConfirmDescription": "Thao tác này sẽ đăng xuất tất cả các phiên đăng nhập.",
+    "logoutAllConfirmDescription": "Thao tác này sẽ đăng xuất tất cả các phiên đăng nhập",
     "logoutSuccess": "Đăng xuất thành công",
     "logoutAllSuccess": "Đã đăng xuất tất cả thiết bị khác thành công"
   },
