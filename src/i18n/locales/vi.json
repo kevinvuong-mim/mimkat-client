@@ -126,5 +126,10 @@
     "logoutAllConfirmDescription": "Thao tác này sẽ đăng xuất tất cả các phiên đăng nhập.",
     "logoutSuccess": "Đăng xuất thành công",
     "logoutAllSuccess": "Đã đăng xuất tất cả thiết bị khác thành công"
+  },
+  "notFound": {
+    "title": "Không tìm thấy trang bạn yêu cầu",
+    "description": "Xin lỗi, không tìm thấy trang bạn yêu cầu",
+    "backToHome": "Quay về trang chủ"
   }
 }

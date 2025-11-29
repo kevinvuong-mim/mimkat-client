@@ -126,5 +126,10 @@
     "logoutAllConfirmDescription": "This will logout all active sessions.",
     "logoutSuccess": "Logged out successfully",
     "logoutAllSuccess": "All other devices logged out successfully"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "Sorry, the page you are looking for could not be found.",
+    "backToHome": "Back to Home"
   }
 }
