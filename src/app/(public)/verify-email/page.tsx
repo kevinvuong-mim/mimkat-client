@@ -29,7 +29,6 @@ export default function VerifyEmailPage() {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          router.push("/login");
 
           return 0;
         }
@@ -40,6 +39,10 @@ export default function VerifyEmailPage() {
 
     return () => clearInterval(timer);
   }, [router, isSuccess]);
+
+  useEffect(() => {
+    if (countdown === 0) router.push("/login");
+  }, [countdown]);
 
   return (
     <div className="w-full max-w-md">
