@@ -93,7 +93,9 @@
 ### UI/UX
 
 - ✅ Responsive Design
-- ✅ Multi-language (EN/VI) với custom i18n context
+
+## 🎯 Tổng Quan
+
 - ✅ Dark/Light Mode với next-themes
 - ✅ Loading States
 - ✅ Toast Notifications (Sonner)
@@ -115,371 +117,123 @@
 
 1. **Clone repository**
 
-   ```bash
-   git clone <repository-url>
-   cd mimkat-client
-   ```
+# Mimkat Client
 
-2. **Install dependencies**
+## Tổng Quan
 
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+- Next.js 15 + React 19 + TypeScript
+- Auto token refresh, request queuing
+- Multi-language (EN/VI), dark/light mode
+- UI: Shadcn UI, Tailwind CSS
+- Form: React Hook Form + Zod
 
-3. **Setup environment variables**
+## Tech Stack
 
-   ```bash
-   cp .env.example .env
-   ```
+- Next.js 15, React 19, TypeScript
+- Axios, React Query
+- Shadcn UI, Tailwind CSS, Radix UI
+- React Hook Form, Zod
+- Sonner (toast), next-themes
 
-   Cập nhật các biến trong `.env`:
+## Setup
 
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:3000
-   NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
-   ```
+1. Clone repo & cài đặt:
 
-4. **Run development server**
+```bash
+git clone <repository-url>
+cd mimkat-client
+npm install
+# hoặc
+yarn install
+```
 
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
+2. Tạo file `.env` từ `.env.example` và cập nhật biến:
 
-5. **Open browser**
-   ```
-   http://localhost:3000
-   ```
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+```
 
----
+3. Chạy dev server:
 
-## 📁 Project Structure
+```bash
+npm run dev
+# hoặc
+yarn dev
+```
+
+4. Truy cập: http://localhost:3000
+
+## Cấu Trúc Dự Án
 
 ```
 mimkat-client/
 ├── src/
-│   ├── app/                        # Next.js App Router
-│   │   ├── (private)/              # Protected routes group
-│   │   │   ├── profile/            # User profile page
-│   │   │   ├── sessions/           # Session management page
-│   │   │   └── change-password/    # Change password page
-│   │   ├── (public)/               # Public routes group
-│   │   │   ├── login/              # Login page
-│   │   │   ├── register/           # Register page
-│   │   │   ├── verify-email/       # Email verification
-│   │   │   ├── forgot-password/    # Forgot password
-│   │   │   └── reset-password/     # Reset password
-│   │   ├── globals.css             # Global styles
-│   │   ├── layout.tsx              # Root layout
-│   │   └── page.tsx                # Home page
-│   │
-│   ├── components/                 # React components
-│   │   ├── ui/                     # Shadcn UI components
-│   │   │   ├── alert-dialog.tsx
-│   │   │   ├── avatar.tsx
-│   │   │   ├── button.tsx
-│   │   │   ├── card.tsx
-│   │   │   ├── form.tsx
-│   │   │   ├── input.tsx
-│   │   │   ├── label.tsx
-│   │   │   ├── scroll-area.tsx
-│   │   │   └── sonner.tsx
-│   │   └── google-login-button.tsx # Google OAuth component
-│   │
-│   ├── context/                    # React contexts
-│   │   └── user-context.tsx        # User state management
-│   │
-│   ├── i18n/                       # Internationalization
-│   │   ├── context.tsx             # Custom i18n context provider
-│   │   └── locales/                # Translation files
-│   │       ├── en.json
-│   │       └── vi.json
-│   │
-│   ├── lib/                        # Core libraries
-│   │   ├── api-client.ts           # Axios instance + interceptors ⭐
-│   │   ├── constants.ts            # App constants
-│   │   ├── public-route.ts         # Public route checker
-│   │   └── utils.ts                # Utility functions
-│   │
-│   ├── providers/                  # App providers
-│   │   └── QueryProvider.tsx       # React Query provider
-│   │
-│   ├── services/                   # API services
-│   │   ├── auth.service.ts         # Authentication methods
-│   │   └── user.service.ts         # User-related methods
-│   │
-│   ├── types/                      # TypeScript types
-│   │   ├── api.ts
-│   │   ├── auth.ts
-│   │   ├── i18n.ts
-│   │   ├── index.ts
-│   │   ├── session.ts
-│   │   └── user.ts
-│   │
-│   └── middleware.ts               # Next.js middleware (route protection)
-│
-├── public/                         # Static assets
-├── .env                            # Environment variables (gitignored)
-├── .env.example                    # Environment template
-├── next.config.ts                  # Next.js config
-├── tsconfig.json                   # TypeScript config
-├── tailwind.config.ts              # Tailwind CSS config
-├── components.json                 # Shadcn UI config
-├── package.json                    # Dependencies
-└── README.md                       # This file
+│   ├── app/ (public, private routes)
+│   ├── components/ui/ (Shadcn UI)
+│   ├── context/, i18n/, lib/, providers/, services/, types/
+│   └── middleware.ts
+├── public/
+├── .env, .env.example
+├── next.config.ts, tailwind.config.ts, tsconfig.json
+├── package.json
+└── README.md
 ```
 
----
+## Authentication System
 
-## 🔐 Authentication System
+- Auto token refresh với Axios interceptor
+- Request queuing tránh duplicate refresh
+- Middleware bảo vệ private routes
 
-### Auto Token Refresh với Axios Interceptors
-
-Hệ thống sử dụng **Axios response interceptor** để tự động refresh token khi hết hạn:
-
-#### Architecture:
-
-```
-Request → API Call (với cookies)
-       → Response Interceptor (check 401)
-       → Auto Refresh Token
-       → Retry Request
-       → Return Data
-```
-
-#### Flow:
-
-1. API calls tự động gửi kèm **cookies** (withCredentials: true)
-2. Nếu nhận **401 Unauthorized**:
-   - Queue các concurrent requests
-   - Call `/auth/refresh` để refresh access token
-   - Retry tất cả queued requests với token mới
-3. Nếu refresh thất bại:
-   - Reject tất cả queued requests
-   - Redirect về `/login` (chỉ khi không phải public route)
-
-#### Code Example:
+## API Client Usage
 
 ```typescript
-// src/lib/api-client.ts
 import { apiClient } from "@/lib/api-client";
-
-// Tất cả requests tự động handle 401!
 const user = await apiClient.get("/auth/me");
 ```
 
-#### Middleware Protection:
+## Development
 
-Next.js middleware tự động bảo vệ protected routes:
-
-```typescript
-// src/middleware.ts
-// Redirect về /login nếu chưa authenticated
-// Cho phép access public routes
-```
-
----
-
-## 🌐 API Client Usage
-
-### Basic Usage
-
-```typescript
-import { apiClient } from "@/lib/api-client";
-
-// GET request - response interceptor tự động return response.data
-const user = await apiClient.get("/auth/me");
-
-// POST request
-const result = await apiClient.post("/auth/login", {
-  email: "user@example.com",
-  password: "password123",
-});
-
-// PATCH request
-const updated = await apiClient.patch("/auth/change-password", {
-  currentPassword: "old123",
-  newPassword: "new123",
-});
-```
-
-### With Services Layer
-
-```typescript
-// src/services/auth.service.ts
-import { apiClient } from "@/lib/api-client";
-
-export const authService = {
-  login: (email: string, password: string) =>
-    apiClient.post("/auth/login", { email, password }),
-
-  register: (email: string, password: string) =>
-    apiClient.post("/auth/register", { email, password }),
-
-  logout: () => apiClient.post("/auth/logout"),
-
-  getCurrentUser: () => apiClient.get("/auth/me"),
-
-  refreshToken: () =>
-    axios.post(`${API_URL}/auth/refresh`, {}, { withCredentials: true }),
-};
-```
-
-### With React Query
-
-```typescript
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
-import { userService } from "@/services/user.service";
-
-export function ProfilePage() {
-  const { data: user, isLoading } = useQuery({
-    queryKey: ["user"],
-    queryFn: userService.getCurrentUser,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-
-  return <div>Welcome, {user.email}</div>;
-}
-```
-
-### Error Handling
-
-```typescript
-import axios from "axios";
-
-try {
-  await authService.login(email, password);
-} catch (error) {
-  if (axios.isAxiosError(error)) {
-    const message = error.response?.data?.message || "Login failed";
-    toast.error(message);
-  }
-}
-```
-
----
-
-## 🧑‍💻 Development
-
-### Available Scripts
+## Cấu Trúc Dự Án (Chi tiết hơn)
 
 ```bash
-# Development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-
-# Lint code
-npm run lint
+npm run dev      # Dev server
+npm run build    # Build production
+npm start        # Start production
+npm run lint     # Lint code
 ```
 
-### Development Workflow
-
-1. **Start development server**
-
-   ```bash
-   npm run dev
-   ```
-
-2. **Make changes** - Files auto-reload
-
-3. **Lint code**
-
-   ```bash
-   npm run lint
-   ```
-
-4. **Build for production**
-   ```bash
-   npm run build
-   ```
-
-### Hot Reload
-
-Next.js 15 tự động reload khi bạn save files:
-
-- **Fast Refresh** cho React components
-- **Turbopack** cho faster development build
-
----
-
-## 🔧 Environment Variables
-
-### Required Variables
+## Environment Variables
 
 ```env
-# API URL (Backend)
 NEXT_PUBLIC_API_URL=http://localhost:3000
-
-# Google OAuth Client ID
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id_here
 ```
 
-### Environment Files
+## Best Practices
 
-- `.env` - Environment variables (gitignored)
-- `.env.example` - Template for other developers
+- Sử dụng service layer cho API
+- Dùng React Query cho data fetching
+- Xử lý lỗi với toast
+- Tổ chức routes theo group (public/private)
 
-### Usage in Code
+## Resources
 
-```typescript
-// Client-side (NEXT_PUBLIC_ prefix required)
-import { API_URL } from "@/lib/constants";
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev)
+- [TanStack Query](https://tanstack.com/query/latest)
+- [Axios Documentation](https://axios-http.com)
+- [Shadcn UI](https://ui.shadcn.com)
+- [Tailwind CSS](https://tailwindcss.com)
 
-// src/lib/constants.ts
-export const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-```
+## License
 
----
+MIT License
 
-## 🔑 Key Features Explained
+## Team
 
-### 1. Auto Token Refresh
-
-**Problem:** Access tokens hết hạn → User bị logout
-
-**Solution:**
-
-- Axios response interceptor detect 401
-- Auto call `/auth/refresh` để lấy token mới
-- Retry failed requests với token mới
-- Request queuing để tránh duplicate refresh calls
-
-### 2. Request Queuing
-
-**Problem:** Nhiều API calls cùng lúc → nhiều refresh token calls
-
-**Solution:**
-
-- Request đầu tiên trigger refresh
-- Các requests sau được queue lại
-- Sau khi refresh xong, retry tất cả requests trong queue
-
-### 3. Route Groups
-
-**Problem:** Cần tổ chức routes và apply layouts khác nhau
-
-**Solution:**
-
-- `(public)/` - Public routes (login, register, etc.)
-- `(private)/` - Protected routes (profile, change-password)
-- Middleware tự động check authentication
-
-### 4. Type Safety
-
-**Problem:** Runtime errors vì type mismatch
-
+Mimkat Team
 **Solution:**
 
 - Full TypeScript support

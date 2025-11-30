@@ -50,50 +50,48 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-200 via-slate-300 to-slate-200 dark:from-black dark:via-slate-950 dark:to-black p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
-          <div className="text-center space-y-2">
-            <h1 className="text-2xl font-bold tracking-tight">
-              {t.forgotPassword.title}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              {t.forgotPassword.description}
-            </p>
-          </div>
+    <div className="w-full max-w-md">
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
+        <div className="text-center space-y-2">
+          <h1 className="text-2xl font-bold tracking-tight">
+            {t.forgotPassword.title}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            {t.forgotPassword.description}
+          </p>
+        </div>
 
-          <Form {...form}>
-            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                name="email"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t.forgotPassword.email}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="email"
-                        placeholder={t.forgotPassword.email}
-                      />
-                    </FormControl>
-                    <div className="min-h-[20px]">
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? t.forgotPassword.sending : t.forgotPassword.submit}
-              </Button>
-            </form>
-          </Form>
-
-          <div className="pt-4 border-t">
-            <Button asChild variant="outline" className="w-full">
-              <Link href="/login">{t.forgotPassword.backToLogin}</Link>
+        <Form {...form}>
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              name="email"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t.forgotPassword.email}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="email"
+                      placeholder={t.forgotPassword.email}
+                    />
+                  </FormControl>
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? t.forgotPassword.sending : t.forgotPassword.submit}
             </Button>
-          </div>
+          </form>
+        </Form>
+
+        <div className="pt-4 border-t">
+          <Button asChild variant="outline" className="w-full">
+            <Link href="/login">{t.forgotPassword.backToLogin}</Link>
+          </Button>
         </div>
       </div>
     </div>

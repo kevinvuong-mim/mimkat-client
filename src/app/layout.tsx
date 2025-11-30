@@ -4,7 +4,7 @@ import "./globals.css";
 import { I18nProvider } from "@/i18n/context";
 import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from "@/context/user-context";
-import { QueryProvider } from "@/providers/QueryProvider";
+import { QueryProvider } from "@/providers/query-provider";
 
 export const metadata: Metadata = {
   title: "Mimkat",

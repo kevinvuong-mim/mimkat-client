@@ -91,160 +91,158 @@ export default function ChangePasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-200 via-slate-300 to-slate-200 dark:from-black dark:via-slate-950 dark:to-black p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
-          <div className="text-center space-y-2">
-            <h1 className="text-2xl font-bold tracking-tight">
-              {
-                t.changePassword[
-                  user?.hasPassword ? "titleHasPassword" : "titleNoPassword"
-                ]
-              }
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              {
-                t.changePassword[
-                  user?.hasPassword
-                    ? "descriptionHasPassword"
-                    : "descriptionNoPassword"
-                ]
-              }
-            </p>
-          </div>
+    <div className="w-full max-w-md">
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
+        <div className="text-center space-y-2">
+          <h1 className="text-2xl font-bold tracking-tight">
+            {
+              t.changePassword[
+                user?.hasPassword ? "titleHasPassword" : "titleNoPassword"
+              ]
+            }
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            {
+              t.changePassword[
+                user?.hasPassword
+                  ? "descriptionHasPassword"
+                  : "descriptionNoPassword"
+              ]
+            }
+          </p>
+        </div>
 
-          <Form {...form}>
-            <form className="space-y-1" onSubmit={form.handleSubmit(onSubmit)}>
-              {user?.hasPassword && (
-                <FormField
-                  control={form.control}
-                  name="currentPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t.changePassword.currentPassword}</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Input
-                            {...field}
-                            placeholder={t.changePassword.currentPassword}
-                            type={showPassword.current ? "text" : "password"}
-                          />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setShowPassword((prev) => ({
-                                ...prev,
-                                current: !prev.current,
-                              }))
-                            }
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                          >
-                            {showPassword.current ? (
-                              <EyeOff className="h-4 w-4" />
-                            ) : (
-                              <Eye className="h-4 w-4" />
-                            )}
-                          </button>
-                        </div>
-                      </FormControl>
-                      <div className="min-h-[20px]">
-                        <FormMessage />
+        <Form {...form}>
+          <form className="space-y-1" onSubmit={form.handleSubmit(onSubmit)}>
+            {user?.hasPassword && (
+              <FormField
+                control={form.control}
+                name="currentPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t.changePassword.currentPassword}</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          {...field}
+                          placeholder={t.changePassword.currentPassword}
+                          type={showPassword.current ? "text" : "password"}
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowPassword((prev) => ({
+                              ...prev,
+                              current: !prev.current,
+                            }))
+                          }
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {showPassword.current ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </button>
                       </div>
-                    </FormItem>
-                  )}
-                />
+                    </FormControl>
+                    <div className="min-h-[20px]">
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            )}
+            <FormField
+              name="newPassword"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t.changePassword.newPassword}</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        placeholder={t.changePassword.newPassword}
+                        type={showPassword.new ? "text" : "password"}
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowPassword((prev) => ({
+                            ...prev,
+                            new: !prev.new,
+                          }))
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showPassword.new ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </FormControl>
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
+                </FormItem>
               )}
-              <FormField
-                name="newPassword"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t.changePassword.newPassword}</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          placeholder={t.changePassword.newPassword}
-                          type={showPassword.new ? "text" : "password"}
-                        />
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setShowPassword((prev) => ({
-                              ...prev,
-                              new: !prev.new,
-                            }))
-                          }
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                          {showPassword.new ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </button>
-                      </div>
-                    </FormControl>
-                    <div className="min-h-[20px]">
-                      <FormMessage />
+            />
+            <FormField
+              name="confirmPassword"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t.changePassword.confirmPassword}</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        placeholder={t.changePassword.confirmPassword}
+                        type={showPassword.confirm ? "text" : "password"}
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowPassword((prev) => ({
+                            ...prev,
+                            confirm: !prev.confirm,
+                          }))
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showPassword.confirm ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
                     </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="confirmPassword"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t.changePassword.confirmPassword}</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          placeholder={t.changePassword.confirmPassword}
-                          type={showPassword.confirm ? "text" : "password"}
-                        />
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setShowPassword((prev) => ({
-                              ...prev,
-                              confirm: !prev.confirm,
-                            }))
-                          }
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                          {showPassword.confirm ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </button>
-                      </div>
-                    </FormControl>
-                    <div className="min-h-[20px]">
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  t.changePassword[
-                    user?.hasPassword ? "submitHasPassword" : "submitNoPassword"
-                  ]
-                )}
-              </Button>
-            </form>
-          </Form>
-
-          <div className="pt-4 border-t">
-            <Button asChild variant="outline" className="w-full">
-              <Link href="/">{t.changePassword.backToHome}</Link>
+                  </FormControl>
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                t.changePassword[
+                  user?.hasPassword ? "submitHasPassword" : "submitNoPassword"
+                ]
+              )}
             </Button>
-          </div>
+          </form>
+        </Form>
+
+        <div className="pt-4 border-t">
+          <Button asChild variant="outline" className="w-full">
+            <Link href="/">{t.changePassword.backToHome}</Link>
+          </Button>
         </div>
       </div>
     </div>

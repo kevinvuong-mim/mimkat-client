@@ -14,7 +14,7 @@ export default function NotFound() {
         <p className="text-6xl md:text-7xl lg:text-9xl font-bold tracking-wider text-gray-300">
           404
         </p>
-        <p className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-wider text-gray-500 mt-4">
+        <p className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-wider text-gray-500 mt-4 text-center">
           {t.notFound.title}
         </p>
         <p className="text-gray-500 mt-4 pb-4 text-center">
