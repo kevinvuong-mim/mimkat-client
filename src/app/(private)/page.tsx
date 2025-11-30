@@ -44,7 +44,7 @@ export default function Home() {
   return (
     <div className="w-full max-w-md">
       <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-4 relative">
-        <div className="absolute top-8 right-8 z-10">
+        <div className="flex z-10 justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon">
@@ -66,7 +66,6 @@ export default function Home() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="h-6" />
         <div className="text-center space-y-4">
           <div className="flex justify-center">
             <AspectRatio ratio={16 / 9} className="bg-muted rounded-lg">
