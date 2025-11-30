@@ -99,6 +99,10 @@
     "checkEmailLink": "Please check the verification link in your email"
   },
   "home": {
+    "toggleTheme": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
     "welcome": "Welcome",
     "language": "Language",
     "english": "English",

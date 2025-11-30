@@ -5,6 +5,7 @@ import { I18nProvider } from "@/i18n/context";
 import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from "@/context/user-context";
 import { QueryProvider } from "@/providers/query-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 export const metadata: Metadata = {
   title: "Mimkat",
@@ -18,14 +19,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <QueryProvider>
-          <UserProvider>
-            <I18nProvider>{children}</I18nProvider>
-          </UserProvider>
-        </QueryProvider>
-        <Toaster position="top-center" />
+        <ThemeProvider
+          enableSystem
+          attribute="class"
+          defaultTheme="system"
+          disableTransitionOnChange
+        >
+          <QueryProvider>
+            <UserProvider>
+              <I18nProvider>{children}</I18nProvider>
+            </UserProvider>
+          </QueryProvider>
+          <Toaster position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   );

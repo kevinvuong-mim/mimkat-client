@@ -99,6 +99,10 @@
     "checkEmailLink": "Vui lòng kiểm tra link xác thực trong email của bạn"
   },
   "home": {
+    "toggleTheme": "Chuyển đổi giao diện",
+    "light": "Sáng",
+    "dark": "Tối",
+    "system": "Hệ thống",
     "welcome": "Chào mừng",
     "language": "Ngôn ngữ",
     "english": "Tiếng Anh",

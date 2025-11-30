@@ -1,18 +1,35 @@
 "use client";
 
+import {
+  Sun,
+  Moon,
+  User,
+  Globe,
+  LogOut,
+  Monitor,
+  Loader2,
+  KeyRound,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { User, Globe, LogOut, Monitor, Loader2, KeyRound } from "lucide-react";
 
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useI18n } from "@/i18n/context";
 import { Button } from "@/components/ui/button";
 import { authService } from "@/services/auth.service";
 
 export default function Home() {
   const router = useRouter();
+  const { setTheme } = useTheme();
   const { t, locale, setLocale } = useI18n();
   const { mutate, isPending } = useMutation({ mutationFn: authService.logout });
 
@@ -25,7 +42,29 @@ export default function Home() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6 relative">
+        <div className="absolute top-4 right-4 z-10">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+                <span className="sr-only">{t.home.toggleTheme}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                {t.home.light}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                {t.home.dark}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                {t.home.system}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <div className="text-center space-y-4">
           <div className="flex justify-center">
             <Image
