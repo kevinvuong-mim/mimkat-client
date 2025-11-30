@@ -26,6 +26,7 @@ import {
 import { useI18n } from "@/i18n/context";
 import { Button } from "@/components/ui/button";
 import { authService } from "@/services/auth.service";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default function Home() {
   const router = useRouter();
@@ -42,8 +43,8 @@ export default function Home() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6 relative">
-        <div className="absolute top-4 right-4 z-10">
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-4 relative">
+        <div className="absolute top-8 right-8 z-10">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon">
@@ -65,15 +66,17 @@ export default function Home() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+        <div className="h-6" />
         <div className="text-center space-y-4">
           <div className="flex justify-center">
-            <Image
-              alt=""
-              width={120}
-              height={120}
-              className="rounded-lg"
-              src={"/images/logo.png"}
-            />
+            <AspectRatio ratio={16 / 9} className="bg-muted rounded-lg">
+              <Image
+                fill
+                alt=""
+                src={"/images/logo.png"}
+                className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
+              />
+            </AspectRatio>
           </div>
           <h1 className="text-2xl font-bold tracking-tight">
             {t.home.welcome}
