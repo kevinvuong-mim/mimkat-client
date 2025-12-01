@@ -28,7 +28,9 @@
     "changePassword": "Change Password",
     "backToHome": "Back to Home",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "userNotFound": "User not found",
+    "errorLoading": "Error loading information"
   },
   "forgotPassword": {
     "title": "Forgot Password",

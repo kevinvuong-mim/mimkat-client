@@ -1,7 +1,11 @@
-import axios from "axios";
-
+import {
+  Session,
+  PaginatedResponse,
+  PublicUserProfile,
+  ChangePasswordData,
+} from "@/types";
 import { apiClient } from "@/lib/api-client";
-import { Session, PaginatedResponse, ChangePasswordData } from "@/types";
+import { handleApiError } from "@/lib/error-handler";
 
 const API_BASE_PATH = "/users";
 
@@ -12,11 +16,17 @@ class UserService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
+      throw handleApiError(error);
+    }
+  }
 
-      throw error;
+  async getProfileByIdentifier(identifier: string): Promise<PublicUserProfile> {
+    try {
+      const response = await apiClient.get(`${API_BASE_PATH}/${identifier}`);
+
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error);
     }
   }
 
@@ -26,11 +36,7 @@ class UserService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -40,11 +46,7 @@ class UserService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -56,11 +58,7 @@ class UserService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -70,11 +68,7 @@ class UserService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-
-      throw error;
+      throw handleApiError(error);
     }
   }
 }

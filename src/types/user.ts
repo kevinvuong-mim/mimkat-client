@@ -12,6 +12,14 @@ export interface User {
   isEmailVerified: boolean;
 }
 
+export interface PublicUserProfile {
+  id: string;
+  avatar?: string;
+  createdAt: string;
+  fullName?: string;
+  username?: string;
+}
+
 export interface UserContextType {
   user: null | User;
 }

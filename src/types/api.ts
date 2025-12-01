@@ -7,6 +7,23 @@ export interface ApiResponse<T = any> {
   statusCode: number;
 }
 
+export interface ValidationError {
+  value?: any;
+  field: string;
+  message: string;
+}
+
+export interface ErrorResponse {
+  path: string;
+  error: string;
+  stack?: string;
+  success: false;
+  message: string;
+  timestamp: string;
+  statusCode: number;
+  errors?: ValidationError[];
+}
+
 export interface PaginatedResponse<T> {
   items: T[];
   meta: {

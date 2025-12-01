@@ -28,7 +28,9 @@
     "changePassword": "Đổi mật khẩu",
     "backToHome": "Quay về trang chủ",
     "yes": "Có",
-    "no": "Không"
+    "no": "Không",
+    "userNotFound": "Không tìm thấy người dùng",
+    "errorLoading": "Lỗi khi tải thông tin"
   },
   "forgotPassword": {
     "title": "Quên mật khẩu",

@@ -10,6 +10,7 @@ import {
   ResendVerificationData,
 } from "@/types";
 import { API_URL } from "@/lib/constants";
+import { handleApiError } from "@/lib/error-handler";
 
 const authAxios = axios.create({
   baseURL: API_URL,
@@ -24,11 +25,7 @@ class AuthService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -38,10 +35,7 @@ class AuthService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -51,10 +45,7 @@ class AuthService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -64,10 +55,7 @@ class AuthService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -79,10 +67,7 @@ class AuthService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -92,10 +77,7 @@ class AuthService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -108,10 +90,7 @@ class AuthService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-      throw error;
+      throw handleApiError(error);
     }
   }
 
@@ -124,10 +103,7 @@ class AuthService {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        throw new Error(error.response.data.message);
-      }
-      throw error;
+      throw handleApiError(error);
     }
   }
 }
