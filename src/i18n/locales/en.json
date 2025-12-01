@@ -21,7 +21,7 @@
     "contact": "Contact info",
     "email": "Email",
     "accountStatus": "Account Status",
-    "isActive": "Đang hoạt động",
+    "isActive": "Active",
     "isEmailVerified": "Email has been verified",
     "hasPassword": "Has password",
     "hasGoogleAuth": "Has Google authentication",
