@@ -2,6 +2,7 @@ import {
   Session,
   PaginatedResponse,
   PublicUserProfile,
+  UpdateProfileData,
   ChangePasswordData,
 } from "@/types";
 import { apiClient } from "@/lib/api-client";
@@ -65,6 +66,33 @@ class UserService {
   async logoutAllDevices() {
     try {
       const response = await apiClient.delete(`${API_BASE_PATH}/sessions`);
+
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error);
+    }
+  }
+
+  async updateProfile(data: UpdateProfileData) {
+    try {
+      const response = await apiClient.put(`${API_BASE_PATH}/me`, data);
+
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error);
+    }
+  }
+
+  async uploadAvatar(file: File) {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await apiClient.put(
+        `${API_BASE_PATH}/me/avatar`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
       return response.data;
     } catch (error) {

@@ -8,6 +8,7 @@ export interface User {
   updatedAt: string;
   username?: string;
   hasPassword: boolean;
+  phoneNumber?: string;
   hasGoogleAuth: boolean;
   isEmailVerified: boolean;
 }
@@ -27,4 +28,10 @@ export interface UserContextType {
 export interface ChangePasswordData {
   newPassword: string;
   currentPassword?: string;
+}
+
+export interface UpdateProfileData {
+  fullName?: string;
+  username?: string;
+  phoneNumber?: string;
 }

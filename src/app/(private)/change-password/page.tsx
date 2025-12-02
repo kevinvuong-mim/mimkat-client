@@ -28,6 +28,7 @@ export default function ChangePasswordPage() {
   const { t } = useI18n();
   const { user } = useUser();
   const router = useRouter();
+
   const { mutate, isPending } = useMutation({
     mutationFn: userService.changePassword,
   });

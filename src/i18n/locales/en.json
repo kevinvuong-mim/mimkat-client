@@ -20,17 +20,22 @@
   "profile": {
     "contact": "Contact info",
     "email": "Email",
+    "phoneNumber": "Phone Number",
     "accountStatus": "Account Status",
     "isActive": "Active",
     "isEmailVerified": "Email has been verified",
     "hasPassword": "Has password",
     "hasGoogleAuth": "Has Google authentication",
+    "editProfile": "Edit Profile",
     "changePassword": "Change Password",
     "backToHome": "Back to Home",
     "yes": "Yes",
     "no": "No",
     "userNotFound": "User not found",
-    "errorLoading": "Error loading information"
+    "errorLoading": "Error loading information",
+    "avatarUpdated": "Avatar updated successfully",
+    "fileSizeError": "File size must be less than 10MB",
+    "fileTypeError": "File must be JPEG, PNG, WebP, or GIF"
   },
   "forgotPassword": {
     "title": "Forgot Password",
@@ -137,5 +142,20 @@
     "title": "Page not found",
     "description": "Sorry, the page you are looking for could not be found",
     "backToHome": "Back to Home"
+  },
+  "editProfile": {
+    "title": "Edit Profile",
+    "description": "Update your profile information",
+    "fullName": "Full Name",
+    "username": "Username",
+    "phoneNumber": "Phone Number",
+    "submit": "Save Changes",
+    "cancel": "Cancel",
+    "fullNameRequired": "Full name is required",
+    "usernameMinLength": "Username must be at least 3 characters",
+    "usernamePattern": "Username can only contain letters, numbers, and underscores",
+    "phoneNumberPattern": "Invalid phone number format",
+    "updateSuccess": "Profile updated successfully!",
+    "noChanges": "No changes to save"
   }
 }

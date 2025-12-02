@@ -162,50 +162,78 @@ Mở trình duyệt và truy cập: [http://localhost:3001](http://localhost:300
 ```
 mimkat-client/
 ├── src/
-│   ├── app/                      # Next.js App Router
-│   │   ├── (public)/            # Public routes (login, register, etc.)
-│   │   │   ├── login/
-│   │   │   ├── register/
-│   │   │   ├── verify-email/
-│   │   │   ├── forgot-password/
-│   │   │   └── reset-password/
-│   │   ├── (private)/           # Protected routes
-│   │   │   ├── page.tsx         # Home/Dashboard
-│   │   │   ├── [identifier]/    # User profile
-│   │   │   ├── sessions/        # Session management
-│   │   │   └── change-password/
-│   │   ├── layout.tsx           # Root layout
-│   │   └── not-found.tsx
+│   ├── app/                          # Next.js App Router
+│   │   ├── (public)/                 # Public routes (không cần authentication)
+│   │   │   ├── login/                # Login page
+│   │   │   ├── register/             # Register page
+│   │   │   ├── verify-email/         # Email verification page
+│   │   │   ├── forgot-password/      # Forgot password page
+│   │   │   ├── reset-password/       # Reset password page
+│   │   │   └── layout.tsx            # Public layout
+│   │   ├── (private)/                # Protected routes (cần authentication)
+│   │   │   ├── page.tsx              # Home/Dashboard
+│   │   │   ├── [identifier]/         # User profile (dynamic route)
+│   │   │   │   └── page.tsx
+│   │   │   ├── sessions/             # Session management
+│   │   │   │   └── page.tsx
+│   │   │   ├── change-password/      # Change password
+│   │   │   │   └── page.tsx
+│   │   │   └── layout.tsx            # Private layout
+│   │   ├── layout.tsx                # Root layout
+│   │   └── not-found.tsx             # 404 page
 │   ├── components/
-│   │   └── ui/                  # Shadcn UI components
+│   │   ├── ui/                       # Shadcn UI components
+│   │   │   ├── alert-dialog.tsx
+│   │   │   ├── aspect-ratio.tsx
+│   │   │   ├── avatar.tsx
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   ├── dropdown-menu.tsx
+│   │   │   ├── form.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── label.tsx
+│   │   │   ├── scroll-area.tsx
+│   │   │   ├── separator.tsx
+│   │   │   └── sonner.tsx
+│   │   ├── edit-profile-dialog.tsx   # Edit profile dialog component
+│   │   └── google-login-button.tsx   # Google OAuth button component
 │   ├── context/
-│   │   └── user-context.tsx     # User context provider
-│   ├── i18n/                    # Internationalization
-│   │   ├── context.tsx
-│   │   └── locales/             # EN/VI translations
+│   │   └── user-context.tsx          # User context provider
+│   ├── i18n/                         # Internationalization
+│   │   ├── context.tsx               # i18n context & provider
+│   │   └── locales/                  # Translation files
+│   │       ├── en.json               # English translations
+│   │       └── vi.json               # Vietnamese translations
 │   ├── lib/
-│   │   ├── api-client.ts        # Axios instance với interceptors
-│   │   └── utils.ts             # Utility functions
-│   ├── providers/               # React providers
-│   │   ├── query-provider.tsx
-│   │   └── theme-provider.tsx
-│   ├── services/                # API service layer
-│   │   ├── auth.service.ts
-│   │   └── user.service.ts
-│   ├── types/                   # TypeScript type definitions
-│   │   ├── api.ts
-│   │   ├── auth.ts
-│   │   ├── user.ts
-│   │   ├── session.ts
-│   │   └── i18n.ts
-│   └── middleware.ts            # Next.js middleware cho auth
-├── public/                      # Static assets
-├── .env                         # Environment variables
-├── .env.example                 # Environment variables template
-├── next.config.ts               # Next.js configuration
-├── tailwind.config.js           # Tailwind CSS configuration
-├── tsconfig.json                # TypeScript configuration
-└── package.json                 # Dependencies
+│   │   ├── api-client.ts             # Axios instance với interceptors
+│   │   ├── constants.ts              # App constants
+│   │   ├── error-handler.ts          # Global error handler
+│   │   ├── public-route.ts           # Public route configuration
+│   │   └── utils.ts                  # Utility functions
+│   ├── providers/                    # React providers
+│   │   ├── query-provider.tsx        # React Query provider
+│   │   └── theme-provider.tsx        # Theme provider (dark/light mode)
+│   ├── services/                     # API service layer
+│   │   ├── auth.service.ts           # Authentication services
+│   │   └── user.service.ts           # User services
+│   ├── types/                        # TypeScript type definitions
+│   │   ├── api.ts                    # API response types
+│   │   ├── auth.ts                   # Auth types
+│   │   ├── user.ts                   # User types
+│   │   ├── session.ts                # Session types
+│   │   ├── i18n.ts                   # i18n types
+│   │   └── index.ts                  # Export all types
+│   └── middleware.ts                 # Next.js middleware cho auth
+├── public/                           # Static assets
+├── .env                              # Environment variables (git ignored)
+├── .env.example                      # Environment variables template
+├── components.json                   # Shadcn UI configuration
+├── next.config.ts                    # Next.js configuration
+├── postcss.config.js                 # PostCSS configuration
+├── tailwind.config.js                # Tailwind CSS configuration
+├── tsconfig.json                     # TypeScript configuration
+└── package.json                      # Dependencies & scripts
 ```
 
 ---
