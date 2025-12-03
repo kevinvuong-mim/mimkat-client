@@ -27,6 +27,7 @@ export default function ResetPasswordPage() {
   const { t } = useI18n();
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const { mutate, isPending } = useMutation({
     mutationFn: authService.resetPassword,
   });

@@ -24,6 +24,7 @@ import { authService } from "@/services/auth.service";
 
 export default function RegisterPage() {
   const { t } = useI18n();
+
   const {
     mutate: resendVerificationMutate,
     isPending: isResendVerificationPending,

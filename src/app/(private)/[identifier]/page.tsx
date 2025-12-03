@@ -120,7 +120,7 @@ export default function ProfilePage() {
               {isOwnProfile && (
                 <label
                   htmlFor="avatar-upload"
-                  className={`absolute bottom-0 right-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors shadow-lg ${
+                  className={`absolute bottom-1 right-1 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors shadow-lg ${
                     isPending ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >

@@ -27,6 +27,7 @@ import GoogleLoginButton from "@/components/google-login-button";
 export default function LoginPage() {
   const { t } = useI18n();
   const searchParams = useSearchParams();
+
   const { mutate, isPending } = useMutation({
     mutationFn: authService.login,
   });

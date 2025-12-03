@@ -22,6 +22,7 @@ import { authService } from "@/services/auth.service";
 
 export default function ForgotPasswordPage() {
   const { t } = useI18n();
+
   const { mutate, isPending } = useMutation({
     mutationFn: authService.forgotPassword,
   });

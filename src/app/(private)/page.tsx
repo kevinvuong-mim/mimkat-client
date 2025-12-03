@@ -34,6 +34,7 @@ export default function Home() {
   const { user } = useUser();
   const { setTheme } = useTheme();
   const { t, locale, setLocale } = useI18n();
+
   const { mutate, isPending } = useMutation({ mutationFn: authService.logout });
 
   const handleLogout = () => {
