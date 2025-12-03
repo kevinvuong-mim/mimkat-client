@@ -20,15 +20,22 @@
   "profile": {
     "contact": "Thông tin liên hệ",
     "email": "Email",
+    "phoneNumber": "Số điện thoại",
     "accountStatus": "Trạng thái tài khoản",
     "isActive": "Đang hoạt động",
     "isEmailVerified": "Email đã được xác minh",
     "hasPassword": "Có mật khẩu",
     "hasGoogleAuth": "Có xác thực Google",
+    "editProfile": "Chỉnh sửa hồ sơ",
     "changePassword": "Đổi mật khẩu",
     "backToHome": "Quay về trang chủ",
     "yes": "Có",
-    "no": "Không"
+    "no": "Không",
+    "userNotFound": "Không tìm thấy người dùng",
+    "errorLoading": "Lỗi khi tải thông tin",
+    "avatarUpdated": "Cập nhật avatar thành công",
+    "fileSizeError": "Kích thước file phải nhỏ hơn 10MB",
+    "fileTypeError": "File phải là JPEG, PNG, WebP hoặc GIF"
   },
   "forgotPassword": {
     "title": "Quên mật khẩu",
@@ -135,5 +142,20 @@
     "title": "Không tìm thấy trang bạn yêu cầu",
     "description": "Xin lỗi, không tìm thấy trang bạn yêu cầu",
     "backToHome": "Quay về trang chủ"
+  },
+  "editProfile": {
+    "title": "Chỉnh sửa hồ sơ",
+    "description": "Cập nhật thông tin cá nhân của bạn",
+    "fullName": "Họ và tên",
+    "username": "Tên người dùng",
+    "phoneNumber": "Số điện thoại",
+    "submit": "Lưu thay đổi",
+    "cancel": "Hủy",
+    "fullNameRequired": "Họ và tên là bắt buộc",
+    "usernameMinLength": "Tên người dùng phải có ít nhất 3 ký tự",
+    "usernamePattern": "Tên người dùng chỉ có thể chứa chữ cái, số và dấu gạch dưới",
+    "phoneNumberPattern": "Định dạng số điện thoại không hợp lệ",
+    "updateSuccess": "Cập nhật hồ sơ thành công!",
+    "noChanges": "Không có thay đổi nào để lưu"
   }
 }

@@ -42,7 +42,7 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     if (countdown === 0) router.push("/login");
-  }, [countdown]);
+  }, [router, countdown]);
 
   return (
     <div className="w-full max-w-md">

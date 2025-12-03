@@ -5,14 +5,14 @@ import { ReactNode, useContext, createContext } from "react";
 
 import { UserContextType } from "@/types/user";
 import { isPublicRoute } from "@/lib/public-route";
-import { userService } from "@/services/user.service";
+import { usersService } from "@/services/users.service";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const { data: user } = useQuery({
     queryKey: ["getProfile"],
-    queryFn: userService.getProfile,
+    queryFn: usersService.getProfile,
     enabled: () => {
       if (typeof window === "undefined") return false;
 
