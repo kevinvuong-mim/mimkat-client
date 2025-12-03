@@ -22,7 +22,7 @@ import { ErrorResponse } from "@/types";
 import { useI18n } from "@/i18n/context";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/user-context";
-import { userService } from "@/services/user.service";
+import { usersService } from "@/services/users.service";
 import { EditProfileDialog } from "@/components/edit-profile-dialog";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
@@ -39,12 +39,12 @@ export default function ProfilePage() {
   const { data, error, isLoading } = useQuery({
     enabled: !!user && !isOwnProfile,
     queryKey: ["getProfileByIdentifier", identifier],
-    queryFn: () => userService.getProfileByIdentifier(identifier as string),
+    queryFn: () => usersService.getProfileByIdentifier(identifier as string),
   });
 
   const { mutate, isPending } = useMutation({
     onError: (error) => toast.error(error.message),
-    mutationFn: (file: File) => userService.uploadAvatar(file),
+    mutationFn: (file: File) => usersService.uploadAvatar(file),
     onSuccess: () => {
       toast.success(t.profile.avatarUpdated);
       queryClient.invalidateQueries({ queryKey: ["getProfile"] });

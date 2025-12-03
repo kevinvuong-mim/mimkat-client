@@ -10,7 +10,7 @@ import { handleApiError } from "@/lib/error-handler";
 
 const API_BASE_PATH = "/users";
 
-class UserService {
+class UsersService {
   async getProfile() {
     try {
       const response = await apiClient.get(`${API_BASE_PATH}/me`);
@@ -101,4 +101,4 @@ class UserService {
   }
 }
 
-export const userService = new UserService();
+export const usersService = new UsersService();

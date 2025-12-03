@@ -216,7 +216,7 @@ mimkat-client/
 │   │   └── theme-provider.tsx        # Theme provider (dark/light mode)
 │   ├── services/                     # API service layer
 │   │   ├── auth.service.ts           # Authentication services
-│   │   └── user.service.ts           # User services
+│   │   └── users.service.ts          # Users services
 │   ├── types/                        # TypeScript type definitions
 │   │   ├── api.ts                    # API response types
 │   │   ├── auth.ts                   # Auth types
@@ -283,35 +283,35 @@ const response = await apiClient.post("/auth/login", {
 
 ```typescript
 import { authService } from "@/services/auth.service";
-import { userService } from "@/services/user.service";
+import { usersService } from "@/services/users.service";
 
 // Login
 await authService.login(email, password);
 
 // Get current user
-const user = await userService.getCurrentUser();
+const user = await usersService.getCurrentUser();
 
 // Update profile
-await userService.updateProfile({ name: "New Name" });
+await usersService.updateProfile({ name: "New Name" });
 ```
 
 ### Sử dụng với React Query
 
 ```typescript
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { userService } from "@/services/user.service";
+import { usersService } from "@/services/users.service";
 
 // Fetch data
 const { data, isLoading, error } = useQuery({
-  queryKey: ["user"],
-  queryFn: userService.getCurrentUser,
+  queryKey: ["getCurrentUser"],
+  queryFn: usersService.getCurrentUser,
 });
 
 // Mutate data
 const mutation = useMutation({
-  mutationFn: userService.updateProfile,
+  mutationFn: usersService.updateProfile,
   onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ["user"] });
+    queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
   },
 });
 ```
@@ -445,8 +445,8 @@ await apiClient.post("/auth/login", { email, password });
 
 ```typescript
 const { data, isLoading } = useQuery({
-  queryKey: ["user"],
-  queryFn: userService.getCurrentUser,
+  queryKey: ["getCurrentUser"],
+  queryFn: usersService.getCurrentUser,
 });
 ```
 
@@ -455,7 +455,7 @@ const { data, isLoading } = useQuery({
 ```typescript
 const [user, setUser] = useState(null);
 useEffect(() => {
-  userService.getCurrentUser().then(setUser);
+  usersService.getCurrentUser().then(setUser);
 }, []);
 ```
 

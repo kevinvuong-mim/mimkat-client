@@ -22,7 +22,7 @@ import { useI18n } from "@/i18n/context";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/user-context";
-import { userService } from "@/services/user.service";
+import { usersService } from "@/services/users.service";
 
 export default function ChangePasswordPage() {
   const { t } = useI18n();
@@ -30,7 +30,7 @@ export default function ChangePasswordPage() {
   const router = useRouter();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: userService.changePassword,
+    mutationFn: usersService.changePassword,
   });
 
   const formSchema = z
