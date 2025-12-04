@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Key,
@@ -11,20 +11,20 @@ import {
   UserPen,
   XCircle,
   CheckCircle,
-} from "lucide-react";
-import Link from "next/link";
-import { toast } from "sonner";
-import { useState } from "react";
-import { useParams } from "next/navigation";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+} from 'lucide-react';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { ErrorResponse } from "@/types";
-import { useI18n } from "@/i18n/context";
-import { Button } from "@/components/ui/button";
-import { useUser } from "@/context/user-context";
-import { usersService } from "@/services/users.service";
-import { EditProfileDialog } from "@/components/edit-profile-dialog";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ErrorResponse } from '@/types';
+import { useI18n } from '@/i18n/context';
+import { Button } from '@/components/ui/button';
+import { useUser } from '@/context/user-context';
+import { usersService } from '@/services/users.service';
+import { EditProfileDialog } from '@/components/edit-profile-dialog';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 export default function ProfilePage() {
   const { t } = useI18n();
@@ -38,7 +38,7 @@ export default function ProfilePage() {
 
   const { data, error, isLoading } = useQuery({
     enabled: !!user && !isOwnProfile,
-    queryKey: ["getProfileByIdentifier", identifier],
+    queryKey: ['getProfileByIdentifier', identifier],
     queryFn: () => usersService.getProfileByIdentifier(identifier as string),
   });
 
@@ -47,7 +47,7 @@ export default function ProfilePage() {
     mutationFn: (file: File) => usersService.uploadAvatar(file),
     onSuccess: () => {
       toast.success(t.profile.avatarUpdated);
-      queryClient.invalidateQueries({ queryKey: ["getProfile"] });
+      queryClient.invalidateQueries({ queryKey: ['getProfile'] });
     },
   });
 
@@ -111,17 +111,17 @@ export default function ProfilePage() {
                   loading="lazy"
                   className="object-cover"
                   referrerPolicy="no-referrer"
-                  src={displayUser?.avatar || "/images/default-user.png"}
+                  src={displayUser?.avatar || '/images/default-user.png'}
                 />
                 <AvatarFallback>
-                  {displayUser?.fullName ? displayUser.fullName.charAt(0) : ""}
+                  {displayUser?.fullName ? displayUser.fullName.charAt(0) : ''}
                 </AvatarFallback>
               </Avatar>
               {isOwnProfile && (
                 <label
                   htmlFor="avatar-upload"
                   className={`absolute bottom-1 right-1 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors shadow-lg ${
-                    isPending ? "opacity-50 cursor-not-allowed" : ""
+                    isPending ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >
                   {isPending ? (
@@ -143,10 +143,10 @@ export default function ProfilePage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              {displayUser?.fullName || ""}
+              {displayUser?.fullName || ''}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {displayUser?.username ? `@${displayUser.username}` : ""}
+              {displayUser?.username ? `@${displayUser.username}` : ''}
             </p>
           </div>
         </div>
@@ -267,7 +267,7 @@ const InfoRow = ({
       <div className="flex-1 min-w-0">
         <p className="text-xs text-muted-foreground">{label}</p>
         <p className="text-sm font-medium truncate">
-          {typeof value === "boolean" ? (
+          {typeof value === 'boolean' ? (
             <span className="flex items-center gap-1">
               {value ? (
                 <>
@@ -286,7 +286,7 @@ const InfoRow = ({
               )}
             </span>
           ) : (
-            value || "N/A"
+            value || 'N/A'
           )}
         </p>
       </div>
