@@ -8,7 +8,11 @@ export default function GoogleLoginButton() {
   const { t } = useI18n();
 
   const handleGoogleLogin = () => {
-    window.location.href = `${API_URL}/auth/google`;
+    const currentOrigin = window.location.origin;
+
+    window.location.href = `${API_URL}/auth/google?redirect_url=${encodeURIComponent(
+      currentOrigin
+    )}`;
   };
 
   return (
