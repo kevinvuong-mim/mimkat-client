@@ -66,11 +66,11 @@ export default function ProfilePage() {
   if (error) {
     return (
       <div className="w-full max-w-2xl">
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
-          <div className="text-center space-y-4">
+        <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+          <div className="space-y-4 text-center">
             <div className="flex justify-center">
-              <div className="w-24 h-24 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
-                <XCircle className="w-12 h-12 text-slate-400 dark:text-slate-500" />
+              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700">
+                <XCircle className="h-12 w-12 text-slate-400 dark:text-slate-500" />
               </div>
             </div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-200">
@@ -79,7 +79,7 @@ export default function ProfilePage() {
                 : t.profile.errorLoading}
             </h1>
           </div>
-          <div className="pt-4 border-t space-y-3">
+          <div className="space-y-3 border-t pt-4">
             <Button asChild variant="outline" className="w-full">
               <Link href="/">{t.profile.backToHome}</Link>
             </Button>
@@ -91,11 +91,11 @@ export default function ProfilePage() {
 
   return (
     <div className="w-full max-w-2xl">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
-        <div className="text-center space-y-4">
+      <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+        <div className="space-y-4 text-center">
           <div className="flex justify-center">
             <div className="relative">
-              <Avatar className="w-32 h-32 ring-4 ring-slate-200 dark:ring-slate-700">
+              <Avatar className="h-32 w-32 ring-4 ring-slate-200 dark:ring-slate-700">
                 <AvatarImage
                   loading="lazy"
                   className="object-cover"
@@ -109,14 +109,14 @@ export default function ProfilePage() {
               {isOwnProfile && (
                 <label
                   htmlFor="avatar-upload"
-                  className={`absolute bottom-1 right-1 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors shadow-lg ${
-                    isPending ? 'opacity-50 cursor-not-allowed' : ''
+                  className={`absolute bottom-1 right-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-colors hover:bg-primary/90 ${
+                    isPending ? 'cursor-not-allowed opacity-50' : ''
                   }`}
                 >
                   {isPending ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
-                    <Camera className="w-5 h-5" />
+                    <Camera className="h-5 w-5" />
                   )}
                   <input
                     type="file"
@@ -141,7 +141,7 @@ export default function ProfilePage() {
         {isOwnProfile ? (
           <>
             <div className="space-y-3">
-              <h2 className="text-lg font-semibold mb-4">{t.profile.contact}</h2>
+              <h2 className="mb-4 text-lg font-semibold">{t.profile.contact}</h2>
 
               <div className="grid grid-cols-2 gap-3">
                 <InfoRow icon={Mail} label={t.profile.email} value={currentUser?.email} />
@@ -154,7 +154,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="space-y-3">
-              <h2 className="text-lg font-semibold mb-4">{t.profile.accountStatus}</h2>
+              <h2 className="mb-4 text-lg font-semibold">{t.profile.accountStatus}</h2>
 
               <div className="grid grid-cols-2 gap-3">
                 <InfoRow
@@ -180,7 +180,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="pt-4 border-t space-y-3">
+            <div className="space-y-3 border-t pt-4">
               <Button className="w-full" onClick={() => setIsEditDialogOpen(true)}>
                 {t.profile.editProfile}
               </Button>
@@ -190,7 +190,7 @@ export default function ProfilePage() {
             </div>
           </>
         ) : (
-          <div className="pt-4 border-t space-y-3">
+          <div className="space-y-3 border-t pt-4">
             <Button asChild variant="outline" className="w-full">
               <Link href="/">{t.profile.backToHome}</Link>
             </Button>
@@ -221,23 +221,23 @@ const InfoRow = ({
   const { t } = useI18n();
 
   return (
-    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">
-      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
-        <Icon className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+    <div className="flex items-center gap-3 rounded-lg bg-slate-50 p-3 transition-colors hover:bg-slate-100 dark:bg-slate-900/50 dark:hover:bg-slate-900">
+      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700">
+        <Icon className="h-5 w-5 text-slate-600 dark:text-slate-300" />
       </div>
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="text-sm font-medium truncate">
+        <p className="truncate text-sm font-medium">
           {typeof value === 'boolean' ? (
             <span className="flex items-center gap-1">
               {value ? (
                 <>
-                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <CheckCircle className="h-4 w-4 text-green-500" />
                   <span className="text-green-600 dark:text-green-400">{t.profile.yes}</span>
                 </>
               ) : (
                 <>
-                  <XCircle className="w-4 h-4 text-red-500" />
+                  <XCircle className="h-4 w-4 text-red-500" />
                   <span className="text-red-600 dark:text-red-400">{t.profile.no}</span>
                 </>
               )}

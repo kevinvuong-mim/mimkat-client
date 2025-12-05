@@ -46,17 +46,17 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
+      <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
         {isLoading ? (
-          <div className="text-center space-y-4">
+          <div className="space-y-4 text-center">
             <div className="flex justify-center">
-              <Loader2 className="h-16 w-16 text-blue-500 animate-spin" />
+              <Loader2 className="h-16 w-16 animate-spin text-blue-500" />
             </div>
             <h2 className="text-2xl font-bold tracking-tight">{t.verifyEmail.loading}</h2>
             <p className="text-sm text-muted-foreground">{t.verifyEmail.verifying}</p>
           </div>
         ) : error ? (
-          <div className="text-center space-y-4">
+          <div className="space-y-4 text-center">
             <div className="flex justify-center">
               <XCircle className="h-16 w-16 text-red-500" />
             </div>
@@ -64,14 +64,14 @@ export default function VerifyEmailPage() {
               {t.verifyEmail.error}
             </h2>
             <p className="text-sm text-muted-foreground">{error.message}</p>
-            <div className="pt-4 space-y-3">
+            <div className="space-y-3 pt-4">
               <Button asChild className="w-full">
                 <Link href="/login">{t.verifyEmail.backToLogin}</Link>
               </Button>
             </div>
           </div>
         ) : isSuccess ? (
-          <div className="text-center space-y-4">
+          <div className="space-y-4 text-center">
             <div className="flex justify-center">
               <CheckCircle2 className="h-16 w-16 text-green-500" />
             </div>
@@ -79,19 +79,19 @@ export default function VerifyEmailPage() {
               {t.verifyEmail.success}
             </h2>
             <p className="text-sm text-muted-foreground">{t.verifyEmail.successMessage}</p>
-            <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-4">
+            <div className="rounded-lg bg-slate-100 p-4 dark:bg-slate-700">
               <p className="text-sm font-medium">
                 {t.verifyEmail.redirectingIn.replace('{countdown}', countdown.toString())}
               </p>
             </div>
-            <div className="pt-4 space-y-3">
+            <div className="space-y-3 pt-4">
               <Button asChild className="w-full">
                 <Link href="/login">{t.verifyEmail.loginNow}</Link>
               </Button>
             </div>
           </div>
         ) : (
-          <div className="text-center space-y-4">
+          <div className="space-y-4 text-center">
             <div className="flex justify-center">
               <Mail className="h-16 w-16 text-blue-500" />
             </div>

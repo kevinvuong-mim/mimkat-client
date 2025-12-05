@@ -1,17 +1,12 @@
 const { FlatCompat } = require('@eslint/eslintrc');
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+const compat = new FlatCompat({ baseDirectory: __dirname });
 
 module.exports = [
-  ...compat.extends('next/core-web-vitals'),
+  ...compat.extends('next/core-web-vitals', 'prettier'),
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     settings: { react: { version: 'detect' } },
-    plugins: {
-      prettier: require('eslint-plugin-prettier'),
-    },
     languageOptions: {
       parserOptions: {
         ecmaVersion: 2021,
@@ -20,6 +15,7 @@ module.exports = [
       },
       parser: require('@typescript-eslint/parser'),
     },
+    plugins: { prettier: require('eslint-plugin-prettier') },
     rules: {
       'prettier/prettier': 'error',
       'react/react-in-jsx-scope': 'off',

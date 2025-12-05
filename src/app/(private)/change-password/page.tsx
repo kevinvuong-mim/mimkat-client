@@ -88,8 +88,8 @@ export default function ChangePasswordPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
-        <div className="text-center space-y-2">
+      <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+        <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold tracking-tight">
             {t.changePassword[currentUser?.hasPassword ? 'titleHasPassword' : 'titleNoPassword']}
           </h1>
@@ -126,7 +126,7 @@ export default function ChangePasswordPage() {
                               current: !prev.current,
                             }))
                           }
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                         >
                           {showPassword.current ? (
                             <EyeOff className="h-4 w-4" />
@@ -164,7 +164,7 @@ export default function ChangePasswordPage() {
                             new: !prev.new,
                           }))
                         }
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                       >
                         {showPassword.new ? (
                           <EyeOff className="h-4 w-4" />
@@ -201,7 +201,7 @@ export default function ChangePasswordPage() {
                             confirm: !prev.confirm,
                           }))
                         }
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                       >
                         {showPassword.confirm ? (
                           <EyeOff className="h-4 w-4" />
@@ -229,7 +229,7 @@ export default function ChangePasswordPage() {
           </form>
         </Form>
 
-        <div className="pt-4 border-t">
+        <div className="border-t pt-4">
           <Button asChild variant="outline" className="w-full">
             <Link href="/">{t.changePassword.backToHome}</Link>
           </Button>

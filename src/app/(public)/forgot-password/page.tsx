@@ -52,8 +52,8 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
-        <div className="text-center space-y-2">
+      <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+        <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold tracking-tight">{t.forgotPassword.title}</h1>
           <p className="text-sm text-muted-foreground">{t.forgotPassword.description}</p>
         </div>
@@ -81,7 +81,7 @@ export default function ForgotPasswordPage() {
           </form>
         </Form>
 
-        <div className="pt-4 border-t">
+        <div className="border-t pt-4">
           <Button asChild variant="outline" className="w-full">
             <Link href="/login">{t.forgotPassword.backToLogin}</Link>
           </Button>

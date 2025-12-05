@@ -98,8 +98,8 @@ export default function RegisterPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
-        <div className="text-center space-y-2">
+      <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+        <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold tracking-tight">{t.register.title}</h1>
           <p className="text-sm text-muted-foreground">{t.register.description}</p>
         </div>
@@ -139,7 +139,7 @@ export default function RegisterPage() {
                       <button
                         type="button"
                         onClick={() => setShowPassword((prev) => !prev)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                       >
                         {showPassword ? (
                           <EyeOff className="h-4 w-4" />
@@ -163,7 +163,7 @@ export default function RegisterPage() {
 
         {Boolean(registeredEmail) && (
           <div className="space-y-2">
-            <p className="text-sm text-center text-muted-foreground">
+            <p className="text-center text-sm text-muted-foreground">
               {t.register.didNotReceiveEmail}
             </p>
             <Button
@@ -183,10 +183,10 @@ export default function RegisterPage() {
           </div>
         )}
 
-        <div className="pt-4 border-t text-center">
+        <div className="border-t pt-4 text-center">
           <p className="text-sm text-muted-foreground">
             {t.register.alreadyHaveAccount}{' '}
-            <Link href="/login" className="text-primary hover:underline font-medium">
+            <Link href="/login" className="font-medium text-primary hover:underline">
               {t.register.login}
             </Link>
           </p>

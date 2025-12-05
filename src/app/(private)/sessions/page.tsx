@@ -100,8 +100,8 @@ export default function SessionsPage() {
   return (
     <>
       <div className="w-full max-w-2xl">
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
-          <div className="text-center space-y-2">
+        <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+          <div className="space-y-2 text-center">
             <h1 className="text-2xl font-bold tracking-tight">{t.sessions.title}</h1>
             <p className="text-sm text-muted-foreground">{t.sessions.description}</p>
           </div>
@@ -121,16 +121,16 @@ export default function SessionsPage() {
                 {data?.items.map((session: Session, index: number) => (
                   <div key={session.id}>
                     <div
-                      className={`p-3 rounded-lg transition-colors ${
+                      className={`rounded-lg p-3 transition-colors ${
                         session.isCurrent
-                          ? 'bg-primary/10 dark:bg-primary/20 border-2 border-primary'
-                          : 'bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900'
+                          ? 'border-2 border-primary bg-primary/10 dark:bg-primary/20'
+                          : 'bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/50 dark:hover:bg-slate-900'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-start gap-3 flex-1 min-w-0">
+                        <div className="flex min-w-0 flex-1 items-start gap-3">
                           <div
-                            className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
+                            className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full ${
                               session.isCurrent
                                 ? 'bg-primary/20 dark:bg-primary/30'
                                 : 'bg-slate-200 dark:bg-slate-700'
@@ -138,8 +138,8 @@ export default function SessionsPage() {
                           >
                             {getDeviceIcon(session.deviceType)}
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 flex-wrap">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
                               <p className="text-sm font-medium">{session.deviceName}</p>
                               {session.isCurrent && (
                                 <span className="inline-flex items-center rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-primary-foreground">
@@ -193,7 +193,7 @@ export default function SessionsPage() {
             </ScrollArea>
           </div>
 
-          <div className="pt-4 border-t">
+          <div className="border-t pt-4">
             <Button asChild variant="outline" className="w-full">
               <Link href="/">{t.sessions.backToHome}</Link>
             </Button>

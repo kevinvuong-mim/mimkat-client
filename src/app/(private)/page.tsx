@@ -37,13 +37,13 @@ export default function Home() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-4 relative">
-        <div className="flex z-10 justify-end">
+      <div className="relative space-y-4 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+        <div className="z-10 flex justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon">
-                <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-                <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span className="sr-only">{t.home.toggleTheme}</span>
               </Button>
             </DropdownMenuTrigger>
@@ -56,9 +56,9 @@ export default function Home() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="text-center space-y-4">
+        <div className="space-y-4 text-center">
           <div className="flex justify-center">
-            <AspectRatio ratio={16 / 9} className="bg-muted rounded-lg">
+            <AspectRatio ratio={16 / 9} className="rounded-lg bg-muted">
               <Image
                 fill
                 alt=""
@@ -71,9 +71,9 @@ export default function Home() {
         </div>
 
         <div className="space-y-4">
-          <div className="flex items-center gap-2 p-3 bg-slate-100 dark:bg-slate-700 rounded-lg">
+          <div className="flex items-center gap-2 rounded-lg bg-slate-100 p-3 dark:bg-slate-700">
             <Globe className="h-5 w-5 text-muted-foreground" />
-            <span className="text-sm font-medium flex-1">{t.home.language}</span>
+            <span className="flex-1 text-sm font-medium">{t.home.language}</span>
             <div className="flex gap-2">
               <Button
                 size="sm"
@@ -118,7 +118,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="pt-4 border-t">
+        <div className="border-t pt-4">
           <Button
             className="w-full"
             disabled={isPending}
