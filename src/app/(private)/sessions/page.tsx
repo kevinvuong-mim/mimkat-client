@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { toast } from "sonner";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { LogOut, Tablet, Loader2, Monitor, Smartphone } from "lucide-react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { LogOut, Tablet, Loader2, Monitor, Smartphone } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
   AlertDialog,
@@ -16,25 +16,25 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogDescription,
-} from "@/components/ui/alert-dialog";
-import { useI18n } from "@/i18n/context";
-import { Session } from "@/types/session";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { usersService } from "@/services/users.service";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from '@/components/ui/alert-dialog';
+import { useI18n } from '@/i18n/context';
+import { Session } from '@/types/session';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { usersService } from '@/services/users.service';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function SessionsPage() {
   const { t } = useI18n();
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const [selectedSessionId, setSelectedSessionId] = useState("");
+  const [selectedSessionId, setSelectedSessionId] = useState('');
   const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
   const [isLogoutAllDialogOpen, setIsLogoutAllDialogOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getSessions"],
+    queryKey: ['getSessions'],
     queryFn: usersService.getSessions,
   });
 
@@ -42,11 +42,11 @@ export default function SessionsPage() {
     useMutation({
       onError: (error) => toast.error(error.message),
       onSuccess: () => {
-        setSelectedSessionId("");
+        setSelectedSessionId('');
         setIsLogoutDialogOpen(false);
 
         toast.success(t.sessions.logoutSuccess);
-        queryClient.invalidateQueries({ queryKey: ["getSessions"] });
+        queryClient.invalidateQueries({ queryKey: ['getSessions'] });
       },
       mutationFn: (sessionId: string) => usersService.logoutDevice(sessionId),
     });
@@ -62,7 +62,7 @@ export default function SessionsPage() {
 
       toast.success(t.sessions.logoutAllSuccess);
 
-      setTimeout(() => router.push("/login"), 3000);
+      setTimeout(() => router.push('/login'), 3000);
     },
   });
 
@@ -74,11 +74,11 @@ export default function SessionsPage() {
   const getDeviceIcon = (deviceType: string) => {
     const type = deviceType.toLowerCase();
 
-    if (type.includes("mobile") || type.includes("phone")) {
+    if (type.includes('mobile') || type.includes('phone')) {
       return <Smartphone className="h-5 w-5" />;
     }
 
-    if (type.includes("tablet")) {
+    if (type.includes('tablet')) {
       return <Tablet className="h-5 w-5" />;
     }
 
@@ -89,11 +89,11 @@ export default function SessionsPage() {
     const date = new Date(dateString);
 
     return date.toLocaleString(undefined, {
-      day: "numeric",
-      month: "short",
-      hour: "2-digit",
-      year: "numeric",
-      minute: "2-digit",
+      day: 'numeric',
+      month: 'short',
+      hour: '2-digit',
+      year: 'numeric',
+      minute: '2-digit',
     });
   };
 
@@ -122,8 +122,8 @@ export default function SessionsPage() {
               >
                 <LogOut className="mr-2 h-4 w-4" />
                 {t.sessions.logoutAllOthers.replace(
-                  "{count}",
-                  (data?.meta.total ?? 0).toString()
+                  '{count}',
+                  (data?.meta.total ?? 0).toString(),
                 )}
               </Button>
             </div>
@@ -137,8 +137,8 @@ export default function SessionsPage() {
                     <div
                       className={`p-3 rounded-lg transition-colors ${
                         session.isCurrent
-                          ? "bg-primary/10 dark:bg-primary/20 border-2 border-primary"
-                          : "bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900"
+                          ? 'bg-primary/10 dark:bg-primary/20 border-2 border-primary'
+                          : 'bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-3">
@@ -146,8 +146,8 @@ export default function SessionsPage() {
                           <div
                             className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                               session.isCurrent
-                                ? "bg-primary/20 dark:bg-primary/30"
-                                : "bg-slate-200 dark:bg-slate-700"
+                                ? 'bg-primary/20 dark:bg-primary/30'
+                                : 'bg-slate-200 dark:bg-slate-700'
                             }`}
                           >
                             {getDeviceIcon(session.deviceType)}

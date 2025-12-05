@@ -4,11 +4,11 @@ import {
   PublicUserProfile,
   UpdateProfileData,
   ChangePasswordData,
-} from "@/types";
-import { apiClient } from "@/lib/api-client";
-import { handleApiError } from "@/lib/error-handler";
+} from '@/types';
+import { apiClient } from '@/lib/api-client';
+import { handleApiError } from '@/lib/error-handler';
 
-const API_BASE_PATH = "/users";
+const API_BASE_PATH = '/users';
 
 class UsersService {
   async getProfile() {
@@ -54,7 +54,7 @@ class UsersService {
   async logoutDevice(tokenId: string) {
     try {
       const response = await apiClient.delete(
-        `${API_BASE_PATH}/sessions/${tokenId}`
+        `${API_BASE_PATH}/sessions/${tokenId}`,
       );
 
       return response.data;
@@ -86,12 +86,12 @@ class UsersService {
   async uploadAvatar(file: File) {
     try {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append('file', file);
 
       const response = await apiClient.put(
         `${API_BASE_PATH}/me/avatar`,
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { 'Content-Type': 'multipart/form-data' } },
       );
 
       return response.data;

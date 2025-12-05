@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { z } from "zod";
-import Link from "next/link";
-import { toast } from "sonner";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   Form,
@@ -17,12 +17,12 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import { useI18n } from "@/i18n/context";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useUser } from "@/context/user-context";
-import { usersService } from "@/services/users.service";
+} from '@/components/ui/form';
+import { useI18n } from '@/i18n/context';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useUser } from '@/context/user-context';
+import { usersService } from '@/services/users.service';
 
 export default function ChangePasswordPage() {
   const { t } = useI18n();
@@ -40,7 +40,7 @@ export default function ChangePasswordPage() {
         .min(8, t.changePassword.newPasswordMinLength)
         .regex(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-          t.changePassword.newPasswordPattern
+          t.changePassword.newPasswordPattern,
         ),
       confirmPassword: z
         .string()
@@ -50,16 +50,16 @@ export default function ChangePasswordPage() {
         : z.string().optional(),
     })
     .refine((data) => data.newPassword === data.confirmPassword, {
-      path: ["confirmPassword"],
+      path: ['confirmPassword'],
       message: t.changePassword.passwordsDoNotMatch,
     });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      newPassword: "",
-      confirmPassword: "",
-      currentPassword: "",
+      newPassword: '',
+      confirmPassword: '',
+      currentPassword: '',
     },
   });
 
@@ -84,7 +84,7 @@ export default function ChangePasswordPage() {
       onSuccess: () => {
         form.reset();
 
-        setTimeout(() => router.push("/login"), 3000);
+        setTimeout(() => router.push('/login'), 3000);
 
         toast.success(t.changePassword.passwordChangedSuccessfully);
       },
@@ -98,7 +98,7 @@ export default function ChangePasswordPage() {
           <h1 className="text-2xl font-bold tracking-tight">
             {
               t.changePassword[
-                user?.hasPassword ? "titleHasPassword" : "titleNoPassword"
+                user?.hasPassword ? 'titleHasPassword' : 'titleNoPassword'
               ]
             }
           </h1>
@@ -106,8 +106,8 @@ export default function ChangePasswordPage() {
             {
               t.changePassword[
                 user?.hasPassword
-                  ? "descriptionHasPassword"
-                  : "descriptionNoPassword"
+                  ? 'descriptionHasPassword'
+                  : 'descriptionNoPassword'
               ]
             }
           </p>
@@ -127,7 +127,7 @@ export default function ChangePasswordPage() {
                         <Input
                           {...field}
                           placeholder={t.changePassword.currentPassword}
-                          type={showPassword.current ? "text" : "password"}
+                          type={showPassword.current ? 'text' : 'password'}
                         />
                         <button
                           type="button"
@@ -165,7 +165,7 @@ export default function ChangePasswordPage() {
                       <Input
                         {...field}
                         placeholder={t.changePassword.newPassword}
-                        type={showPassword.new ? "text" : "password"}
+                        type={showPassword.new ? 'text' : 'password'}
                       />
                       <button
                         type="button"
@@ -202,7 +202,7 @@ export default function ChangePasswordPage() {
                       <Input
                         {...field}
                         placeholder={t.changePassword.confirmPassword}
-                        type={showPassword.confirm ? "text" : "password"}
+                        type={showPassword.confirm ? 'text' : 'password'}
                       />
                       <button
                         type="button"
@@ -233,7 +233,7 @@ export default function ChangePasswordPage() {
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 t.changePassword[
-                  user?.hasPassword ? "submitHasPassword" : "submitNoPassword"
+                  user?.hasPassword ? 'submitHasPassword' : 'submitNoPassword'
                 ]
               )}
             </Button>

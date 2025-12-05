@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useQuery } from "@tanstack/react-query";
-import { ReactNode, useContext, createContext } from "react";
+import { useQuery } from '@tanstack/react-query';
+import { ReactNode, useContext, createContext } from 'react';
 
-import { UserContextType } from "@/types/user";
-import { isPublicRoute } from "@/lib/public-route";
-import { usersService } from "@/services/users.service";
+import { UserContextType } from '@/types/user';
+import { isPublicRoute } from '@/lib/public-route';
+import { usersService } from '@/services/users.service';
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const { data: user } = useQuery({
-    queryKey: ["getProfile"],
+    queryKey: ['getProfile'],
     queryFn: usersService.getProfile,
     enabled: () => {
-      if (typeof window === "undefined") return false;
+      if (typeof window === 'undefined') return false;
 
       return !isPublicRoute(window.location.pathname);
     },
@@ -28,7 +28,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 export function useUser() {
   const context = useContext(UserContext);
 
-  if (!context) throw new Error("useUser must be used within UserProvider");
+  if (!context) throw new Error('useUser must be used within UserProvider');
 
   return context;
 }

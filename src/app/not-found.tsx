@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
-import { useI18n } from "@/i18n/context";
-import { Button } from "@/components/ui/button";
+import { useI18n } from '@/i18n/context';
+import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   const { t } = useI18n();

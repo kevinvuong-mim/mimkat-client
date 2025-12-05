@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { API_URL } from "@/lib/constants";
-import { isPublicRoute } from "@/lib/public-route";
+import { API_URL } from '@/lib/constants';
+import { isPublicRoute } from '@/lib/public-route';
 
 export const apiClient = axios.create({
   baseURL: API_URL,
   withCredentials: true,
-  headers: { "Content-Type": "application/json" },
+  headers: { 'Content-Type': 'application/json' },
 });
 
 let isRefreshing = false;
@@ -33,7 +33,7 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response?.status === 403) {
-      if (typeof window !== "undefined") window.location.href = "/login";
+      if (typeof window !== 'undefined') window.location.href = '/login';
 
       return Promise.reject(error);
     }
@@ -54,19 +54,19 @@ apiClient.interceptors.response.use(
         await axios.post(
           `${API_URL}/auth/refresh`,
           {},
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
-        processQueue(null, "success");
+        processQueue(null, 'success');
 
         return apiClient(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
 
-        if (typeof window !== "undefined") {
+        if (typeof window !== 'undefined') {
           const currentPath = window.location.pathname;
 
-          if (!isPublicRoute(currentPath)) window.location.href = "/login";
+          if (!isPublicRoute(currentPath)) window.location.href = '/login';
         }
 
         return Promise.reject(refreshError);
@@ -76,5 +76,5 @@ apiClient.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { z } from "zod";
-import Link from "next/link";
-import { toast } from "sonner";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useSearchParams } from "next/navigation";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   Form,
@@ -17,12 +17,12 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import { useI18n } from "@/i18n/context";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { authService } from "@/services/auth.service";
-import GoogleLoginButton from "@/components/google-login-button";
+} from '@/components/ui/form';
+import { useI18n } from '@/i18n/context';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { authService } from '@/services/auth.service';
+import GoogleLoginButton from '@/components/google-login-button';
 
 export default function LoginPage() {
   const { t } = useI18n();
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: '', password: '' },
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -49,7 +49,7 @@ export default function LoginPage() {
       onError: (err) => toast.error(err.message),
       onSuccess: () => {
         form.reset();
-        window.location.href = searchParams.get("redirect") || "/";
+        window.location.href = searchParams.get('redirect') || '/';
       },
     });
   };
@@ -102,7 +102,7 @@ export default function LoginPage() {
                       <Input
                         {...field}
                         placeholder={t.login.password}
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                       />
                       <button
                         type="button"
@@ -149,7 +149,7 @@ export default function LoginPage() {
 
         <div className="pt-4 border-t text-center">
           <p className="text-sm text-muted-foreground">
-            {t.login.noAccount}{" "}
+            {t.login.noAccount}{' '}
             <Link
               href="/register"
               className="text-primary hover:underline font-medium"

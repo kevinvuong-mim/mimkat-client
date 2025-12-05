@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useI18n } from "@/i18n/context";
-import { API_URL } from "@/lib/constants";
-import { Button } from "@/components/ui/button";
+import { useI18n } from '@/i18n/context';
+import { API_URL } from '@/lib/constants';
+import { Button } from '@/components/ui/button';
 
 export default function GoogleLoginButton() {
   const { t } = useI18n();
@@ -11,7 +11,7 @@ export default function GoogleLoginButton() {
     const currentOrigin = window.location.origin;
 
     window.location.href = `${API_URL}/auth/google?redirect_url=${encodeURIComponent(
-      currentOrigin
+      currentOrigin,
     )}`;
   };
 

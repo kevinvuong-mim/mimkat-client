@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { z } from "zod";
-import Link from "next/link";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   Form,
@@ -14,11 +14,11 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import { useI18n } from "@/i18n/context";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { authService } from "@/services/auth.service";
+} from '@/components/ui/form';
+import { useI18n } from '@/i18n/context';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { authService } from '@/services/auth.service';
 
 export default function ForgotPasswordPage() {
   const { t } = useI18n();
@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
-    defaultValues: { email: "" },
+    defaultValues: { email: '' },
     resolver: zodResolver(formSchema),
   });
 
@@ -46,7 +46,7 @@ export default function ForgotPasswordPage() {
 
           toast.success(t.forgotPassword.emailSentSuccess);
         },
-      }
+      },
     );
   };
 

@@ -1,6 +1,6 @@
-import en from "@/i18n/locales/en.json";
+import en from '@/i18n/locales/en.json';
 
-export type Locale = "en" | "vi";
+export type Locale = 'en' | 'vi';
 
 export type Messages = typeof en;
 

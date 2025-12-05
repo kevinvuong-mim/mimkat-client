@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { ErrorResponse } from "@/types";
+import { ErrorResponse } from '@/types';
 
 export const handleApiError = (error: unknown): ErrorResponse => {
   if (axios.isAxiosError(error) && error.response) return error.response.data;
@@ -8,12 +8,12 @@ export const handleApiError = (error: unknown): ErrorResponse => {
   return {
     success: false,
     statusCode: 500,
-    error: "Internal Error",
+    error: 'Internal Error',
     timestamp: new Date().toISOString(),
     path: axios.isAxiosError(error)
-      ? error.config?.url || error.request?.path || ""
-      : "",
+      ? error.config?.url || error.request?.path || ''
+      : '',
     message:
-      error instanceof Error ? error.message : "An unknown error occurred",
+      error instanceof Error ? error.message : 'An unknown error occurred',
   };
 };

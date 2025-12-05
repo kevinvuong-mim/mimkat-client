@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-import "./globals.css";
-import { I18nProvider } from "@/i18n/context";
-import { Toaster } from "@/components/ui/sonner";
-import { UserProvider } from "@/context/user-context";
-import { QueryProvider } from "@/providers/query-provider";
-import { ThemeProvider } from "@/providers/theme-provider";
+import './globals.css';
+import { I18nProvider } from '@/i18n/context';
+import { Toaster } from '@/components/ui/sonner';
+import { UserProvider } from '@/context/user-context';
+import { QueryProvider } from '@/providers/query-provider';
+import { ThemeProvider } from '@/providers/theme-provider';
 
 export const metadata: Metadata = {
-  title: "Mimkat",
-  description: "Mimkat Application",
-  icons: { icon: "/images/logo.png" },
+  title: 'Mimkat',
+  description: 'Mimkat Application',
+  icons: { icon: '/images/logo.png' },
 };
 
 export default function RootLayout({

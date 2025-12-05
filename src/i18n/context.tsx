@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Locale, Messages, I18nContextType } from "@/types/i18n";
-import { useState, useEffect, useContext, createContext } from "react";
+import { Locale, Messages, I18nContextType } from '@/types/i18n';
+import { useState, useEffect, useContext, createContext } from 'react';
 
-import en from "./locales/en.json";
-import vi from "./locales/vi.json";
+import en from './locales/en.json';
+import vi from './locales/vi.json';
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
@@ -12,20 +12,20 @@ const messages: Record<Locale, Messages> = { en, vi };
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const getInitialLocale = () => {
-    if (typeof window === "undefined") return "en";
+    if (typeof window === 'undefined') return 'en';
 
-    const savedLocale = localStorage.getItem("locale") as Locale;
+    const savedLocale = localStorage.getItem('locale') as Locale;
     if (savedLocale) return savedLocale;
 
     const browserLang = navigator.language.toLowerCase();
-    if (browserLang.startsWith("vi")) return "vi";
-    if (browserLang.startsWith("en")) return "en";
+    if (browserLang.startsWith('vi')) return 'vi';
+    if (browserLang.startsWith('en')) return 'en';
 
-    return "en";
+    return 'en';
   };
 
   const [isReady, setIsReady] = useState(false);
-  const [locale, setLocaleState] = useState<Locale>("en");
+  const [locale, setLocaleState] = useState<Locale>('en');
 
   useEffect(() => {
     setLocaleState(getInitialLocale());
@@ -34,7 +34,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
   const setLocale = (newLocale: Locale) => {
     setLocaleState(newLocale);
-    localStorage.setItem("locale", newLocale);
+    localStorage.setItem('locale', newLocale);
   };
 
   if (!isReady) return null;
@@ -50,7 +50,7 @@ export function useI18n() {
   const context = useContext(I18nContext);
 
   if (!context) {
-    throw new Error("useI18n must be used within I18nProvider");
+    throw new Error('useI18n must be used within I18nProvider');
   }
 
   return context;

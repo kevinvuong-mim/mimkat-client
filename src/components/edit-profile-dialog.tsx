@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { z } from "zod";
-import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { z } from 'zod';
+import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
   Form,
@@ -14,19 +14,19 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   Dialog,
   DialogTitle,
   DialogHeader,
   DialogContent,
   DialogDescription,
-} from "@/components/ui/dialog";
-import { useI18n } from "@/i18n/context";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { User, UpdateProfileData } from "@/types";
-import { usersService } from "@/services/users.service";
+} from '@/components/ui/dialog';
+import { useI18n } from '@/i18n/context';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { User, UpdateProfileData } from '@/types';
+import { usersService } from '@/services/users.service';
 
 interface EditProfileDialogProps {
   user: User;
@@ -47,7 +47,7 @@ export function EditProfileDialog({
     onSuccess: () => {
       onOpenChange(false);
       toast.success(t.editProfile.updateSuccess);
-      queryClient.invalidateQueries({ queryKey: ["getProfile"] });
+      queryClient.invalidateQueries({ queryKey: ['getProfile'] });
     },
     mutationFn: (data: UpdateProfileData) => usersService.updateProfile(data),
   });
@@ -59,12 +59,12 @@ export function EditProfileDialog({
       .max(50)
       .regex(/^[a-zA-Z0-9_]+$/, t.editProfile.usernamePattern)
       .optional()
-      .or(z.literal("")),
+      .or(z.literal('')),
     phoneNumber: z
       .string()
       .regex(/^[0-9+\-() ]*$/, t.editProfile.phoneNumberPattern)
       .optional()
-      .or(z.literal("")),
+      .or(z.literal('')),
     fullName: z.string().min(1, t.editProfile.fullNameRequired).max(100),
   });
 

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Sun,
@@ -9,25 +9,25 @@ import {
   Monitor,
   Loader2,
   KeyRound,
-} from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import { toast } from "sonner";
-import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+} from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { toast } from 'sonner';
+import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 
 import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useI18n } from "@/i18n/context";
-import { Button } from "@/components/ui/button";
-import { useUser } from "@/context/user-context";
-import { authService } from "@/services/auth.service";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+} from '@/components/ui/dropdown-menu';
+import { useI18n } from '@/i18n/context';
+import { Button } from '@/components/ui/button';
+import { useUser } from '@/context/user-context';
+import { authService } from '@/services/auth.service';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 export default function Home() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function Home() {
 
   const handleLogout = () => {
     mutate(undefined, {
-      onSuccess: () => router.push("/login"),
+      onSuccess: () => router.push('/login'),
       onError: (err) => toast.error(err.message),
     });
   };
@@ -57,13 +57,13 @@ export default function Home() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme("light")}>
+              <DropdownMenuItem onClick={() => setTheme('light')}>
                 {t.home.light}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
+              <DropdownMenuItem onClick={() => setTheme('dark')}>
                 {t.home.dark}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
+              <DropdownMenuItem onClick={() => setTheme('system')}>
                 {t.home.system}
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -75,7 +75,7 @@ export default function Home() {
               <Image
                 fill
                 alt=""
-                src={"/images/logo.png"}
+                src={'/images/logo.png'}
                 className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
               />
             </AspectRatio>
@@ -95,16 +95,16 @@ export default function Home() {
               <Button
                 size="sm"
                 className="h-8"
-                onClick={() => setLocale("en")}
-                variant={locale === "en" ? "default" : "outline"}
+                onClick={() => setLocale('en')}
+                variant={locale === 'en' ? 'default' : 'outline'}
               >
                 {t.home.english}
               </Button>
               <Button
                 size="sm"
                 className="h-8"
-                onClick={() => setLocale("vi")}
-                variant={locale === "vi" ? "default" : "outline"}
+                onClick={() => setLocale('vi')}
+                variant={locale === 'vi' ? 'default' : 'outline'}
               >
                 {t.home.vietnamese}
               </Button>

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { z } from "zod";
-import Link from "next/link";
-import { toast } from "sonner";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
+import { z } from 'zod';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import {
   Form,
@@ -17,11 +17,11 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import { useI18n } from "@/i18n/context";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { authService } from "@/services/auth.service";
+} from '@/components/ui/form';
+import { useI18n } from '@/i18n/context';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { authService } from '@/services/auth.service';
 
 export default function ResetPasswordPage() {
   const { t } = useI18n();
@@ -39,22 +39,22 @@ export default function ResetPasswordPage() {
         .min(8, t.resetPassword.passwordMinLength)
         .regex(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-          t.resetPassword.passwordPattern
+          t.resetPassword.passwordPattern,
         ),
       confirmPassword: z
         .string()
         .min(1, t.resetPassword.confirmPasswordRequired),
     })
     .refine((data) => data.password === data.confirmPassword, {
-      path: ["confirmPassword"],
+      path: ['confirmPassword'],
       message: t.resetPassword.passwordsDoNotMatch,
     });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      password: "",
-      confirmPassword: "",
+      password: '',
+      confirmPassword: '',
     },
   });
 
@@ -64,7 +64,7 @@ export default function ResetPasswordPage() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const token = searchParams.get("token");
+    const token = searchParams.get('token');
 
     if (!token) {
       toast.error(t.resetPassword.noToken);
@@ -81,11 +81,11 @@ export default function ResetPasswordPage() {
         onSuccess: () => {
           form.reset();
 
-          setTimeout(() => router.push("/login"), 3000);
+          setTimeout(() => router.push('/login'), 3000);
 
           toast.success(t.resetPassword.passwordResetSuccess);
         },
-      }
+      },
     );
   };
 
@@ -114,7 +114,7 @@ export default function ResetPasswordPage() {
                       <Input
                         {...field}
                         placeholder={t.resetPassword.password}
-                        type={showPassword.new ? "text" : "password"}
+                        type={showPassword.new ? 'text' : 'password'}
                       />
                       <button
                         type="button"
@@ -151,7 +151,7 @@ export default function ResetPasswordPage() {
                       <Input
                         {...field}
                         placeholder={t.resetPassword.confirmPassword}
-                        type={showPassword.confirm ? "text" : "password"}
+                        type={showPassword.confirm ? 'text' : 'password'}
                       />
                       <button
                         type="button"

@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { z } from "zod";
-import Link from "next/link";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   Form,
@@ -16,11 +16,11 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import { useI18n } from "@/i18n/context";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { authService } from "@/services/auth.service";
+} from '@/components/ui/form';
+import { useI18n } from '@/i18n/context';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { authService } from '@/services/auth.service';
 
 export default function RegisterPage() {
   const { t } = useI18n();
@@ -45,18 +45,18 @@ export default function RegisterPage() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: '', password: '' },
   });
 
   const [countdown, setCountdown] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
-  const [registeredEmail, setRegisteredEmail] = useState("");
+  const [registeredEmail, setRegisteredEmail] = useState('');
 
   const formatTime = (seconds: number) => {
     const secs = seconds % 60;
     const mins = Math.floor(seconds / 60);
 
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -75,7 +75,7 @@ export default function RegisterPage() {
           toast.success(t.register.successMessage);
         },
         onError: (err) => toast.error(err.message),
-      }
+      },
     );
   };
 
@@ -89,7 +89,7 @@ export default function RegisterPage() {
           toast.success(t.register.resendSuccess);
         },
         onError: (err) => toast.error(err.message),
-      }
+      },
     );
   };
 
@@ -147,7 +147,7 @@ export default function RegisterPage() {
                       <Input
                         {...field}
                         placeholder={t.register.password}
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                       />
                       <button
                         type="button"
@@ -206,7 +206,7 @@ export default function RegisterPage() {
 
         <div className="pt-4 border-t text-center">
           <p className="text-sm text-muted-foreground">
-            {t.register.alreadyHaveAccount}{" "}
+            {t.register.alreadyHaveAccount}{' '}
             <Link
               href="/login"
               className="text-primary hover:underline font-medium"

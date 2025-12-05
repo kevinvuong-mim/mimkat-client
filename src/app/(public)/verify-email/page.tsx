@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Mail, Loader2, XCircle, CheckCircle2 } from "lucide-react";
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Mail, Loader2, XCircle, CheckCircle2 } from 'lucide-react';
 
-import { useI18n } from "@/i18n/context";
-import { Button } from "@/components/ui/button";
-import { authService } from "@/services/auth.service";
+import { useI18n } from '@/i18n/context';
+import { Button } from '@/components/ui/button';
+import { authService } from '@/services/auth.service';
 
 export default function VerifyEmailPage() {
   const { t } = useI18n();
@@ -17,9 +17,9 @@ export default function VerifyEmailPage() {
   const [countdown, setCountdown] = useState(10);
 
   const { error, isLoading, isSuccess } = useQuery({
-    enabled: Boolean(searchParams.get("token")),
-    queryKey: ["verifyEmail", searchParams.get("token")],
-    queryFn: () => authService.verifyEmail(searchParams.get("token") || ""),
+    enabled: Boolean(searchParams.get('token')),
+    queryKey: ['verifyEmail', searchParams.get('token')],
+    queryFn: () => authService.verifyEmail(searchParams.get('token') || ''),
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function VerifyEmailPage() {
   }, [router, isSuccess]);
 
   useEffect(() => {
-    if (countdown === 0) router.push("/login");
+    if (countdown === 0) router.push('/login');
   }, [router, countdown]);
 
   return (
@@ -88,8 +88,8 @@ export default function VerifyEmailPage() {
             <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-4">
               <p className="text-sm font-medium">
                 {t.verifyEmail.redirectingIn.replace(
-                  "{countdown}",
-                  countdown.toString()
+                  '{countdown}',
+                  countdown.toString(),
                 )}
               </p>
             </div>
