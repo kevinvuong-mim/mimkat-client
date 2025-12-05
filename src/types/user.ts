@@ -1,4 +1,4 @@
-export interface User {
+export interface CurrentUser {
   id: string;
   email: string;
   avatar?: string;
@@ -13,7 +13,7 @@ export interface User {
   isEmailVerified: boolean;
 }
 
-export interface PublicUserProfile {
+export interface User {
   id: string;
   avatar?: string;
   createdAt: string;
@@ -21,8 +21,8 @@ export interface PublicUserProfile {
   username?: string;
 }
 
-export interface UserContextType {
-  user: null | User;
+export interface CurrentUserContextType {
+  currentUser: null | CurrentUser;
 }
 
 export interface ChangePasswordData {

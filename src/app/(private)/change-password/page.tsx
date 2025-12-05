@@ -21,13 +21,13 @@ import {
 import { useI18n } from '@/i18n/context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useUser } from '@/context/user-context';
 import { usersService } from '@/services/users.service';
+import { useCurrentUser } from '@/context/current-user-context';
 
 export default function ChangePasswordPage() {
   const { t } = useI18n();
-  const { user } = useUser();
   const router = useRouter();
+  const { currentUser } = useCurrentUser();
 
   const { mutate, isPending } = useMutation({
     mutationFn: usersService.changePassword,
@@ -45,7 +45,7 @@ export default function ChangePasswordPage() {
       confirmPassword: z
         .string()
         .min(1, t.changePassword.confirmPasswordRequired),
-      currentPassword: user?.hasPassword
+      currentPassword: currentUser?.hasPassword
         ? z.string().min(1, t.changePassword.currentPasswordRequired)
         : z.string().optional(),
     })
@@ -70,7 +70,7 @@ export default function ChangePasswordPage() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const changeData = user?.hasPassword
+    const changeData = currentUser?.hasPassword
       ? {
           newPassword: values.newPassword,
           currentPassword: values.currentPassword,
@@ -98,14 +98,16 @@ export default function ChangePasswordPage() {
           <h1 className="text-2xl font-bold tracking-tight">
             {
               t.changePassword[
-                user?.hasPassword ? 'titleHasPassword' : 'titleNoPassword'
+                currentUser?.hasPassword
+                  ? 'titleHasPassword'
+                  : 'titleNoPassword'
               ]
             }
           </h1>
           <p className="text-sm text-muted-foreground">
             {
               t.changePassword[
-                user?.hasPassword
+                currentUser?.hasPassword
                   ? 'descriptionHasPassword'
                   : 'descriptionNoPassword'
               ]
@@ -115,7 +117,7 @@ export default function ChangePasswordPage() {
 
         <Form {...form}>
           <form className="space-y-1" onSubmit={form.handleSubmit(onSubmit)}>
-            {user?.hasPassword && (
+            {currentUser?.hasPassword && (
               <FormField
                 control={form.control}
                 name="currentPassword"
@@ -233,7 +235,9 @@ export default function ChangePasswordPage() {
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 t.changePassword[
-                  user?.hasPassword ? 'submitHasPassword' : 'submitNoPassword'
+                  currentUser?.hasPassword
+                    ? 'submitHasPassword'
+                    : 'submitNoPassword'
                 ]
               )}
             </Button>

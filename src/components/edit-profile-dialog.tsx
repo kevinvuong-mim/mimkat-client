@@ -25,18 +25,18 @@ import {
 import { useI18n } from '@/i18n/context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { User, UpdateProfileData } from '@/types';
 import { usersService } from '@/services/users.service';
+import { CurrentUser, UpdateProfileData } from '@/types';
 
 interface EditProfileDialogProps {
-  user: User;
   open: boolean;
+  currentUser: CurrentUser;
   onOpenChange: (open: boolean) => void;
 }
 
 export function EditProfileDialog({
   open,
-  user,
+  currentUser,
   onOpenChange,
 }: EditProfileDialogProps) {
   const { t } = useI18n();
@@ -71,24 +71,24 @@ export function EditProfileDialog({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: user.fullName,
-      username: user.username,
-      phoneNumber: user.phoneNumber,
+      fullName: currentUser.fullName,
+      username: currentUser.username,
+      phoneNumber: currentUser.phoneNumber,
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const updateData: UpdateProfileData = {};
 
-    if (values.fullName && values.fullName !== user.fullName) {
+    if (values.fullName && values.fullName !== currentUser.fullName) {
       updateData.fullName = values.fullName;
     }
 
-    if (values.username && values.username !== user.username) {
+    if (values.username && values.username !== currentUser.username) {
       updateData.username = values.username;
     }
 
-    if (values.phoneNumber && values.phoneNumber !== user.phoneNumber) {
+    if (values.phoneNumber && values.phoneNumber !== currentUser.phoneNumber) {
       updateData.phoneNumber = values.phoneNumber;
     }
 

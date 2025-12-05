@@ -25,14 +25,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useI18n } from '@/i18n/context';
 import { Button } from '@/components/ui/button';
-import { useUser } from '@/context/user-context';
 import { authService } from '@/services/auth.service';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { useCurrentUser } from '@/context/current-user-context';
 
 export default function Home() {
   const router = useRouter();
-  const { user } = useUser();
   const { setTheme } = useTheme();
+  const { currentUser } = useCurrentUser();
   const { t, locale, setLocale } = useI18n();
 
   const { mutate, isPending } = useMutation({ mutationFn: authService.logout });
@@ -113,7 +113,7 @@ export default function Home() {
 
           <div className="space-y-2">
             <Button asChild variant="outline" className="w-full justify-start">
-              <Link href={`/${user?.username || user?.id}`}>
+              <Link href={`/${currentUser?.username || currentUser?.id}`}>
                 <User className="mr-2 h-4 w-4" />
                 {t.home.profile}
               </Link>

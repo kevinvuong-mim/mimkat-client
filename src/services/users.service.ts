@@ -1,7 +1,7 @@
 import {
   Session,
   PaginatedResponse,
-  PublicUserProfile,
+  User,
   UpdateProfileData,
   ChangePasswordData,
 } from '@/types';
@@ -21,7 +21,7 @@ class UsersService {
     }
   }
 
-  async getProfileByIdentifier(identifier: string): Promise<PublicUserProfile> {
+  async getProfileByIdentifier(identifier: string): Promise<User> {
     try {
       const response = await apiClient.get(`${API_BASE_PATH}/${identifier}`);
 

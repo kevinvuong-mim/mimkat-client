@@ -21,23 +21,23 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ErrorResponse } from '@/types';
 import { useI18n } from '@/i18n/context';
 import { Button } from '@/components/ui/button';
-import { useUser } from '@/context/user-context';
 import { usersService } from '@/services/users.service';
+import { useCurrentUser } from '@/context/current-user-context';
 import { EditProfileDialog } from '@/components/edit-profile-dialog';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 export default function ProfilePage() {
   const { t } = useI18n();
-  const { user } = useUser();
   const { identifier } = useParams();
   const queryClient = useQueryClient();
+  const { currentUser } = useCurrentUser();
 
-  const isOwnProfile = user?.id === identifier || identifier === user?.username;
-
+  const isOwnProfile =
+    currentUser?.id === identifier || identifier === currentUser?.username;
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const { data, error, isLoading } = useQuery({
-    enabled: !!user && !isOwnProfile,
+    enabled: !!currentUser && !isOwnProfile,
     queryKey: ['getProfileByIdentifier', identifier],
     queryFn: () => usersService.getProfileByIdentifier(identifier as string),
   });
@@ -68,7 +68,7 @@ export default function ProfilePage() {
     mutate(file);
   };
 
-  const displayUser = isOwnProfile ? user : data;
+  const displayUser = isOwnProfile ? currentUser : data;
 
   if (isLoading) {
     return <Loader2 className="h-8 w-8 animate-spin text-primary" />;
@@ -161,13 +161,13 @@ export default function ProfilePage() {
               <div className="grid grid-cols-2 gap-3">
                 <InfoRow
                   icon={Mail}
-                  value={user?.email}
                   label={t.profile.email}
+                  value={currentUser?.email}
                 />
                 <InfoRow
                   icon={Phone}
-                  value={user?.phoneNumber}
                   label={t.profile.phoneNumber}
+                  value={currentUser?.phoneNumber}
                 />
               </div>
             </div>
@@ -180,23 +180,23 @@ export default function ProfilePage() {
               <div className="grid grid-cols-2 gap-3">
                 <InfoRow
                   icon={CheckCircle}
-                  value={user?.isActive}
                   label={t.profile.isActive}
+                  value={currentUser?.isActive}
                 />
                 <InfoRow
                   icon={Mail}
-                  value={user?.isEmailVerified}
                   label={t.profile.isEmailVerified}
+                  value={currentUser?.isEmailVerified}
                 />
                 <InfoRow
                   icon={Key}
-                  value={user?.hasPassword}
                   label={t.profile.hasPassword}
+                  value={currentUser?.hasPassword}
                 />
                 <InfoRow
                   icon={Shield}
-                  value={user?.hasGoogleAuth}
                   label={t.profile.hasGoogleAuth}
+                  value={currentUser?.hasGoogleAuth}
                 />
               </div>
             </div>
@@ -237,10 +237,10 @@ export default function ProfilePage() {
         )}
       </div>
 
-      {user && (
+      {currentUser && (
         <EditProfileDialog
-          user={user}
           open={isEditDialogOpen}
+          currentUser={currentUser}
           onOpenChange={setIsEditDialogOpen}
         />
       )}
