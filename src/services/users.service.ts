@@ -1,17 +1,11 @@
-import {
-  Session,
-  PaginatedResponse,
-  User,
-  UpdateProfileData,
-  ChangePasswordData,
-} from '@/types';
 import { apiClient } from '@/lib/api-client';
 import { handleApiError } from '@/lib/error-handler';
+import { User, Session, PaginatedResponse, UpdateProfileData, ChangePasswordData } from '@/types';
 
 const API_BASE_PATH = '/users';
 
 class UsersService {
-  async getProfile() {
+  async getMe() {
     try {
       const response = await apiClient.get(`${API_BASE_PATH}/me`);
 
@@ -53,9 +47,7 @@ class UsersService {
 
   async logoutDevice(tokenId: string) {
     try {
-      const response = await apiClient.delete(
-        `${API_BASE_PATH}/sessions/${tokenId}`,
-      );
+      const response = await apiClient.delete(`${API_BASE_PATH}/sessions/${tokenId}`);
 
       return response.data;
     } catch (error) {
@@ -88,11 +80,9 @@ class UsersService {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await apiClient.put(
-        `${API_BASE_PATH}/me/avatar`,
-        formData,
-        { headers: { 'Content-Type': 'multipart/form-data' } },
-      );
+      const response = await apiClient.put(`${API_BASE_PATH}/me/avatar`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
 
       return response.data;
     } catch (error) {

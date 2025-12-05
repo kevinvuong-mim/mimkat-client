@@ -28,6 +28,11 @@ export default function ResetPasswordPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [showPassword, setShowPassword] = useState({
+    new: false,
+    confirm: false,
+  });
+
   const { mutate, isPending } = useMutation({
     mutationFn: authService.resetPassword,
   });
@@ -37,13 +42,8 @@ export default function ResetPasswordPage() {
       password: z
         .string()
         .min(8, t.resetPassword.passwordMinLength)
-        .regex(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-          t.resetPassword.passwordPattern,
-        ),
-      confirmPassword: z
-        .string()
-        .min(1, t.resetPassword.confirmPasswordRequired),
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, t.resetPassword.passwordPattern),
+      confirmPassword: z.string().min(1, t.resetPassword.confirmPasswordRequired),
     })
     .refine((data) => data.password === data.confirmPassword, {
       path: ['confirmPassword'],
@@ -56,11 +56,6 @@ export default function ResetPasswordPage() {
       password: '',
       confirmPassword: '',
     },
-  });
-
-  const [showPassword, setShowPassword] = useState({
-    new: false,
-    confirm: false,
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -93,12 +88,8 @@ export default function ResetPasswordPage() {
     <div className="w-full max-w-md">
       <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">
-            {t.resetPassword.title}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {t.resetPassword.description}
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight">{t.resetPassword.title}</h1>
+          <p className="text-sm text-muted-foreground">{t.resetPassword.description}</p>
         </div>
 
         <Form {...form}>
@@ -178,11 +169,7 @@ export default function ResetPasswordPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                t.resetPassword.submit
-              )}
+              {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : t.resetPassword.submit}
             </Button>
           </form>
         </Form>

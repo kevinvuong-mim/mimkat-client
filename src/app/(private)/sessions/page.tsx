@@ -38,23 +38,19 @@ export default function SessionsPage() {
     queryFn: usersService.getSessions,
   });
 
-  const { mutate: logoutDeviceMutation, isPending: isLogoutDevicePending } =
-    useMutation({
-      onError: (error) => toast.error(error.message),
-      onSuccess: () => {
-        setSelectedSessionId('');
-        setIsLogoutDialogOpen(false);
+  const { mutate: logoutDeviceMutation, isPending: isLogoutDevicePending } = useMutation({
+    onError: (error) => toast.error(error.message),
+    onSuccess: () => {
+      setSelectedSessionId('');
+      setIsLogoutDialogOpen(false);
 
-        toast.success(t.sessions.logoutSuccess);
-        queryClient.invalidateQueries({ queryKey: ['getSessions'] });
-      },
-      mutationFn: (sessionId: string) => usersService.logoutDevice(sessionId),
-    });
+      toast.success(t.sessions.logoutSuccess);
+      queryClient.invalidateQueries({ queryKey: ['getSessions'] });
+    },
+    mutationFn: (sessionId: string) => usersService.logoutDevice(sessionId),
+  });
 
-  const {
-    mutate: logoutAllDevicesMutation,
-    isPending: isLogoutAllDevicesPending,
-  } = useMutation({
+  const { mutate: logoutAllDevicesMutation, isPending: isLogoutAllDevicesPending } = useMutation({
     mutationFn: usersService.logoutAllDevices,
     onError: (error) => toast.error(error.message),
     onSuccess: () => {
@@ -106,25 +102,15 @@ export default function SessionsPage() {
       <div className="w-full max-w-2xl">
         <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
           <div className="text-center space-y-2">
-            <h1 className="text-2xl font-bold tracking-tight">
-              {t.sessions.title}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              {t.sessions.description}
-            </p>
+            <h1 className="text-2xl font-bold tracking-tight">{t.sessions.title}</h1>
+            <p className="text-sm text-muted-foreground">{t.sessions.description}</p>
           </div>
 
           {(data?.meta.total ?? 0) > 1 && (
             <div className="flex justify-end border-b pb-4">
-              <Button
-                variant="destructive"
-                onClick={() => setIsLogoutAllDialogOpen(true)}
-              >
+              <Button variant="destructive" onClick={() => setIsLogoutAllDialogOpen(true)}>
                 <LogOut className="mr-2 h-4 w-4" />
-                {t.sessions.logoutAllOthers.replace(
-                  '{count}',
-                  (data?.meta.total ?? 0).toString(),
-                )}
+                {t.sessions.logoutAllOthers.replace('{count}', (data?.meta.total ?? 0).toString())}
               </Button>
             </div>
           )}
@@ -154,9 +140,7 @@ export default function SessionsPage() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <p className="text-sm font-medium">
-                                {session.deviceName}
-                              </p>
+                              <p className="text-sm font-medium">{session.deviceName}</p>
                               {session.isCurrent && (
                                 <span className="inline-flex items-center rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-primary-foreground">
                                   {t.sessions.currentDevice}
@@ -171,9 +155,7 @@ export default function SessionsPage() {
                                 <span className="text-muted-foreground">
                                   {t.sessions.createdAt}:
                                 </span>
-                                <span className="font-medium">
-                                  {formatDate(session.createdAt)}
-                                </span>
+                                <span className="font-medium">{formatDate(session.createdAt)}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-muted-foreground">
@@ -187,9 +169,7 @@ export default function SessionsPage() {
                                 <span className="text-muted-foreground">
                                   {t.sessions.expiresAt}:
                                 </span>
-                                <span className="font-medium">
-                                  {formatDate(session.expiresAt)}
-                                </span>
+                                <span className="font-medium">{formatDate(session.expiresAt)}</span>
                               </div>
                             </div>
                           </div>
@@ -206,9 +186,7 @@ export default function SessionsPage() {
                         )}
                       </div>
                     </div>
-                    {index < (data?.items.length ?? 0) - 1 && (
-                      <Separator className="my-3" />
-                    )}
+                    {index < (data?.items.length ?? 0) - 1 && <Separator className="my-3" />}
                   </div>
                 ))}
               </div>
@@ -223,10 +201,7 @@ export default function SessionsPage() {
         </div>
       </div>
 
-      <AlertDialog
-        open={isLogoutDialogOpen}
-        onOpenChange={setIsLogoutDialogOpen}
-      >
+      <AlertDialog open={isLogoutDialogOpen} onOpenChange={setIsLogoutDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="text-destructive">
@@ -256,10 +231,7 @@ export default function SessionsPage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <AlertDialog
-        open={isLogoutAllDialogOpen}
-        onOpenChange={setIsLogoutAllDialogOpen}
-      >
+      <AlertDialog open={isLogoutAllDialogOpen} onOpenChange={setIsLogoutAllDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="text-destructive">

@@ -52,12 +52,8 @@ export default function VerifyEmailPage() {
             <div className="flex justify-center">
               <Loader2 className="h-16 w-16 text-blue-500 animate-spin" />
             </div>
-            <h2 className="text-2xl font-bold tracking-tight">
-              {t.verifyEmail.loading}
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              {t.verifyEmail.verifying}
-            </p>
+            <h2 className="text-2xl font-bold tracking-tight">{t.verifyEmail.loading}</h2>
+            <p className="text-sm text-muted-foreground">{t.verifyEmail.verifying}</p>
           </div>
         ) : error ? (
           <div className="text-center space-y-4">
@@ -82,15 +78,10 @@ export default function VerifyEmailPage() {
             <h2 className="text-2xl font-bold tracking-tight text-green-600 dark:text-green-400">
               {t.verifyEmail.success}
             </h2>
-            <p className="text-sm text-muted-foreground">
-              {t.verifyEmail.successMessage}
-            </p>
+            <p className="text-sm text-muted-foreground">{t.verifyEmail.successMessage}</p>
             <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-4">
               <p className="text-sm font-medium">
-                {t.verifyEmail.redirectingIn.replace(
-                  '{countdown}',
-                  countdown.toString(),
-                )}
+                {t.verifyEmail.redirectingIn.replace('{countdown}', countdown.toString())}
               </p>
             </div>
             <div className="pt-4 space-y-3">
@@ -104,12 +95,8 @@ export default function VerifyEmailPage() {
             <div className="flex justify-center">
               <Mail className="h-16 w-16 text-blue-500" />
             </div>
-            <h2 className="text-2xl font-bold tracking-tight">
-              {t.verifyEmail.title}
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              {t.verifyEmail.checkEmailLink}
-            </p>
+            <h2 className="text-2xl font-bold tracking-tight">{t.verifyEmail.title}</h2>
+            <p className="text-sm text-muted-foreground">{t.verifyEmail.checkEmailLink}</p>
           </div>
         )}
       </div>

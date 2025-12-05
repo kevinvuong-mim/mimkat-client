@@ -1,21 +1,12 @@
 'use client';
 
-import {
-  Sun,
-  Moon,
-  User,
-  Globe,
-  LogOut,
-  Monitor,
-  Loader2,
-  KeyRound,
-} from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
+import { Sun, Moon, User, Globe, LogOut, Monitor, Loader2, KeyRound } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -57,12 +48,8 @@ export default function Home() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme('light')}>
-                {t.home.light}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('dark')}>
-                {t.home.dark}
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('light')}>{t.home.light}</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('dark')}>{t.home.dark}</DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme('system')}>
                 {t.home.system}
               </DropdownMenuItem>
@@ -80,17 +67,13 @@ export default function Home() {
               />
             </AspectRatio>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            {t.home.welcome}
-          </h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t.home.welcome}</h1>
         </div>
 
         <div className="space-y-4">
           <div className="flex items-center gap-2 p-3 bg-slate-100 dark:bg-slate-700 rounded-lg">
             <Globe className="h-5 w-5 text-muted-foreground" />
-            <span className="text-sm font-medium flex-1">
-              {t.home.language}
-            </span>
+            <span className="text-sm font-medium flex-1">{t.home.language}</span>
             <div className="flex gap-2">
               <Button
                 size="sm"

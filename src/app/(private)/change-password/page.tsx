@@ -29,6 +29,12 @@ export default function ChangePasswordPage() {
   const router = useRouter();
   const { currentUser } = useCurrentUser();
 
+  const [showPassword, setShowPassword] = useState({
+    new: false,
+    confirm: false,
+    current: false,
+  });
+
   const { mutate, isPending } = useMutation({
     mutationFn: usersService.changePassword,
   });
@@ -38,13 +44,8 @@ export default function ChangePasswordPage() {
       newPassword: z
         .string()
         .min(8, t.changePassword.newPasswordMinLength)
-        .regex(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-          t.changePassword.newPasswordPattern,
-        ),
-      confirmPassword: z
-        .string()
-        .min(1, t.changePassword.confirmPasswordRequired),
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, t.changePassword.newPasswordPattern),
+      confirmPassword: z.string().min(1, t.changePassword.confirmPasswordRequired),
       currentPassword: currentUser?.hasPassword
         ? z.string().min(1, t.changePassword.currentPasswordRequired)
         : z.string().optional(),
@@ -61,12 +62,6 @@ export default function ChangePasswordPage() {
       confirmPassword: '',
       currentPassword: '',
     },
-  });
-
-  const [showPassword, setShowPassword] = useState({
-    new: false,
-    confirm: false,
-    current: false,
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -96,20 +91,12 @@ export default function ChangePasswordPage() {
       <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-2xl font-bold tracking-tight">
-            {
-              t.changePassword[
-                currentUser?.hasPassword
-                  ? 'titleHasPassword'
-                  : 'titleNoPassword'
-              ]
-            }
+            {t.changePassword[currentUser?.hasPassword ? 'titleHasPassword' : 'titleNoPassword']}
           </h1>
           <p className="text-sm text-muted-foreground">
             {
               t.changePassword[
-                currentUser?.hasPassword
-                  ? 'descriptionHasPassword'
-                  : 'descriptionNoPassword'
+                currentUser?.hasPassword ? 'descriptionHasPassword' : 'descriptionNoPassword'
               ]
             }
           </p>
@@ -235,9 +222,7 @@ export default function ChangePasswordPage() {
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 t.changePassword[
-                  currentUser?.hasPassword
-                    ? 'submitHasPassword'
-                    : 'submitNoPassword'
+                  currentUser?.hasPassword ? 'submitHasPassword' : 'submitNoPassword'
                 ]
               )}
             </Button>

@@ -61,9 +61,7 @@ class AuthService {
 
   async verifyEmail(token: string) {
     try {
-      const response = await authAxios.get(
-        `/verification/email?token=${token}`,
-      );
+      const response = await authAxios.get(`/verification/email?token=${token}`);
 
       return response.data;
     } catch (error) {
@@ -83,10 +81,7 @@ class AuthService {
 
   async forgotPassword(data: ForgotPasswordData) {
     try {
-      const response = await authAxios.post(
-        `/verification/forgot-password`,
-        data,
-      );
+      const response = await authAxios.post(`/verification/forgot-password`, data);
 
       return response.data;
     } catch (error) {
@@ -96,10 +91,7 @@ class AuthService {
 
   async resetPassword(data: ResetPasswordData) {
     try {
-      const response = await authAxios.post(
-        '/verification/reset-password',
-        data,
-      );
+      const response = await authAxios.post('/verification/reset-password', data);
 
       return response.data;
     } catch (error) {

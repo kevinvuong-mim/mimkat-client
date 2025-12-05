@@ -28,6 +28,8 @@ export default function LoginPage() {
   const { t } = useI18n();
   const searchParams = useSearchParams();
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const { mutate, isPending } = useMutation({
     mutationFn: authService.login,
   });
@@ -41,8 +43,6 @@ export default function LoginPage() {
     resolver: zodResolver(formSchema),
     defaultValues: { email: '', password: '' },
   });
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     mutate(values, {
@@ -71,11 +71,7 @@ export default function LoginPage() {
                 <FormItem>
                   <FormLabel>{t.login.email}</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      placeholder={t.login.email}
-                    />
+                    <Input {...field} type="email" placeholder={t.login.email} />
                   </FormControl>
                   <div className="min-h-[20px]">
                     <FormMessage />
@@ -90,10 +86,7 @@ export default function LoginPage() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <FormLabel>{t.login.password}</FormLabel>
-                    <Link
-                      href="/forgot-password"
-                      className="text-sm text-primary hover:underline"
-                    >
+                    <Link href="/forgot-password" className="text-sm text-primary hover:underline">
                       {t.login.forgotPassword}
                     </Link>
                   </div>
@@ -125,11 +118,7 @@ export default function LoginPage() {
             />
 
             <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                t.login.submit
-              )}
+              {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : t.login.submit}
             </Button>
           </form>
         </Form>
@@ -150,10 +139,7 @@ export default function LoginPage() {
         <div className="pt-4 border-t text-center">
           <p className="text-sm text-muted-foreground">
             {t.login.noAccount}{' '}
-            <Link
-              href="/register"
-              className="text-primary hover:underline font-medium"
-            >
+            <Link href="/register" className="text-primary hover:underline font-medium">
               {t.login.register}
             </Link>
           </p>

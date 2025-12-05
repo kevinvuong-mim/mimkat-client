@@ -10,10 +10,7 @@ export const handleApiError = (error: unknown): ErrorResponse => {
     statusCode: 500,
     error: 'Internal Error',
     timestamp: new Date().toISOString(),
-    path: axios.isAxiosError(error)
-      ? error.config?.url || error.request?.path || ''
-      : '',
-    message:
-      error instanceof Error ? error.message : 'An unknown error occurred',
+    message: error instanceof Error ? error.message : 'An unknown error occurred',
+    path: axios.isAxiosError(error) ? error.config?.url || error.request?.path || '' : '',
   };
 };

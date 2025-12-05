@@ -17,9 +17,7 @@ export default function NotFound() {
         <p className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-wider text-gray-500 mt-4 text-center">
           {t.notFound.title}
         </p>
-        <p className="text-gray-500 mt-4 pb-4 text-center">
-          {t.notFound.description}
-        </p>
+        <p className="text-gray-500 mt-4 pb-4 text-center">{t.notFound.description}</p>
         <div className="pt-4 border-t w-full text-center">
           <Button asChild variant="outline">
             <Link href="/">{t.notFound.backToHome}</Link>

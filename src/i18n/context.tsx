@@ -10,20 +10,20 @@ const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 const messages: Record<Locale, Messages> = { en, vi };
 
+const getInitialLocale = () => {
+  if (typeof window === 'undefined') return 'en';
+
+  const savedLocale = localStorage.getItem('locale') as Locale;
+  if (savedLocale) return savedLocale;
+
+  const browserLang = navigator.language.toLowerCase();
+  if (browserLang.startsWith('vi')) return 'vi';
+  if (browserLang.startsWith('en')) return 'en';
+
+  return 'en';
+};
+
 export function I18nProvider({ children }: { children: React.ReactNode }) {
-  const getInitialLocale = () => {
-    if (typeof window === 'undefined') return 'en';
-
-    const savedLocale = localStorage.getItem('locale') as Locale;
-    if (savedLocale) return savedLocale;
-
-    const browserLang = navigator.language.toLowerCase();
-    if (browserLang.startsWith('vi')) return 'vi';
-    if (browserLang.startsWith('en')) return 'en';
-
-    return 'en';
-  };
-
   const [isReady, setIsReady] = useState(false);
   const [locale, setLocaleState] = useState<Locale>('en');
 

@@ -54,12 +54,8 @@ export default function ForgotPasswordPage() {
     <div className="w-full max-w-md">
       <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">
-            {t.forgotPassword.title}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {t.forgotPassword.description}
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight">{t.forgotPassword.title}</h1>
+          <p className="text-sm text-muted-foreground">{t.forgotPassword.description}</p>
         </div>
 
         <Form {...form}>
@@ -71,11 +67,7 @@ export default function ForgotPasswordPage() {
                 <FormItem>
                   <FormLabel>{t.forgotPassword.email}</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      placeholder={t.forgotPassword.email}
-                    />
+                    <Input {...field} type="email" placeholder={t.forgotPassword.email} />
                   </FormControl>
                   <div className="min-h-[20px]">
                     <FormMessage />

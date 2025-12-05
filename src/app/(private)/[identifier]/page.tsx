@@ -32,8 +32,8 @@ export default function ProfilePage() {
   const queryClient = useQueryClient();
   const { currentUser } = useCurrentUser();
 
-  const isOwnProfile =
-    currentUser?.id === identifier || identifier === currentUser?.username;
+  const isOwnProfile = currentUser?.id === identifier || identifier === currentUser?.username;
+
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const { data, error, isLoading } = useQuery({
@@ -47,9 +47,11 @@ export default function ProfilePage() {
     mutationFn: (file: File) => usersService.uploadAvatar(file),
     onSuccess: () => {
       toast.success(t.profile.avatarUpdated);
-      queryClient.invalidateQueries({ queryKey: ['getProfile'] });
+      queryClient.invalidateQueries({ queryKey: ['getMe'] });
     },
   });
+
+  const displayUser = isOwnProfile ? currentUser : data;
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -67,8 +69,6 @@ export default function ProfilePage() {
 
     mutate(file);
   };
-
-  const displayUser = isOwnProfile ? currentUser : data;
 
   if (isLoading) {
     return <Loader2 className="h-8 w-8 animate-spin text-primary" />;
@@ -142,9 +142,7 @@ export default function ProfilePage() {
             </div>
           </div>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">
-              {displayUser?.fullName || ''}
-            </h1>
+            <h1 className="text-2xl font-bold tracking-tight">{displayUser?.fullName || ''}</h1>
             <p className="text-sm text-muted-foreground">
               {displayUser?.username ? `@${displayUser.username}` : ''}
             </p>
@@ -154,16 +152,10 @@ export default function ProfilePage() {
         {isOwnProfile ? (
           <>
             <div className="space-y-3">
-              <h2 className="text-lg font-semibold mb-4">
-                {t.profile.contact}
-              </h2>
+              <h2 className="text-lg font-semibold mb-4">{t.profile.contact}</h2>
 
               <div className="grid grid-cols-2 gap-3">
-                <InfoRow
-                  icon={Mail}
-                  label={t.profile.email}
-                  value={currentUser?.email}
-                />
+                <InfoRow icon={Mail} label={t.profile.email} value={currentUser?.email} />
                 <InfoRow
                   icon={Phone}
                   label={t.profile.phoneNumber}
@@ -173,9 +165,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="space-y-3">
-              <h2 className="text-lg font-semibold mb-4">
-                {t.profile.accountStatus}
-              </h2>
+              <h2 className="text-lg font-semibold mb-4">{t.profile.accountStatus}</h2>
 
               <div className="grid grid-cols-2 gap-3">
                 <InfoRow
@@ -202,10 +192,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="pt-4 border-t space-y-3">
-              <Button
-                className="w-full"
-                onClick={() => setIsEditDialogOpen(true)}
-              >
+              <Button className="w-full" onClick={() => setIsEditDialogOpen(true)}>
                 <UserPen className="mr-2 h-4 w-4" />
                 {t.profile.editProfile}
               </Button>
@@ -272,16 +259,12 @@ const InfoRow = ({
               {value ? (
                 <>
                   <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-green-600 dark:text-green-400">
-                    {t.profile.yes}
-                  </span>
+                  <span className="text-green-600 dark:text-green-400">{t.profile.yes}</span>
                 </>
               ) : (
                 <>
                   <XCircle className="w-4 h-4 text-red-500" />
-                  <span className="text-red-600 dark:text-red-400">
-                    {t.profile.no}
-                  </span>
+                  <span className="text-red-600 dark:text-red-400">{t.profile.no}</span>
                 </>
               )}
             </span>

@@ -34,11 +34,7 @@ interface EditProfileDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function EditProfileDialog({
-  open,
-  currentUser,
-  onOpenChange,
-}: EditProfileDialogProps) {
+export function EditProfileDialog({ open, currentUser, onOpenChange }: EditProfileDialogProps) {
   const { t } = useI18n();
   const queryClient = useQueryClient();
 
@@ -47,7 +43,7 @@ export function EditProfileDialog({
     onSuccess: () => {
       onOpenChange(false);
       toast.success(t.editProfile.updateSuccess);
-      queryClient.invalidateQueries({ queryKey: ['getProfile'] });
+      queryClient.invalidateQueries({ queryKey: ['getMe'] });
     },
     mutationFn: (data: UpdateProfileData) => usersService.updateProfile(data),
   });
@@ -166,11 +162,7 @@ export function EditProfileDialog({
                 {t.editProfile.cancel}
               </Button>
               <Button type="submit" className="flex-1" disabled={isPending}>
-                {isPending ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  t.editProfile.submit
-                )}
+                {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : t.editProfile.submit}
               </Button>
             </div>
           </form>

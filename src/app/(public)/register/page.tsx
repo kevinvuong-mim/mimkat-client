@@ -25,21 +25,20 @@ import { authService } from '@/services/auth.service';
 export default function RegisterPage() {
   const { t } = useI18n();
 
-  const {
-    mutate: resendVerificationMutate,
-    isPending: isResendVerificationPending,
-  } = useMutation({
-    mutationFn: authService.resendVerification,
-  });
+  const [countdown, setCountdown] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState('');
+
   const { mutate: registerMutate, isPending: isRegisterPending } = useMutation({
     mutationFn: authService.register,
   });
 
+  const { mutate: resendVerificationMutate, isPending: isResendVerificationPending } = useMutation({
+    mutationFn: authService.resendVerification,
+  });
+
   const formSchema = z.object({
-    email: z
-      .string()
-      .min(1, t.register.emailRequired)
-      .email(t.register.emailInvalid),
+    email: z.string().min(1, t.register.emailRequired).email(t.register.emailInvalid),
     password: z.string().min(8, t.register.passwordMinLength),
   });
 
@@ -47,10 +46,6 @@ export default function RegisterPage() {
     resolver: zodResolver(formSchema),
     defaultValues: { email: '', password: '' },
   });
-
-  const [countdown, setCountdown] = useState(0);
-  const [showPassword, setShowPassword] = useState(false);
-  const [registeredEmail, setRegisteredEmail] = useState('');
 
   const formatTime = (seconds: number) => {
     const secs = seconds % 60;
@@ -105,12 +100,8 @@ export default function RegisterPage() {
     <div className="w-full max-w-md">
       <div className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl border border-slate-300 dark:border-slate-600 p-8 space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">
-            {t.register.title}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {t.register.description}
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight">{t.register.title}</h1>
+          <p className="text-sm text-muted-foreground">{t.register.description}</p>
         </div>
 
         <Form {...form}>
@@ -123,11 +114,7 @@ export default function RegisterPage() {
                   <FormLabel>{t.register.email}</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <Input
-                        {...field}
-                        type="email"
-                        placeholder={t.register.email}
-                      />
+                      <Input {...field} type="email" placeholder={t.register.email} />
                     </div>
                   </FormControl>
                   <div className="min-h-[20px]">
@@ -168,16 +155,8 @@ export default function RegisterPage() {
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isRegisterPending}
-            >
-              {isRegisterPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                t.register.submit
-              )}
+            <Button type="submit" className="w-full" disabled={isRegisterPending}>
+              {isRegisterPending ? <Loader2 className="h-4 w-4 animate-spin" /> : t.register.submit}
             </Button>
           </form>
         </Form>
@@ -207,10 +186,7 @@ export default function RegisterPage() {
         <div className="pt-4 border-t text-center">
           <p className="text-sm text-muted-foreground">
             {t.register.alreadyHaveAccount}{' '}
-            <Link
-              href="/login"
-              className="text-primary hover:underline font-medium"
-            >
+            <Link href="/login" className="text-primary hover:underline font-medium">
               {t.register.login}
             </Link>
           </p>

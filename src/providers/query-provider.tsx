@@ -8,9 +8,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
     () =>
       new QueryClient({
         defaultOptions: {
-          mutations: {
-            retry: false,
-          },
+          mutations: { retry: false },
           queries: {
             retry: false,
             refetchOnWindowFocus: false,
@@ -19,7 +17,5 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
       }),
   );
 
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

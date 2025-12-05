@@ -2,12 +2,16 @@
   "name": "mimkat-client",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -21,13 +25,11 @@
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
     "@tanstack/react-query": "^5.90.9",
-    "@tanstack/react-query-devtools": "^5.90.2",
     "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.555.0",
     "next": "^15.1.0",
-    "next-intl": "^4.4.0",
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -38,13 +40,18 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@typescript-eslint/parser": "^8.48.1",
     "autoprefixer": "^10.4.22",
     "eslint": "^9",
     "eslint-config-next": "^15.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "postcss": "^8.5.6",
+    "prettier": "^3.7.4",
     "tailwindcss": "^3.4.18",
     "typescript": "^5"
   }
