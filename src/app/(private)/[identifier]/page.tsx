@@ -1,22 +1,11 @@
 'use client';
 
-import {
-  Key,
-  Mail,
-  Phone,
-  Camera,
-  Shield,
-  Loader2,
-  Monitor,
-  UserPen,
-  XCircle,
-  CheckCircle,
-} from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Key, Mail, Phone, Camera, Shield, Loader2, XCircle, CheckCircle } from 'lucide-react';
 
 import { ErrorResponse } from '@/types';
 import { useI18n } from '@/i18n/context';
@@ -193,23 +182,8 @@ export default function ProfilePage() {
 
             <div className="pt-4 border-t space-y-3">
               <Button className="w-full" onClick={() => setIsEditDialogOpen(true)}>
-                <UserPen className="mr-2 h-4 w-4" />
                 {t.profile.editProfile}
               </Button>
-              <div className="grid grid-cols-2 gap-3">
-                <Button asChild variant="secondary" className="w-full">
-                  <Link href="/change-password">
-                    <Key className="mr-2 h-4 w-4" />
-                    {t.profile.changePassword}
-                  </Link>
-                </Button>
-                <Button asChild variant="secondary" className="w-full">
-                  <Link href="/sessions">
-                    <Monitor className="mr-2 h-4 w-4" />
-                    {t.home.sessions}
-                  </Link>
-                </Button>
-              </div>
               <Button asChild variant="outline" className="w-full">
                 <Link href="/">{t.profile.backToHome}</Link>
               </Button>
