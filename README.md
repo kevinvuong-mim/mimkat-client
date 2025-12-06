@@ -4,7 +4,7 @@ A modern, full-featured authentication client application built with Next.js 15,
 
 ## 📋 Prerequisites
 
-- Node.js >= 18
+- Node.js >= 20
 - npm, yarn, or pnpm
 
 ## 🛠️ Installation
