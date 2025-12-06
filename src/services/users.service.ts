@@ -2,12 +2,10 @@ import { apiClient } from '@/lib/api-client';
 import { handleApiError } from '@/lib/error-handler';
 import { User, Session, PaginatedResponse, UpdateProfileData, ChangePasswordData } from '@/types';
 
-const API_BASE_PATH = '/users';
-
 class UsersService {
   async getMe() {
     try {
-      const response = await apiClient.get(`${API_BASE_PATH}/me`);
+      const response = await apiClient.get('/users/me');
 
       return response.data;
     } catch (error) {
@@ -17,7 +15,7 @@ class UsersService {
 
   async getProfileByIdentifier(identifier: string): Promise<User> {
     try {
-      const response = await apiClient.get(`${API_BASE_PATH}/${identifier}`);
+      const response = await apiClient.get(`/users/${identifier}`);
 
       return response.data;
     } catch (error) {
@@ -27,7 +25,7 @@ class UsersService {
 
   async changePassword(data: ChangePasswordData) {
     try {
-      const response = await apiClient.put(`${API_BASE_PATH}/password`, data);
+      const response = await apiClient.put('/users/password', data);
 
       return response.data;
     } catch (error) {
@@ -37,7 +35,7 @@ class UsersService {
 
   async getSessions(): Promise<PaginatedResponse<Session>> {
     try {
-      const response = await apiClient.get(`${API_BASE_PATH}/sessions`);
+      const response = await apiClient.get('/users/sessions');
 
       return response.data;
     } catch (error) {
@@ -47,7 +45,7 @@ class UsersService {
 
   async logoutDevice(tokenId: string) {
     try {
-      const response = await apiClient.delete(`${API_BASE_PATH}/sessions/${tokenId}`);
+      const response = await apiClient.delete(`/users/sessions/${tokenId}`);
 
       return response.data;
     } catch (error) {
@@ -57,7 +55,7 @@ class UsersService {
 
   async logoutAllDevices() {
     try {
-      const response = await apiClient.delete(`${API_BASE_PATH}/sessions`);
+      const response = await apiClient.delete('/users/sessions');
 
       return response.data;
     } catch (error) {
@@ -67,7 +65,7 @@ class UsersService {
 
   async updateProfile(data: UpdateProfileData) {
     try {
-      const response = await apiClient.put(`${API_BASE_PATH}/me`, data);
+      const response = await apiClient.put('/users/me', data);
 
       return response.data;
     } catch (error) {
@@ -80,7 +78,7 @@ class UsersService {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await apiClient.put(`${API_BASE_PATH}/me/avatar`, formData, {
+      const response = await apiClient.put('/users/me/avatar', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

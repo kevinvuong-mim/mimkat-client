@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-import { API_URL } from '@/lib/constants';
 import { isPublicRoute } from '@/lib/public-route';
 
 export const apiClient = axios.create({
-  baseURL: API_URL,
   withCredentials: true,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -47,11 +46,15 @@ apiClient.interceptors.response.use(
           .catch((err) => Promise.reject(err));
       }
 
-      originalRequest._retry = true;
       isRefreshing = true;
+      originalRequest._retry = true;
 
       try {
-        await axios.post(`${API_URL}/auth/refresh`, {}, { withCredentials: true });
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+          {},
+          { withCredentials: true },
+        );
 
         processQueue(null, 'success');
 

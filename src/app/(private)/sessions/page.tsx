@@ -30,8 +30,7 @@ export default function SessionsPage() {
   const queryClient = useQueryClient();
 
   const [selectedSessionId, setSelectedSessionId] = useState('');
-  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
-  const [isLogoutAllDialogOpen, setIsLogoutAllDialogOpen] = useState(false);
+  const [issDialogOpen, setIsDialogOpen] = useState({ all: false, single: false });
 
   const { data, isLoading } = useQuery({
     queryKey: ['getSessions'],
@@ -42,9 +41,9 @@ export default function SessionsPage() {
     onError: (error) => toast.error(error.message),
     onSuccess: () => {
       setSelectedSessionId('');
-      setIsLogoutDialogOpen(false);
-
       toast.success(t.sessions.logoutSuccess);
+      setIsDialogOpen((prev) => ({ ...prev, single: false }));
+
       queryClient.invalidateQueries({ queryKey: ['getSessions'] });
     },
     mutationFn: (sessionId: string) => usersService.logoutDevice(sessionId),
@@ -54,17 +53,16 @@ export default function SessionsPage() {
     mutationFn: usersService.logoutAllDevices,
     onError: (error) => toast.error(error.message),
     onSuccess: () => {
-      setIsLogoutAllDialogOpen(false);
-
       toast.success(t.sessions.logoutAllSuccess);
+      setIsDialogOpen((prev) => ({ ...prev, all: false }));
 
       setTimeout(() => router.push('/login'), 3000);
     },
   });
 
   const openLogoutDialog = (sessionId: string) => {
-    setIsLogoutDialogOpen(true);
     setSelectedSessionId(sessionId);
+    setIsDialogOpen((prev) => ({ ...prev, single: true }));
   };
 
   const getDeviceIcon = (deviceType: string) => {
@@ -108,7 +106,10 @@ export default function SessionsPage() {
 
           {(data?.meta.total ?? 0) > 1 && (
             <div className="flex justify-end border-b pb-4">
-              <Button variant="destructive" onClick={() => setIsLogoutAllDialogOpen(true)}>
+              <Button
+                variant="destructive"
+                onClick={() => setIsDialogOpen((prev) => ({ ...prev, all: true }))}
+              >
                 <LogOut className="mr-2 h-4 w-4" />
                 {t.sessions.logoutAllOthers.replace('{count}', (data?.meta.total ?? 0).toString())}
               </Button>
@@ -201,7 +202,10 @@ export default function SessionsPage() {
         </div>
       </div>
 
-      <AlertDialog open={isLogoutDialogOpen} onOpenChange={setIsLogoutDialogOpen}>
+      <AlertDialog
+        open={issDialogOpen.single}
+        onOpenChange={(open) => setIsDialogOpen((prev) => ({ ...prev, single: open }))}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="text-destructive">
@@ -231,7 +235,10 @@ export default function SessionsPage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <AlertDialog open={isLogoutAllDialogOpen} onOpenChange={setIsLogoutAllDialogOpen}>
+      <AlertDialog
+        open={issDialogOpen.all}
+        onOpenChange={(open) => setIsDialogOpen((prev) => ({ ...prev, all: open }))}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="text-destructive">

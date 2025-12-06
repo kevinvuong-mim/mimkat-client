@@ -1,27 +1,18 @@
-import axios from 'axios';
-
 import {
   LoginData,
   RegisterData,
   LoginResponse,
   ResetPasswordData,
   ForgotPasswordData,
-  RefreshTokenResponse,
   ResendVerificationData,
 } from '@/types';
-import { API_URL } from '@/lib/constants';
+import { apiClient } from '@/lib/api-client';
 import { handleApiError } from '@/lib/error-handler';
-
-const authAxios = axios.create({
-  baseURL: API_URL,
-  withCredentials: true,
-  headers: { 'Content-Type': 'application/json' },
-});
 
 class AuthService {
   async register(data: RegisterData) {
     try {
-      const response = await authAxios.post('/auth/register', data);
+      const response = await apiClient.post('/auth/register', data);
 
       return response.data;
     } catch (error) {
@@ -31,7 +22,7 @@ class AuthService {
 
   async login(data: LoginData): Promise<LoginResponse> {
     try {
-      const response = await authAxios.post('/auth/login', data);
+      const response = await apiClient.post('/auth/login', data);
 
       return response.data;
     } catch (error) {
@@ -41,17 +32,7 @@ class AuthService {
 
   async logout() {
     try {
-      const response = await authAxios.post('/auth/logout');
-
-      return response.data;
-    } catch (error) {
-      throw handleApiError(error);
-    }
-  }
-
-  async refreshToken(): Promise<RefreshTokenResponse> {
-    try {
-      const response = await authAxios.post('/auth/refresh');
+      const response = await apiClient.post('/auth/logout');
 
       return response.data;
     } catch (error) {
@@ -61,7 +42,9 @@ class AuthService {
 
   async verifyEmail(token: string) {
     try {
-      const response = await authAxios.get(`/verification/email?token=${token}`);
+      const response = await apiClient.get('/verification/email', {
+        params: { token },
+      });
 
       return response.data;
     } catch (error) {
@@ -71,7 +54,7 @@ class AuthService {
 
   async resendVerification(data: ResendVerificationData) {
     try {
-      const response = await authAxios.post('/verification/resend', data);
+      const response = await apiClient.post('/verification/resend', data);
 
       return response.data;
     } catch (error) {
@@ -81,7 +64,7 @@ class AuthService {
 
   async forgotPassword(data: ForgotPasswordData) {
     try {
-      const response = await authAxios.post(`/verification/forgot-password`, data);
+      const response = await apiClient.post(`/verification/forgot-password`, data);
 
       return response.data;
     } catch (error) {
@@ -91,7 +74,7 @@ class AuthService {
 
   async resetPassword(data: ResetPasswordData) {
     try {
-      const response = await authAxios.post('/verification/reset-password', data);
+      const response = await apiClient.post('/verification/reset-password', data);
 
       return response.data;
     } catch (error) {

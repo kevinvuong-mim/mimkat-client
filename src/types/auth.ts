@@ -27,8 +27,3 @@ export interface ResetPasswordData {
   token: string;
   password: string;
 }
-
-export interface RefreshTokenResponse extends ApiResponse<{
-  accessToken: string;
-  refreshToken: string;
-}> {}
