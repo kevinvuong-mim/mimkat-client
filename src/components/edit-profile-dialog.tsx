@@ -61,15 +61,20 @@ export function EditProfileDialog({ open, currentUser, onOpenChange }: EditProfi
       .regex(/^[0-9+\-() ]*$/, t.editProfile.phoneNumberPattern)
       .optional()
       .or(z.literal('')),
-    fullName: z.string().min(1, t.editProfile.fullNameRequired).max(100),
+    fullName: z
+      .string()
+      .min(1, t.editProfile.fullNameRequired)
+      .max(100)
+      .optional()
+      .or(z.literal('')),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: currentUser.fullName,
-      username: currentUser.username,
-      phoneNumber: currentUser.phoneNumber,
+      fullName: currentUser.fullName ?? '',
+      username: currentUser.username ?? '',
+      phoneNumber: currentUser.phoneNumber ?? '',
     },
   });
 
