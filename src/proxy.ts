@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 import { isPublicRoute } from '@/lib/public-route';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isPublic = isPublicRoute(pathname);
   const refreshToken = request.cookies.get('refreshToken')?.value;
