@@ -4,7 +4,7 @@ A modern, full-featured authentication client application built with Next.js 15,
 
 ## 📋 Prerequisites
 
-- Node.js >= 20
+- Node.js >= 20.0.0
 - npm, yarn, or pnpm
 
 ## 🛠️ Installation
@@ -27,7 +27,7 @@ pnpm install
 ```
 
 3. Set up environment variables:
-   Create a `.env.local` file in the root directory and add your environment variables:
+   Create a `.env` file in the root directory and add your environment variables:
 
 ```env
 NEXT_PUBLIC_API_URL=your_api_url
@@ -166,19 +166,3 @@ Format your code before committing:
 npm run format
 npm run lint:fix
 ```
-
-## 📄 License
-
-This project is private and proprietary.
-
-## 👥 Authors
-
-- Kevin Vuong - [@kevinvuong-mim](https://github.com/kevinvuong-mim)
-
-## 📞 Support
-
-For support, please contact the development team or open an issue in the repository.
-
----
-
-Built with ❤️ using Next.js and React
