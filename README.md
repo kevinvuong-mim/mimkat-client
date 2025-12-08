@@ -60,25 +60,25 @@ npm run start
 
 ```
 mimkat-client/
-├── public/              # Static files
+├── public/             # Static files
 │   └── images/         # Image assets
 ├── src/
 │   ├── app/            # Next.js App Router
 │   │   ├── (private)/  # Protected routes
 │   │   └── (public)/   # Public routes
 │   ├── components/     # Reusable UI components
-│   │   └── ui/        # Shadcn/UI components
-│   ├── context/       # React Context providers
-│   ├── i18n/          # Internationalization
-│   │   └── locales/   # Translation files
-│   ├── lib/           # Utility functions
-│   ├── providers/     # App providers (Query, Theme)
-│   ├── services/      # API services
-│   └── types/         # TypeScript types
-├── components.json    # Shadcn/UI configuration
-├── next.config.ts     # Next.js configuration
-├── tailwind.config.js # Tailwind CSS configuration
-└── tsconfig.json      # TypeScript configuration
+│   │   └── ui/         # Shadcn/UI components
+│   ├── context/        # React Context providers
+│   ├── i18n/           # Internationalization
+│   │   └── locales/    # Translation files
+│   ├── lib/            # Utility functions
+│   ├── providers/      # App providers (Query, Theme)
+│   ├── services/       # API services
+│   └── types/          # TypeScript types
+├── components.json     # Shadcn/UI configuration
+├── next.config.ts      # Next.js configuration
+├── tailwind.config.js  # Tailwind CSS configuration
+└── tsconfig.json       # TypeScript configuration
 ```
 
 ## 🔧 Available Scripts
