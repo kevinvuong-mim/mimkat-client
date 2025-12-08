@@ -21,7 +21,7 @@ import {
 import { useI18n } from '@/i18n/context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { authService } from '@/services/auth.service';
+import { resetPassword } from '@/services/auth';
 
 export default function ResetPasswordPage() {
   const { t } = useI18n();
@@ -33,9 +33,7 @@ export default function ResetPasswordPage() {
     confirm: false,
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: authService.resetPassword,
-  });
+  const { mutate, isPending } = useMutation({ mutationFn: resetPassword });
 
   const formSchema = z
     .object({

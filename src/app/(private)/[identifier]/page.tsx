@@ -10,9 +10,9 @@ import { Key, Mail, Phone, Camera, Shield, Loader2, XCircle, CheckCircle } from 
 import { ErrorResponse } from '@/types';
 import { useI18n } from '@/i18n/context';
 import { Button } from '@/components/ui/button';
-import { usersService } from '@/services/users.service';
 import { useCurrentUser } from '@/context/current-user-context';
 import { EditProfileDialog } from '@/components/edit-profile-dialog';
+import { uploadAvatar, getProfileByIdentifier } from '@/services/users';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 export default function ProfilePage() {
@@ -28,12 +28,12 @@ export default function ProfilePage() {
   const { data, error, isLoading } = useQuery({
     enabled: !!currentUser && !isOwnProfile,
     queryKey: ['getProfileByIdentifier', identifier],
-    queryFn: () => usersService.getProfileByIdentifier(identifier as string),
+    queryFn: () => getProfileByIdentifier(identifier as string),
   });
 
   const { mutate, isPending } = useMutation({
     onError: (error) => toast.error(error.message),
-    mutationFn: (file: File) => usersService.uploadAvatar(file),
+    mutationFn: (file: File) => uploadAvatar(file),
     onSuccess: () => {
       toast.success(t.profile.avatarUpdated);
       queryClient.invalidateQueries({ queryKey: ['getMe'] });

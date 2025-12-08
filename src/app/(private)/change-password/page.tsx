@@ -21,7 +21,7 @@ import {
 import { useI18n } from '@/i18n/context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { usersService } from '@/services/users.service';
+import { changePassword } from '@/services/users';
 import { useCurrentUser } from '@/context/current-user-context';
 
 export default function ChangePasswordPage() {
@@ -35,9 +35,7 @@ export default function ChangePasswordPage() {
     current: false,
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: usersService.changePassword,
-  });
+  const { mutate, isPending } = useMutation({ mutationFn: changePassword });
 
   const formSchema = z
     .object({

@@ -7,8 +7,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, Loader2, XCircle, CheckCircle2 } from 'lucide-react';
 
 import { useI18n } from '@/i18n/context';
+import { verifyEmail } from '@/services/auth';
 import { Button } from '@/components/ui/button';
-import { authService } from '@/services/auth.service';
 
 export default function VerifyEmailPage() {
   const { t } = useI18n();
@@ -19,7 +19,7 @@ export default function VerifyEmailPage() {
   const { error, isLoading, isSuccess } = useQuery({
     enabled: Boolean(searchParams.get('token')),
     queryKey: ['verifyEmail', searchParams.get('token')],
-    queryFn: () => authService.verifyEmail(searchParams.get('token') || ''),
+    queryFn: () => verifyEmail(searchParams.get('token') || ''),
   });
 
   useEffect(() => {

@@ -20,7 +20,7 @@ import {
 import { useI18n } from '@/i18n/context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { authService } from '@/services/auth.service';
+import { register, resendVerification } from '@/services/auth';
 
 export default function RegisterPage() {
   const { t } = useI18n();
@@ -30,11 +30,11 @@ export default function RegisterPage() {
   const [registeredEmail, setRegisteredEmail] = useState('');
 
   const { mutate: registerMutate, isPending: isRegisterPending } = useMutation({
-    mutationFn: authService.register,
+    mutationFn: register,
   });
 
   const { mutate: resendVerificationMutate, isPending: isResendVerificationPending } = useMutation({
-    mutationFn: authService.resendVerification,
+    mutationFn: resendVerification,
   });
 
   const formSchema = z.object({

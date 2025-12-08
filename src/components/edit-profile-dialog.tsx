@@ -25,7 +25,7 @@ import {
 import { useI18n } from '@/i18n/context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { usersService } from '@/services/users.service';
+import { updateProfile } from '@/services/users';
 import { CurrentUser, UpdateProfileData } from '@/types';
 
 interface EditProfileDialogProps {
@@ -45,7 +45,7 @@ export function EditProfileDialog({ open, currentUser, onOpenChange }: EditProfi
       toast.success(t.editProfile.updateSuccess);
       queryClient.invalidateQueries({ queryKey: ['getMe'] });
     },
-    mutationFn: (data: UpdateProfileData) => usersService.updateProfile(data),
+    mutationFn: (data: UpdateProfileData) => updateProfile(data),
   });
 
   const formSchema = z.object({

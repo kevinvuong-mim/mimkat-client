@@ -18,10 +18,10 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form';
+import { login } from '@/services/auth';
 import { useI18n } from '@/i18n/context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { authService } from '@/services/auth.service';
 import GoogleLoginButton from '@/components/google-login-button';
 
 export default function LoginPage() {
@@ -30,9 +30,7 @@ export default function LoginPage() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: authService.login,
-  });
+  const { mutate, isPending } = useMutation({ mutationFn: login });
 
   const formSchema = z.object({
     email: z.string().email(t.login.invalidEmail),

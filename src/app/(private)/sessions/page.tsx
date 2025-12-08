@@ -21,8 +21,8 @@ import { useI18n } from '@/i18n/context';
 import { Session } from '@/types/session';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { usersService } from '@/services/users.service';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { getSessions, logoutDevice, logoutAllDevices } from '@/services/users';
 
 export default function SessionsPage() {
   const { t } = useI18n();
@@ -33,8 +33,8 @@ export default function SessionsPage() {
   const [issDialogOpen, setIsDialogOpen] = useState({ all: false, single: false });
 
   const { data, isLoading } = useQuery({
+    queryFn: getSessions,
     queryKey: ['getSessions'],
-    queryFn: usersService.getSessions,
   });
 
   const { mutate: logoutDeviceMutation, isPending: isLogoutDevicePending } = useMutation({
@@ -46,11 +46,11 @@ export default function SessionsPage() {
 
       queryClient.invalidateQueries({ queryKey: ['getSessions'] });
     },
-    mutationFn: (sessionId: string) => usersService.logoutDevice(sessionId),
+    mutationFn: (sessionId: string) => logoutDevice(sessionId),
   });
 
   const { mutate: logoutAllDevicesMutation, isPending: isLogoutAllDevicesPending } = useMutation({
-    mutationFn: usersService.logoutAllDevices,
+    mutationFn: logoutAllDevices,
     onError: (error) => toast.error(error.message),
     onSuccess: () => {
       toast.success(t.sessions.logoutAllSuccess);

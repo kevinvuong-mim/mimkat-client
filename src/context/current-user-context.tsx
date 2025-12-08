@@ -3,16 +3,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { ReactNode, useContext, createContext } from 'react';
 
+import { getMe } from '@/services/users';
 import { isPublicRoute } from '@/lib/public-route';
 import { CurrentUserContextType } from '@/types/user';
-import { usersService } from '@/services/users.service';
 
 const CurrentUserContext = createContext<CurrentUserContextType | undefined>(undefined);
 
 export function CurrentUserProvider({ children }: { children: ReactNode }) {
   const { data: currentUser } = useQuery({
+    queryFn: getMe,
     queryKey: ['getMe'],
-    queryFn: usersService.getMe,
     enabled: () => {
       if (typeof window === 'undefined') return false;
 

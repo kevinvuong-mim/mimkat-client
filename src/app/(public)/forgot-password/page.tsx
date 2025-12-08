@@ -18,14 +18,12 @@ import {
 import { useI18n } from '@/i18n/context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { authService } from '@/services/auth.service';
+import { forgotPassword } from '@/services/auth';
 
 export default function ForgotPasswordPage() {
   const { t } = useI18n();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: authService.forgotPassword,
-  });
+  const { mutate, isPending } = useMutation({ mutationFn: forgotPassword });
 
   const formSchema = z.object({
     email: z.string().email(t.forgotPassword.invalidEmail),

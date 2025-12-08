@@ -1,3 +1,11 @@
+export interface User {
+  id: string;
+  avatar?: string;
+  createdAt: string;
+  fullName?: string;
+  username?: string;
+}
+
 export interface CurrentUser {
   id: string;
   email: string;
@@ -13,16 +21,10 @@ export interface CurrentUser {
   isEmailVerified: boolean;
 }
 
-export interface User {
-  id: string;
-  avatar?: string;
-  createdAt: string;
+export interface UpdateProfileData {
   fullName?: string;
   username?: string;
-}
-
-export interface CurrentUserContextType {
-  currentUser: null | CurrentUser;
+  phoneNumber?: string;
 }
 
 export interface ChangePasswordData {
@@ -30,8 +32,6 @@ export interface ChangePasswordData {
   currentPassword?: string;
 }
 
-export interface UpdateProfileData {
-  fullName?: string;
-  username?: string;
-  phoneNumber?: string;
+export interface CurrentUserContextType {
+  currentUser: null | CurrentUser;
 }
