@@ -8,10 +8,10 @@ export default function GoogleLoginButton() {
 
   const handleGoogleLogin = () => {
     const currentOrigin = window.location.origin;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const href = `${apiUrl}/auth/google?redirect_url=${encodeURIComponent(currentOrigin)}`;
 
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google?redirect_url=${encodeURIComponent(
-      currentOrigin,
-    )}`;
+    window.location.href = href;
   };
 
   return (

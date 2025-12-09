@@ -1,29 +1,38 @@
 import { ApiResponse } from './api';
 
-export interface LoginData {
+interface LoginRequest {
   email: string;
   password: string;
 }
 
-export interface RegisterData {
+interface LoginResponse extends ApiResponse<{
+  accessToken: string;
+  refreshToken: string;
+}> {}
+
+interface RegisterRequest {
   email: string;
   password: string;
 }
 
-export interface ResetPasswordData {
+interface ResetPasswordRequest {
   token: string;
   password: string;
 }
 
-export interface ForgotPasswordData {
+interface ForgotPasswordRequest {
   email: string;
 }
 
-export interface ResendVerificationData {
+interface ResendVerificationRequest {
   email: string;
 }
 
-export interface LoginResponse extends ApiResponse<{
-  accessToken: string;
-  refreshToken: string;
-}> {}
+export type {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  ResetPasswordRequest,
+  ForgotPasswordRequest,
+  ResendVerificationRequest,
+};

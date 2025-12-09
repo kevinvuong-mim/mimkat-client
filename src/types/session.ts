@@ -1,4 +1,4 @@
-export interface Session {
+interface Session {
   id: string;
   createdAt: string;
   expiresAt: string;
@@ -8,3 +8,5 @@ export interface Session {
   isCurrent: boolean;
   lastUsedAt: string;
 }
+
+export type { Session };

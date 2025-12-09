@@ -1,6 +1,12 @@
+import {
+  User,
+  Session,
+  PaginatedResponse,
+  UpdateProfileRequest,
+  ChangePasswordRequest,
+} from '@/types';
 import { apiClient } from '@/lib/api-client';
 import { handleApiError } from '@/lib/error-handler';
-import { User, Session, PaginatedResponse, UpdateProfileData, ChangePasswordData } from '@/types';
 
 const getMe = async () => {
   try {
@@ -47,7 +53,7 @@ const logoutDevice = async (tokenId: string) => {
   }
 };
 
-const updateProfile = async (data: UpdateProfileData) => {
+const updateProfile = async (data: UpdateProfileRequest) => {
   try {
     const response = await apiClient.put('/users/me', data);
 
@@ -57,7 +63,7 @@ const updateProfile = async (data: UpdateProfileData) => {
   }
 };
 
-const changePassword = async (data: ChangePasswordData) => {
+const changePassword = async (data: ChangePasswordRequest) => {
   try {
     const response = await apiClient.put('/users/password', data);
 

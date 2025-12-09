@@ -1,4 +1,13 @@
-export interface ErrorResponse {
+interface ApiResponse<T = any> {
+  data: T;
+  path: string;
+  message: string;
+  success: boolean;
+  timestamp: string;
+  statusCode: number;
+}
+
+interface ErrorResponse {
   path: string;
   error: string;
   stack?: string;
@@ -9,22 +18,13 @@ export interface ErrorResponse {
   errors?: ValidationError[];
 }
 
-export interface ValidationError {
+interface ValidationError {
   value?: any;
   field: string;
   message: string;
 }
 
-export interface ApiResponse<T = any> {
-  data: T;
-  path: string;
-  message: string;
-  success: boolean;
-  timestamp: string;
-  statusCode: number;
-}
-
-export interface PaginatedResponse<T> {
+interface PaginatedResponse<T> {
   items: T[];
   meta: {
     page: number;
@@ -35,3 +35,5 @@ export interface PaginatedResponse<T> {
     hasPreviousPage: boolean;
   };
 }
+
+export type { ApiResponse, ErrorResponse, ValidationError, PaginatedResponse };

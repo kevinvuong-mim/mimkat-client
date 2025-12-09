@@ -1,15 +1,15 @@
 import {
-  LoginData,
-  RegisterData,
+  LoginRequest,
   LoginResponse,
-  ResetPasswordData,
-  ForgotPasswordData,
-  ResendVerificationData,
+  RegisterRequest,
+  ResetPasswordRequest,
+  ForgotPasswordRequest,
+  ResendVerificationRequest,
 } from '@/types';
 import { apiClient } from '@/lib/api-client';
 import { handleApiError } from '@/lib/error-handler';
 
-const login = async (data: LoginData): Promise<LoginResponse> => {
+const login = async (data: LoginRequest): Promise<LoginResponse> => {
   try {
     const response = await apiClient.post('/auth/login', data);
 
@@ -29,7 +29,7 @@ const logout = async () => {
   }
 };
 
-const register = async (data: RegisterData) => {
+const register = async (data: RegisterRequest) => {
   try {
     const response = await apiClient.post('/auth/register', data);
 
@@ -51,7 +51,7 @@ const verifyEmail = async (token: string) => {
   }
 };
 
-const resetPassword = async (data: ResetPasswordData) => {
+const resetPassword = async (data: ResetPasswordRequest) => {
   try {
     const response = await apiClient.post('/verification/reset-password', data);
 
@@ -61,7 +61,7 @@ const resetPassword = async (data: ResetPasswordData) => {
   }
 };
 
-const forgotPassword = async (data: ForgotPasswordData) => {
+const forgotPassword = async (data: ForgotPasswordRequest) => {
   try {
     const response = await apiClient.post(`/verification/forgot-password`, data);
 
@@ -71,7 +71,7 @@ const forgotPassword = async (data: ForgotPasswordData) => {
   }
 };
 
-const resendVerification = async (data: ResendVerificationData) => {
+const resendVerification = async (data: ResendVerificationRequest) => {
   try {
     const response = await apiClient.post('/verification/resend', data);
 

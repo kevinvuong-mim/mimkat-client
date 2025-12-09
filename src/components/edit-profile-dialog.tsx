@@ -26,7 +26,7 @@ import { useI18n } from '@/i18n/context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { updateProfile } from '@/services/users';
-import { CurrentUser, UpdateProfileData } from '@/types';
+import { CurrentUser, UpdateProfileRequest } from '@/types';
 
 interface EditProfileDialogProps {
   open: boolean;
@@ -45,7 +45,7 @@ export function EditProfileDialog({ open, currentUser, onOpenChange }: EditProfi
       toast.success(t.editProfile.updateSuccess);
       queryClient.invalidateQueries({ queryKey: ['getMe'] });
     },
-    mutationFn: (data: UpdateProfileData) => updateProfile(data),
+    mutationFn: (data: UpdateProfileRequest) => updateProfile(data),
   });
 
   const formSchema = z.object({
@@ -79,7 +79,7 @@ export function EditProfileDialog({ open, currentUser, onOpenChange }: EditProfi
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const updateData: UpdateProfileData = {};
+    const updateData: UpdateProfileRequest = {};
 
     if (values.fullName && values.fullName !== currentUser.fullName) {
       updateData.fullName = values.fullName;
