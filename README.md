@@ -1,6 +1,6 @@
 # Mimkat Client
 
-A modern, full-featured authentication client application built with Next.js 15, React 19, and TypeScript.
+A modern, full-featured authentication client application built with Next.js 16, React 19, and TypeScript.
 
 ## 📋 Prerequisites
 

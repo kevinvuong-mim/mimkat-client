@@ -10,7 +10,7 @@ import { CurrentUserContextType } from '@/types/user';
 const CurrentUserContext = createContext<CurrentUserContextType | undefined>(undefined);
 
 export function CurrentUserProvider({ children }: { children: ReactNode }) {
-  const { data: currentUser } = useQuery({
+  const { isLoading, data: currentUser } = useQuery({
     queryFn: getMe,
     queryKey: ['getMe'],
     enabled: () => {
@@ -19,6 +19,8 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
       return !isPublicRoute(window.location.pathname);
     },
   });
+
+  if (isLoading) return null;
 
   return (
     <CurrentUserContext.Provider value={{ currentUser }}>{children}</CurrentUserContext.Provider>
