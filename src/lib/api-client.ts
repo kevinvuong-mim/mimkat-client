@@ -2,9 +2,13 @@ import axios from 'axios';
 
 import { isPublicRoute } from '@/lib/public-route';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+const skipRefreshPaths = ['/auth/login'];
+
 export const apiClient = axios.create({
+  baseURL: API_URL,
   withCredentials: true,
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -38,6 +42,10 @@ apiClient.interceptors.response.use(
     }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
+      if (skipRefreshPaths.some((path) => originalRequest.url?.includes(path))) {
+        return Promise.reject(error);
+      }
+
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -50,11 +58,7 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
-          {},
-          { withCredentials: true },
-        );
+        await axios.post(`${API_URL}/auth/refresh`, {}, { withCredentials: true });
 
         processQueue(null, 'success');
 
