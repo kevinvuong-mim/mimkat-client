@@ -6,40 +6,18 @@ interface User {
   username?: string;
 }
 
-interface CurrentUser {
-  id: string;
+interface CurrentUser extends User {
   email: string;
-  avatar?: string;
-  createdAt: string;
-  fullName?: string;
   isActive: boolean;
   updatedAt: string;
-  username?: string;
   hasPassword: boolean;
   phoneNumber?: string;
   hasGoogleAuth: boolean;
   isEmailVerified: boolean;
 }
 
-interface UpdateProfileRequest {
-  fullName?: string;
-  username?: string;
-  phoneNumber?: string;
-}
-
-interface ChangePasswordRequest {
-  newPassword: string;
-  currentPassword?: string;
-}
-
 interface CurrentUserContextType {
   currentUser: null | CurrentUser;
 }
 
-export type {
-  User,
-  CurrentUser,
-  UpdateProfileRequest,
-  ChangePasswordRequest,
-  CurrentUserContextType,
-};
+export type { User, CurrentUser, CurrentUserContextType };

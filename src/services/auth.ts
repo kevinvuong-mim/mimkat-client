@@ -1,17 +1,25 @@
 import {
   LoginRequest,
+  LogoutRequest,
   LoginResponse,
+  LogoutResponse,
   RegisterRequest,
+  RegisterResponse,
+  VerifyEmailRequest,
+  VerifyEmailResponse,
   ResetPasswordRequest,
   ForgotPasswordRequest,
+  ResetPasswordResponse,
+  ForgotPasswordResponse,
   ResendVerificationRequest,
+  ResendVerificationResponse,
 } from '@/types';
 import { apiClient } from '@/lib/api-client';
 import { handleApiError } from '@/lib/error-handler';
 
-const login = async (data: LoginRequest): Promise<LoginResponse> => {
+const login = async (data: LoginRequest) => {
   try {
-    const response = await apiClient.post('/auth/login', data);
+    const response: LoginResponse = await apiClient.post('/auth/login', data);
 
     return response.data;
   } catch (error) {
@@ -19,9 +27,9 @@ const login = async (data: LoginRequest): Promise<LoginResponse> => {
   }
 };
 
-const logout = async () => {
+const logout = async (_data?: LogoutRequest) => {
   try {
-    const response = await apiClient.post('/auth/logout');
+    const response: LogoutResponse = await apiClient.post('/auth/logout');
 
     return response.data;
   } catch (error) {
@@ -31,7 +39,7 @@ const logout = async () => {
 
 const register = async (data: RegisterRequest) => {
   try {
-    const response = await apiClient.post('/auth/register', data);
+    const response: RegisterResponse = await apiClient.post('/auth/register', data);
 
     return response.data;
   } catch (error) {
@@ -39,10 +47,10 @@ const register = async (data: RegisterRequest) => {
   }
 };
 
-const verifyEmail = async (token: string) => {
+const verifyEmail = async (data: VerifyEmailRequest) => {
   try {
-    const response = await apiClient.get('/verification/email', {
-      params: { token },
+    const response: VerifyEmailResponse = await apiClient.get('/verification/email', {
+      params: { token: data.token },
     });
 
     return response.data;
@@ -53,7 +61,10 @@ const verifyEmail = async (token: string) => {
 
 const resetPassword = async (data: ResetPasswordRequest) => {
   try {
-    const response = await apiClient.post('/verification/reset-password', data);
+    const response: ResetPasswordResponse = await apiClient.post(
+      '/verification/reset-password',
+      data,
+    );
 
     return response.data;
   } catch (error) {
@@ -63,7 +74,10 @@ const resetPassword = async (data: ResetPasswordRequest) => {
 
 const forgotPassword = async (data: ForgotPasswordRequest) => {
   try {
-    const response = await apiClient.post(`/verification/forgot-password`, data);
+    const response: ForgotPasswordResponse = await apiClient.post(
+      `/verification/forgot-password`,
+      data,
+    );
 
     return response.data;
   } catch (error) {
@@ -73,7 +87,7 @@ const forgotPassword = async (data: ForgotPasswordRequest) => {
 
 const resendVerification = async (data: ResendVerificationRequest) => {
   try {
-    const response = await apiClient.post('/verification/resend', data);
+    const response: ResendVerificationResponse = await apiClient.post('/verification/resend', data);
 
     return response.data;
   } catch (error) {

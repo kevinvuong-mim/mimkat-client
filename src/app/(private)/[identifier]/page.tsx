@@ -28,12 +28,12 @@ export default function ProfilePage() {
   const { data, error, isLoading } = useQuery({
     enabled: !!currentUser && !isOwnProfile,
     queryKey: ['getProfileByIdentifier', identifier],
-    queryFn: () => getProfileByIdentifier(identifier as string),
+    queryFn: () => getProfileByIdentifier({ identifier: identifier as string }),
   });
 
   const { mutate, isPending } = useMutation({
     onError: (error) => toast.error(error.message),
-    mutationFn: (file: File) => uploadAvatar(file),
+    mutationFn: (file: File) => uploadAvatar({ file }),
     onSuccess: () => {
       toast.success(t.profile.avatarUpdated);
       queryClient.invalidateQueries({ queryKey: ['getMe'] });

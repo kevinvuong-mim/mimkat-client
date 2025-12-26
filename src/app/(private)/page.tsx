@@ -26,14 +26,11 @@ export default function Home() {
   const { currentUser } = useCurrentUser();
   const { t, locale, setLocale } = useI18n();
 
-  const { mutate, isPending } = useMutation({ mutationFn: logout });
-
-  const handleLogout = () => {
-    mutate(undefined, {
-      onSuccess: () => router.push('/login'),
-      onError: (err) => toast.error(err.message),
-    });
-  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: logout,
+    onSuccess: () => router.push('/login'),
+    onError: (err) => toast.error(err.message),
+  });
 
   return (
     <div className="w-full max-w-md">
@@ -119,12 +116,7 @@ export default function Home() {
         </div>
 
         <div className="border-t pt-4">
-          <Button
-            className="w-full"
-            disabled={isPending}
-            variant="destructive"
-            onClick={handleLogout}
-          >
+          <Button onClick={mutate} className="w-full" disabled={isPending} variant="destructive">
             {isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (

@@ -20,9 +20,10 @@ import {
 import { useI18n } from '@/i18n/context';
 import { Session } from '@/types/session';
 import { Button } from '@/components/ui/button';
+import { getSessions } from '@/services/sessions';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { getSessions, logoutDevice, logoutAllDevices } from '@/services/users';
+import { logoutDevice, logoutAllDevices } from '@/services/users';
 
 export default function SessionsPage() {
   const { t } = useI18n();
@@ -46,7 +47,7 @@ export default function SessionsPage() {
 
       queryClient.invalidateQueries({ queryKey: ['getSessions'] });
     },
-    mutationFn: (sessionId: string) => logoutDevice(sessionId),
+    mutationFn: (sessionId: string) => logoutDevice({ tokenId: sessionId }),
   });
 
   const { mutate: logoutAllDevicesMutation, isPending: isLogoutAllDevicesPending } = useMutation({
@@ -251,7 +252,7 @@ export default function SessionsPage() {
           <AlertDialogFooter>
             <AlertDialogCancel>{t.sessions.cancel}</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() => logoutAllDevicesMutation()}
+              onClick={logoutAllDevicesMutation}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {isLogoutAllDevicesPending ? (

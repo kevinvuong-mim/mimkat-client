@@ -1,16 +1,26 @@
 import {
-  User,
-  Session,
-  PaginatedResponse,
+  GetMeRequest,
+  GetMeResponse,
+  LogoutDeviceRequest,
+  UploadAvatarRequest,
+  LogoutDeviceResponse,
+  UploadAvatarResponse,
   UpdateProfileRequest,
   ChangePasswordRequest,
+  UpdateProfileResponse,
+  ChangePasswordResponse,
+  LogoutAllDevicesRequest,
+  LogoutAllDevicesResponse,
+  GetProfileByIdentifierRequest,
+  GetProfileByIdentifierResponse,
+  CurrentUser,
 } from '@/types';
 import { apiClient } from '@/lib/api-client';
 import { handleApiError } from '@/lib/error-handler';
 
-const getMe = async () => {
+const getMe = async (_data?: GetMeRequest): Promise<CurrentUser> => {
   try {
-    const response = await apiClient.get('/users/me');
+    const response: GetMeResponse = await apiClient.get('/users/me');
 
     return response.data;
   } catch (error) {
@@ -18,22 +28,12 @@ const getMe = async () => {
   }
 };
 
-const getSessions = async (): Promise<PaginatedResponse<Session>> => {
-  try {
-    const response = await apiClient.get('/users/sessions');
-
-    return response.data;
-  } catch (error) {
-    throw handleApiError(error);
-  }
-};
-
-const uploadAvatar = async (file: File) => {
+const uploadAvatar = async (data: UploadAvatarRequest) => {
   try {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', data.file);
 
-    const response = await apiClient.put('/users/me/avatar', formData, {
+    const response: UploadAvatarResponse = await apiClient.put('/users/me/avatar', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 
@@ -43,9 +43,11 @@ const uploadAvatar = async (file: File) => {
   }
 };
 
-const logoutDevice = async (tokenId: string) => {
+const logoutDevice = async (data: LogoutDeviceRequest) => {
   try {
-    const response = await apiClient.delete(`/users/sessions/${tokenId}`);
+    const response: LogoutDeviceResponse = await apiClient.delete(
+      `/users/sessions/${data.tokenId}`,
+    );
 
     return response.data;
   } catch (error) {
@@ -55,7 +57,7 @@ const logoutDevice = async (tokenId: string) => {
 
 const updateProfile = async (data: UpdateProfileRequest) => {
   try {
-    const response = await apiClient.put('/users/me', data);
+    const response: UpdateProfileResponse = await apiClient.put('/users/me', data);
 
     return response.data;
   } catch (error) {
@@ -65,7 +67,7 @@ const updateProfile = async (data: UpdateProfileRequest) => {
 
 const changePassword = async (data: ChangePasswordRequest) => {
   try {
-    const response = await apiClient.put('/users/password', data);
+    const response: ChangePasswordResponse = await apiClient.put('/users/password', data);
 
     return response.data;
   } catch (error) {
@@ -73,9 +75,9 @@ const changePassword = async (data: ChangePasswordRequest) => {
   }
 };
 
-const logoutAllDevices = async () => {
+const logoutAllDevices = async (_data?: LogoutAllDevicesRequest) => {
   try {
-    const response = await apiClient.delete('/users/sessions');
+    const response: LogoutAllDevicesResponse = await apiClient.delete('/users/sessions');
 
     return response.data;
   } catch (error) {
@@ -83,9 +85,11 @@ const logoutAllDevices = async () => {
   }
 };
 
-const getProfileByIdentifier = async (identifier: string): Promise<User> => {
+const getProfileByIdentifier = async (data: GetProfileByIdentifierRequest) => {
   try {
-    const response = await apiClient.get(`/users/${identifier}`);
+    const response: GetProfileByIdentifierResponse = await apiClient.get(
+      `/users/${data.identifier}`,
+    );
 
     return response.data;
   } catch (error) {
@@ -95,7 +99,6 @@ const getProfileByIdentifier = async (identifier: string): Promise<User> => {
 
 export {
   getMe,
-  getSessions,
   uploadAvatar,
   logoutDevice,
   updateProfile,

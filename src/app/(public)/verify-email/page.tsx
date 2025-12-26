@@ -19,7 +19,7 @@ export default function VerifyEmailPage() {
   const { error, isLoading, isSuccess } = useQuery({
     enabled: Boolean(searchParams.get('token')),
     queryKey: ['verifyEmail', searchParams.get('token')],
-    queryFn: () => verifyEmail(searchParams.get('token') || ''),
+    queryFn: () => verifyEmail({ token: searchParams.get('token')! }),
   });
 
   useEffect(() => {

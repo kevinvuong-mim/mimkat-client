@@ -23,7 +23,9 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
   if (isLoading) return null;
 
   return (
-    <CurrentUserContext.Provider value={{ currentUser }}>{children}</CurrentUserContext.Provider>
+    <CurrentUserContext.Provider value={{ currentUser: currentUser ?? null }}>
+      {children}
+    </CurrentUserContext.Provider>
   );
 }
 
