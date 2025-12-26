@@ -1,9 +1,14 @@
 {
   "rsc": true,
   "tsx": true,
-  "registries": {},
   "style": "new-york",
   "iconLibrary": "lucide",
+  "aliases": {
+    "lib": "@/lib",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "components": "@/components"
+  },
   "tailwind": {
     "prefix": "",
     "cssVariables": true,
@@ -11,10 +16,5 @@
     "css": "src/app/globals.css",
     "config": "tailwind.config.js"
   },
-  "aliases": {
-    "lib": "@/lib",
-    "ui": "@/components/ui",
-    "components": "@/components",
-    "$schema": "https://ui.shadcn.com/schema.json"
-  }
+  "$schema": "https://ui.shadcn.com/schema.json"
 }
