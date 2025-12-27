@@ -4,7 +4,7 @@ import { isPublicRoute } from '@/lib/public-route';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const skipRefreshPaths = ['/auth/login'];
+const skipRefreshEnpoints = ['/auth/login'];
 
 export const apiClient = axios.create({
   baseURL: API_URL,
@@ -42,7 +42,7 @@ apiClient.interceptors.response.use(
     }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      if (skipRefreshPaths.some((path) => originalRequest.url?.includes(path))) {
+      if (skipRefreshEnpoints.some((path) => originalRequest.url?.includes(path))) {
         return Promise.reject(error);
       }
 

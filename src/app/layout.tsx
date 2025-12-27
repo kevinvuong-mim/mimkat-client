@@ -5,7 +5,6 @@ import { I18nProvider } from '@/i18n/context';
 import { Toaster } from '@/components/ui/sonner';
 import { QueryProvider } from '@/providers/query-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
-import { CurrentUserProvider } from '@/context/current-user-context';
 
 export const metadata: Metadata = {
   title: 'Mimkat',
@@ -28,9 +27,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryProvider>
-            <CurrentUserProvider>
-              <I18nProvider>{children}</I18nProvider>
-            </CurrentUserProvider>
+            <I18nProvider>{children}</I18nProvider>
           </QueryProvider>
           <Toaster position="top-center" />
         </ThemeProvider>

@@ -19,7 +19,9 @@ import { handleApiError } from '@/lib/error-handler';
 
 const login = async (data: LoginRequest) => {
   try {
-    const response: LoginResponse = await apiClient.post('/auth/login', data);
+    const enpoint = '/auth/login';
+
+    const response: LoginResponse = await apiClient.post(enpoint, data);
 
     return response.data;
   } catch (error) {
@@ -29,7 +31,9 @@ const login = async (data: LoginRequest) => {
 
 const logout = async (_data?: LogoutRequest) => {
   try {
-    const response: LogoutResponse = await apiClient.post('/auth/logout');
+    const enpoint = '/auth/logout';
+
+    const response: LogoutResponse = await apiClient.post(enpoint);
 
     return response.data;
   } catch (error) {
@@ -39,7 +43,9 @@ const logout = async (_data?: LogoutRequest) => {
 
 const register = async (data: RegisterRequest) => {
   try {
-    const response: RegisterResponse = await apiClient.post('/auth/register', data);
+    const enpoint = '/auth/register';
+
+    const response: RegisterResponse = await apiClient.post(enpoint, data);
 
     return response.data;
   } catch (error) {
@@ -49,7 +55,9 @@ const register = async (data: RegisterRequest) => {
 
 const verifyEmail = async (data: VerifyEmailRequest) => {
   try {
-    const response: VerifyEmailResponse = await apiClient.get('/verification/email', {
+    const enpoint = '/verification/email';
+
+    const response: VerifyEmailResponse = await apiClient.get(enpoint, {
       params: { token: data.token },
     });
 
@@ -61,10 +69,9 @@ const verifyEmail = async (data: VerifyEmailRequest) => {
 
 const resetPassword = async (data: ResetPasswordRequest) => {
   try {
-    const response: ResetPasswordResponse = await apiClient.post(
-      '/verification/reset-password',
-      data,
-    );
+    const enpoint = '/verification/reset-password';
+
+    const response: ResetPasswordResponse = await apiClient.post(enpoint, data);
 
     return response.data;
   } catch (error) {
@@ -74,10 +81,9 @@ const resetPassword = async (data: ResetPasswordRequest) => {
 
 const forgotPassword = async (data: ForgotPasswordRequest) => {
   try {
-    const response: ForgotPasswordResponse = await apiClient.post(
-      `/verification/forgot-password`,
-      data,
-    );
+    const enpoint = '/verification/forgot-password';
+
+    const response: ForgotPasswordResponse = await apiClient.post(enpoint, data);
 
     return response.data;
   } catch (error) {
@@ -87,7 +93,9 @@ const forgotPassword = async (data: ForgotPasswordRequest) => {
 
 const resendVerification = async (data: ResendVerificationRequest) => {
   try {
-    const response: ResendVerificationResponse = await apiClient.post('/verification/resend', data);
+    const enpoint = '/verification/resend';
+
+    const response: ResendVerificationResponse = await apiClient.post(enpoint, data);
 
     return response.data;
   } catch (error) {
