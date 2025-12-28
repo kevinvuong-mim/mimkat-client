@@ -1,67 +1,47 @@
 import { SuccessResponse } from '../';
 
 // Requests
-interface LoginRequest {
+export interface LoginRequest {
   email: string;
   password: string;
 }
 
-interface LogoutRequest {}
+export interface LogoutRequest {}
 
-interface RegisterRequest {
+export interface RegisterRequest {
   email: string;
   password: string;
 }
 
-interface VerifyEmailRequest {
+export interface VerifyEmailRequest {
   token: string;
 }
 
-interface ResetPasswordRequest {
+export interface ResetPasswordRequest {
   token: string;
   password: string;
 }
 
-interface ForgotPasswordRequest {
+export interface ForgotPasswordRequest {
   email: string;
 }
 
-interface ResendVerificationRequest extends ForgotPasswordRequest {}
+export interface ResendVerificationRequest extends ForgotPasswordRequest {}
 
 // Responses
-interface LoginResponse extends SuccessResponse<{
+export interface LoginResponse extends SuccessResponse<{
   accessToken: string;
   refreshToken: string;
 }> {}
 
-interface LogoutResponse extends SuccessResponse<null> {}
+export interface LogoutResponse extends SuccessResponse<null> {}
 
-interface RegisterResponse extends SuccessResponse<null> {}
+export interface RegisterResponse extends SuccessResponse<null> {}
 
-interface VerifyEmailResponse extends SuccessResponse<null> {}
+export interface VerifyEmailResponse extends SuccessResponse<null> {}
 
-interface ResetPasswordResponse extends SuccessResponse<null> {}
+export interface ResetPasswordResponse extends SuccessResponse<null> {}
 
-interface ForgotPasswordResponse extends SuccessResponse<null> {}
+export interface ForgotPasswordResponse extends SuccessResponse<null> {}
 
-interface ResendVerificationResponse extends SuccessResponse<null> {}
-
-export type {
-  // Requests
-  LoginRequest,
-  LogoutRequest,
-  RegisterRequest,
-  VerifyEmailRequest,
-  ResetPasswordRequest,
-  ForgotPasswordRequest,
-  ResendVerificationRequest,
-
-  // Responses
-  LoginResponse,
-  LogoutResponse,
-  RegisterResponse,
-  VerifyEmailResponse,
-  ResetPasswordResponse,
-  ForgotPasswordResponse,
-  ResendVerificationResponse,
-};
+export interface ResendVerificationResponse extends SuccessResponse<null> {}

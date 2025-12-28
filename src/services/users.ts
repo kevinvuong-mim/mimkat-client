@@ -1,4 +1,5 @@
 import {
+  CurrentUser,
   GetMeRequest,
   GetMeResponse,
   LogoutDeviceRequest,
@@ -13,7 +14,6 @@ import {
   LogoutAllDevicesResponse,
   GetProfileByIdentifierRequest,
   GetProfileByIdentifierResponse,
-  CurrentUser,
 } from '@/types';
 import { apiClient } from '@/lib/api-client';
 import { handleApiError } from '@/lib/error-handler';

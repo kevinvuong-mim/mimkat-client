@@ -1,15 +1,7 @@
 import { Session, PaginatedData, SuccessResponse } from '../';
 
 // Requests
-interface GetSessionsRequest {}
+export interface GetSessionsRequest {}
 
 // Responses
-interface GetSessionsResponse extends SuccessResponse<PaginatedData<Session>> {}
-
-export type {
-  // Requests
-  GetSessionsRequest,
-
-  // Responses
-  GetSessionsResponse,
-};
+export interface GetSessionsResponse extends SuccessResponse<PaginatedData<Session>> {}

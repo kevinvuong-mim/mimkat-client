@@ -1,64 +1,44 @@
 import { User, CurrentUser, SuccessResponse } from '../';
 
 // Requests
-interface GetMeRequest {}
+export interface GetMeRequest {}
 
-interface LogoutDeviceRequest {
+export interface LogoutDeviceRequest {
   tokenId: string;
 }
 
-interface UploadAvatarRequest {
+export interface UploadAvatarRequest {
   file: File;
 }
 
-interface UpdateProfileRequest {
+export interface UpdateProfileRequest {
   fullName?: string;
   username?: string;
   phoneNumber?: string;
 }
 
-interface ChangePasswordRequest {
+export interface ChangePasswordRequest {
   newPassword: string;
   currentPassword?: string;
 }
 
-interface LogoutAllDevicesRequest {}
+export interface LogoutAllDevicesRequest {}
 
-interface GetProfileByIdentifierRequest {
+export interface GetProfileByIdentifierRequest {
   identifier: string;
 }
 
 // Responses
-interface GetMeResponse extends SuccessResponse<CurrentUser> {}
+export interface GetMeResponse extends SuccessResponse<CurrentUser> {}
 
-interface LogoutDeviceResponse extends SuccessResponse<null> {}
+export interface LogoutDeviceResponse extends SuccessResponse<null> {}
 
-interface UploadAvatarResponse extends SuccessResponse<null> {}
+export interface UploadAvatarResponse extends SuccessResponse<null> {}
 
-interface UpdateProfileResponse extends SuccessResponse<null> {}
+export interface UpdateProfileResponse extends SuccessResponse<null> {}
 
-interface ChangePasswordResponse extends SuccessResponse<null> {}
+export interface ChangePasswordResponse extends SuccessResponse<null> {}
 
-interface LogoutAllDevicesResponse extends SuccessResponse<null> {}
+export interface LogoutAllDevicesResponse extends SuccessResponse<null> {}
 
-interface GetProfileByIdentifierResponse extends SuccessResponse<User> {}
-
-export type {
-  // Requests
-  GetMeRequest,
-  LogoutDeviceRequest,
-  UploadAvatarRequest,
-  UpdateProfileRequest,
-  ChangePasswordRequest,
-  LogoutAllDevicesRequest,
-  GetProfileByIdentifierRequest,
-
-  // Responses
-  GetMeResponse,
-  LogoutDeviceResponse,
-  UploadAvatarResponse,
-  UpdateProfileResponse,
-  ChangePasswordResponse,
-  LogoutAllDevicesResponse,
-  GetProfileByIdentifierResponse,
-};
+export interface GetProfileByIdentifierResponse extends SuccessResponse<User> {}

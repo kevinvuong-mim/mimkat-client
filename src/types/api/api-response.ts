@@ -1,4 +1,4 @@
-interface ErrorResponse {
+export interface ErrorResponse {
   path: string;
   error: string;
   stack?: string;
@@ -9,7 +9,7 @@ interface ErrorResponse {
   errors?: ValidationError[];
 }
 
-interface PaginatedData<T> {
+export interface PaginatedData<T> {
   items: T[];
   meta: {
     page: number;
@@ -21,7 +21,7 @@ interface PaginatedData<T> {
   };
 }
 
-interface SuccessResponse<T = any> {
+export interface SuccessResponse<T = any> {
   data: T;
   path: string;
   message: string;
@@ -30,10 +30,8 @@ interface SuccessResponse<T = any> {
   statusCode: number;
 }
 
-interface ValidationError {
+export interface ValidationError {
   value?: any;
   field: string;
   message: string;
 }
-
-export type { ErrorResponse, PaginatedData, SuccessResponse, ValidationError };
