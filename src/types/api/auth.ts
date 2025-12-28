@@ -1,47 +1,67 @@
 import { SuccessResponse } from '../';
 
 // Requests
-export interface LoginRequest {
+interface LoginRequest {
   email: string;
   password: string;
 }
 
-export interface LogoutRequest {}
+interface LogoutRequest {}
 
-export interface RegisterRequest {
+interface RegisterRequest {
   email: string;
   password: string;
 }
 
-export interface VerifyEmailRequest {
+interface VerifyEmailRequest {
   token: string;
 }
 
-export interface ResetPasswordRequest {
+interface ResetPasswordRequest {
   token: string;
   password: string;
 }
 
-export interface ForgotPasswordRequest {
+interface ForgotPasswordRequest {
   email: string;
 }
 
-export interface ResendVerificationRequest extends ForgotPasswordRequest {}
+interface ResendVerificationRequest extends ForgotPasswordRequest {}
 
 // Responses
-export interface LoginResponse extends SuccessResponse<{
+interface LoginResponse extends SuccessResponse<{
   accessToken: string;
   refreshToken: string;
 }> {}
 
-export interface LogoutResponse extends SuccessResponse<null> {}
+interface LogoutResponse extends SuccessResponse<null> {}
 
-export interface RegisterResponse extends SuccessResponse<null> {}
+interface RegisterResponse extends SuccessResponse<null> {}
 
-export interface VerifyEmailResponse extends SuccessResponse<null> {}
+interface VerifyEmailResponse extends SuccessResponse<null> {}
 
-export interface ResetPasswordResponse extends SuccessResponse<null> {}
+interface ResetPasswordResponse extends SuccessResponse<null> {}
 
-export interface ForgotPasswordResponse extends SuccessResponse<null> {}
+interface ForgotPasswordResponse extends SuccessResponse<null> {}
 
-export interface ResendVerificationResponse extends SuccessResponse<null> {}
+interface ResendVerificationResponse extends SuccessResponse<null> {}
+
+export type {
+  // Requests
+  LoginRequest,
+  LogoutRequest,
+  RegisterRequest,
+  VerifyEmailRequest,
+  ResetPasswordRequest,
+  ForgotPasswordRequest,
+  ResendVerificationRequest,
+
+  // Responses
+  LoginResponse,
+  LogoutResponse,
+  RegisterResponse,
+  VerifyEmailResponse,
+  ResetPasswordResponse,
+  ForgotPasswordResponse,
+  ResendVerificationResponse,
+};

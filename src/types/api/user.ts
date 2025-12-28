@@ -1,44 +1,64 @@
 import { User, CurrentUser, SuccessResponse } from '../';
 
 // Requests
-export interface GetMeRequest {}
+interface GetMeRequest {}
 
-export interface LogoutDeviceRequest {
+interface LogoutDeviceRequest {
   tokenId: string;
 }
 
-export interface UploadAvatarRequest {
+interface UploadAvatarRequest {
   file: File;
 }
 
-export interface UpdateProfileRequest {
+interface UpdateProfileRequest {
   fullName?: string;
   username?: string;
   phoneNumber?: string;
 }
 
-export interface ChangePasswordRequest {
+interface ChangePasswordRequest {
   newPassword: string;
   currentPassword?: string;
 }
 
-export interface LogoutAllDevicesRequest {}
+interface LogoutAllDevicesRequest {}
 
-export interface GetProfileByIdentifierRequest {
+interface GetProfileByIdentifierRequest {
   identifier: string;
 }
 
 // Responses
-export interface GetMeResponse extends SuccessResponse<CurrentUser> {}
+interface GetMeResponse extends SuccessResponse<CurrentUser> {}
 
-export interface LogoutDeviceResponse extends SuccessResponse<null> {}
+interface LogoutDeviceResponse extends SuccessResponse<null> {}
 
-export interface UploadAvatarResponse extends SuccessResponse<null> {}
+interface UploadAvatarResponse extends SuccessResponse<null> {}
 
-export interface UpdateProfileResponse extends SuccessResponse<null> {}
+interface UpdateProfileResponse extends SuccessResponse<null> {}
 
-export interface ChangePasswordResponse extends SuccessResponse<null> {}
+interface ChangePasswordResponse extends SuccessResponse<null> {}
 
-export interface LogoutAllDevicesResponse extends SuccessResponse<null> {}
+interface LogoutAllDevicesResponse extends SuccessResponse<null> {}
 
-export interface GetProfileByIdentifierResponse extends SuccessResponse<User> {}
+interface GetProfileByIdentifierResponse extends SuccessResponse<User> {}
+
+export type {
+  // Requests
+  GetMeRequest,
+  LogoutDeviceRequest,
+  UploadAvatarRequest,
+  UpdateProfileRequest,
+  ChangePasswordRequest,
+  LogoutAllDevicesRequest,
+  GetProfileByIdentifierRequest,
+
+  // Responses
+  GetMeResponse,
+  LogoutDeviceResponse,
+  UploadAvatarResponse,
+  UpdateProfileResponse,
+  ChangePasswordResponse,
+  LogoutAllDevicesResponse,
+  GetProfileByIdentifierResponse,
+};

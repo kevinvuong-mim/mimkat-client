@@ -1,4 +1,4 @@
-export interface User {
+interface User {
   id: string;
   avatar?: string;
   createdAt: string;
@@ -6,7 +6,7 @@ export interface User {
   username?: string;
 }
 
-export interface CurrentUser extends User {
+interface CurrentUser extends User {
   email: string;
   isActive: boolean;
   updatedAt: string;
@@ -16,6 +16,8 @@ export interface CurrentUser extends User {
   isEmailVerified: boolean;
 }
 
-export interface CurrentUserContextType {
+interface CurrentUserContextType {
   currentUser: null | CurrentUser;
 }
+
+export type { User, CurrentUser, CurrentUserContextType };

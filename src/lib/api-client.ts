@@ -2,22 +2,14 @@ import axios from 'axios';
 
 import { isPublicRoute } from '@/lib/public-route';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 const skipRefreshEnpoints = ['/auth/login'];
-
-export const apiClient = axios.create({
-  baseURL: API_URL,
-  withCredentials: true,
-  headers: { 'Content-Type': 'application/json' },
-});
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 let isRefreshing = false;
 let failedQueue: Array<{
   resolve: (value?: unknown) => void;
   reject: (reason?: unknown) => void;
 }> = [];
-
 const processQueue = (error: unknown, status: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
@@ -30,6 +22,11 @@ const processQueue = (error: unknown, status: string | null = null) => {
   failedQueue = [];
 };
 
+const apiClient = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: { 'Content-Type': 'application/json' },
+});
 apiClient.interceptors.response.use(
   (response) => response.data,
   async (error) => {
@@ -41,7 +38,7 @@ apiClient.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (!originalRequest._retry && error.response?.status === 401) {
       if (skipRefreshEnpoints.some((path) => originalRequest.url?.includes(path))) {
         return Promise.reject(error);
       }
@@ -81,3 +78,5 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+export { apiClient };
