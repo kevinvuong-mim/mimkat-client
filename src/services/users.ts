@@ -20,9 +20,9 @@ import { handleApiError } from '@/lib/error-handler';
 
 const getMe = async (_data?: GetMeRequest): Promise<CurrentUser> => {
   try {
-    const enpoint = '/users/me';
+    const endpoint = '/users/me';
 
-    const response: GetMeResponse = await apiClient.get(enpoint);
+    const response: GetMeResponse = await apiClient.get(endpoint);
 
     return response.data;
   } catch (error) {
@@ -32,12 +32,12 @@ const getMe = async (_data?: GetMeRequest): Promise<CurrentUser> => {
 
 const uploadAvatar = async (data: UploadAvatarRequest) => {
   try {
-    const enpoint = '/users/me/avatar';
+    const endpoint = '/users/me/avatar';
 
     const formData = new FormData();
     formData.append('file', data.file);
 
-    const response: UploadAvatarResponse = await apiClient.put(enpoint, formData, {
+    const response: UploadAvatarResponse = await apiClient.put(endpoint, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 
@@ -49,9 +49,9 @@ const uploadAvatar = async (data: UploadAvatarRequest) => {
 
 const logoutDevice = async (data: LogoutDeviceRequest) => {
   try {
-    const enpoint = `/users/sessions/${data.tokenId}`;
+    const endpoint = `/users/sessions/${data.tokenId}`;
 
-    const response: LogoutDeviceResponse = await apiClient.delete(enpoint);
+    const response: LogoutDeviceResponse = await apiClient.delete(endpoint);
 
     return response.data;
   } catch (error) {
@@ -61,9 +61,9 @@ const logoutDevice = async (data: LogoutDeviceRequest) => {
 
 const updateProfile = async (data: UpdateProfileRequest) => {
   try {
-    const enpoint = '/users/me';
+    const endpoint = '/users/me';
 
-    const response: UpdateProfileResponse = await apiClient.put(enpoint, data);
+    const response: UpdateProfileResponse = await apiClient.put(endpoint, data);
 
     return response.data;
   } catch (error) {
@@ -73,9 +73,9 @@ const updateProfile = async (data: UpdateProfileRequest) => {
 
 const changePassword = async (data: ChangePasswordRequest) => {
   try {
-    const enpoint = '/users/password';
+    const endpoint = '/users/password';
 
-    const response: ChangePasswordResponse = await apiClient.put(enpoint, data);
+    const response: ChangePasswordResponse = await apiClient.put(endpoint, data);
 
     return response.data;
   } catch (error) {
@@ -85,9 +85,9 @@ const changePassword = async (data: ChangePasswordRequest) => {
 
 const logoutAllDevices = async (_data?: LogoutAllDevicesRequest) => {
   try {
-    const enpoint = '/users/sessions';
+    const endpoint = '/users/sessions';
 
-    const response: LogoutAllDevicesResponse = await apiClient.delete(enpoint);
+    const response: LogoutAllDevicesResponse = await apiClient.delete(endpoint);
 
     return response.data;
   } catch (error) {
@@ -97,9 +97,9 @@ const logoutAllDevices = async (_data?: LogoutAllDevicesRequest) => {
 
 const getProfileByIdentifier = async (data: GetProfileByIdentifierRequest) => {
   try {
-    const enpoint = `/users/${data.identifier}`;
+    const endpoint = `/users/${data.identifier}`;
 
-    const response: GetProfileByIdentifierResponse = await apiClient.get(enpoint);
+    const response: GetProfileByIdentifierResponse = await apiClient.get(endpoint);
 
     return response.data;
   } catch (error) {

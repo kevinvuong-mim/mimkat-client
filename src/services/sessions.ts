@@ -4,9 +4,9 @@ import { GetSessionsRequest, GetSessionsResponse } from '@/types';
 
 const getSessions = async (_data?: GetSessionsRequest) => {
   try {
-    const enpoint = '/users/sessions';
+    const endpoint = '/users/sessions';
 
-    const response: GetSessionsResponse = await apiClient.get(enpoint);
+    const response: GetSessionsResponse = await apiClient.get(endpoint);
 
     return response.data;
   } catch (error) {

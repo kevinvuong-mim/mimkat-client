@@ -19,9 +19,9 @@ import { handleApiError } from '@/lib/error-handler';
 
 const login = async (data: LoginRequest) => {
   try {
-    const enpoint = '/auth/login';
+    const endpoint = '/auth/login';
 
-    const response: LoginResponse = await apiClient.post(enpoint, data);
+    const response: LoginResponse = await apiClient.post(endpoint, data);
 
     return response.data;
   } catch (error) {
@@ -31,9 +31,9 @@ const login = async (data: LoginRequest) => {
 
 const logout = async (_data?: LogoutRequest) => {
   try {
-    const enpoint = '/auth/logout';
+    const endpoint = '/auth/logout';
 
-    const response: LogoutResponse = await apiClient.post(enpoint);
+    const response: LogoutResponse = await apiClient.post(endpoint);
 
     return response.data;
   } catch (error) {
@@ -43,9 +43,9 @@ const logout = async (_data?: LogoutRequest) => {
 
 const register = async (data: RegisterRequest) => {
   try {
-    const enpoint = '/auth/register';
+    const endpoint = '/auth/register';
 
-    const response: RegisterResponse = await apiClient.post(enpoint, data);
+    const response: RegisterResponse = await apiClient.post(endpoint, data);
 
     return response.data;
   } catch (error) {
@@ -55,9 +55,9 @@ const register = async (data: RegisterRequest) => {
 
 const verifyEmail = async (data: VerifyEmailRequest) => {
   try {
-    const enpoint = '/verification/email';
+    const endpoint = '/verification/email';
 
-    const response: VerifyEmailResponse = await apiClient.get(enpoint, {
+    const response: VerifyEmailResponse = await apiClient.get(endpoint, {
       params: { token: data.token },
     });
 
@@ -69,9 +69,9 @@ const verifyEmail = async (data: VerifyEmailRequest) => {
 
 const resetPassword = async (data: ResetPasswordRequest) => {
   try {
-    const enpoint = '/verification/reset-password';
+    const endpoint = '/verification/reset-password';
 
-    const response: ResetPasswordResponse = await apiClient.post(enpoint, data);
+    const response: ResetPasswordResponse = await apiClient.post(endpoint, data);
 
     return response.data;
   } catch (error) {
@@ -81,9 +81,9 @@ const resetPassword = async (data: ResetPasswordRequest) => {
 
 const forgotPassword = async (data: ForgotPasswordRequest) => {
   try {
-    const enpoint = '/verification/forgot-password';
+    const endpoint = '/verification/forgot-password';
 
-    const response: ForgotPasswordResponse = await apiClient.post(enpoint, data);
+    const response: ForgotPasswordResponse = await apiClient.post(endpoint, data);
 
     return response.data;
   } catch (error) {
@@ -93,9 +93,9 @@ const forgotPassword = async (data: ForgotPasswordRequest) => {
 
 const resendVerification = async (data: ResendVerificationRequest) => {
   try {
-    const enpoint = '/verification/resend';
+    const endpoint = '/verification/resend';
 
-    const response: ResendVerificationResponse = await apiClient.post(enpoint, data);
+    const response: ResendVerificationResponse = await apiClient.post(endpoint, data);
 
     return response.data;
   } catch (error) {
