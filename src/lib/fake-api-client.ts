@@ -1,3 +1,5 @@
+import { SuccessResponse } from '@/types/api/api-response';
+
 const filterDataBySearchParams = (data: unknown, searchParams: Record<string, string>) => {
   if (!Array.isArray(data) || Object.keys(searchParams).length === 0) {
     return data;
@@ -44,7 +46,7 @@ const getSuccessMessage = (method: string) => {
   return messageMap[method] || 'Operation completed successfully';
 };
 
-const fakeApi = ({
+const fakeApiClient = ({
   endpoint,
   time = 1000,
   method = 'GET',
@@ -60,7 +62,7 @@ const fakeApi = ({
   responseData?: unknown;
   searchParams?: Record<string, string>;
   method?: 'GET' | 'PUT' | 'POST' | 'PATCH' | 'DELETE';
-}) => {
+}): Promise<SuccessResponse> => {
   if (requestData) console.log(`${method} - ${endpoint}: `, requestData);
 
   const { sort, page, sortBy, pageSize, ...search } = searchParams;
@@ -125,4 +127,4 @@ const fakeApi = ({
   );
 };
 
-export { fakeApi };
+export { fakeApiClient };
