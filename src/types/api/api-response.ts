@@ -34,6 +34,7 @@ interface ValidationError {
   value?: any;
   field: string;
   message: string;
+  constraint: string;
 }
 
 export type { ErrorResponse, PaginatedData, SuccessResponse, ValidationError };
