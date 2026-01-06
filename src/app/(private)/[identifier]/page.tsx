@@ -46,13 +46,21 @@ export default function ProfilePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 10 * 1024 * 1024) {
-      toast.error(t.profile.fileSizeError);
+    // Validate file type first
+    if (!/(jpg|jpeg|png|webp|gif)$/i.test(file.name)) {
+      toast.error(t.profile.fileTypeError);
       return;
     }
 
-    if (!/(jpg|jpeg|png|webp|gif)$/i.test(file.name)) {
-      toast.error(t.profile.fileTypeError);
+    // Validate file size based on type
+    const isGif = file.type === 'image/gif';
+    const maxSize = isGif ? 1 * 1024 * 1024 : 10 * 1024 * 1024; // 1MB for GIF, 10MB for others
+
+    if (file.size > maxSize) {
+      const maxSizeMB = isGif ? '1MB' : '10MB';
+      toast.error(
+        `${t.profile.fileSizeError} Maximum size for ${isGif ? 'GIF' : 'this image type'} is ${maxSizeMB}.`,
+      );
       return;
     }
 
