@@ -35,7 +35,8 @@
     "errorLoading": "Error loading information",
     "avatarUpdated": "Avatar updated successfully",
     "fileSizeError": "File size must be less than 10MB",
-    "fileTypeError": "File must be JPEG, PNG, WebP, or GIF"
+    "fileTypeError": "File must be JPEG, PNG, WebP, or GIF",
+    "maxSizeError": "Maximum size is {size}"
   },
   "forgotPassword": {
     "title": "Forgot Password",

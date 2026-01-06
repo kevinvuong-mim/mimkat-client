@@ -35,7 +35,8 @@
     "errorLoading": "Lỗi khi tải thông tin",
     "avatarUpdated": "Cập nhật avatar thành công",
     "fileSizeError": "Kích thước file phải nhỏ hơn 10MB",
-    "fileTypeError": "File phải là JPEG, PNG, WebP hoặc GIF"
+    "fileTypeError": "File phải là JPEG, PNG, WebP hoặc GIF",
+    "maxSizeError": "Kích thước tối đa là {size}"
   },
   "forgotPassword": {
     "title": "Quên mật khẩu",

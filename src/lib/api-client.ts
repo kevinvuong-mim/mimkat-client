@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { isPublicRoute } from '@/lib/public-route';
+import { isPublicRoute } from './public-route';
 
 const skipRefreshEnpoints = ['/auth/login'];
 const API_URL = process.env.NEXT_PUBLIC_API_URL;

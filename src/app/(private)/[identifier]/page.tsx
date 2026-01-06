@@ -57,10 +57,7 @@ export default function ProfilePage() {
     const maxSize = isGif ? 1 * 1024 * 1024 : 10 * 1024 * 1024; // 1MB for GIF, 10MB for others
 
     if (file.size > maxSize) {
-      const maxSizeMB = isGif ? '1MB' : '10MB';
-      toast.error(
-        `${t.profile.fileSizeError} Maximum size for ${isGif ? 'GIF' : 'this image type'} is ${maxSizeMB}.`,
-      );
+      toast.error(t.profile.maxSizeError.replace('{size}', isGif ? '1MB' : '10MB'));
       return;
     }
 
