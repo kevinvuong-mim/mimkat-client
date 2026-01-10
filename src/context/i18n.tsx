@@ -3,8 +3,8 @@
 import { Locale, Messages, I18nContextType } from '@/types/i18n';
 import { useState, useEffect, useContext, createContext } from 'react';
 
-import en from './locales/en.json';
-import vi from './locales/vi.json';
+import en from '../i18n/locales/en.json';
+import vi from '../i18n/locales/vi.json';
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 

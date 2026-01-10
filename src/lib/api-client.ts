@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import { isPublicRoute } from './public-route';
-
 const skipRefreshEnpoints = ['/auth/login'];
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -31,9 +29,12 @@ apiClient.interceptors.response.use(
   (response) => response.data,
   async (error) => {
     const originalRequest = error.config;
+    const currentPath = window.location.pathname;
 
     if (error.response?.status === 403) {
-      if (typeof window !== 'undefined') window.location.href = '/login';
+      if (typeof window !== 'undefined') {
+        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+      }
 
       return Promise.reject(error);
     }
@@ -64,9 +65,7 @@ apiClient.interceptors.response.use(
         processQueue(refreshError, null);
 
         if (typeof window !== 'undefined') {
-          const currentPath = window.location.pathname;
-
-          if (!isPublicRoute(currentPath)) window.location.href = '/login';
+          window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
         }
 
         return Promise.reject(refreshError);

@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, Loader2, XCircle, CheckCircle2 } from 'lucide-react';
 
-import { useI18n } from '@/i18n/context';
+import { useI18n } from '@/context/i18n';
 import { verifyEmail } from '@/services/auth';
 import { Button } from '@/components/ui/button';
 

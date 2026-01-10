@@ -8,9 +8,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Key, Mail, Phone, Camera, Shield, Loader2, XCircle, CheckCircle } from 'lucide-react';
 
 import { ErrorResponse } from '@/types';
-import { useI18n } from '@/i18n/context';
+import { useI18n } from '@/context/i18n';
 import { Button } from '@/components/ui/button';
-import { useCurrentUser } from '@/context/current-user-context';
+import { useCurrentUser } from '@/context/current-user';
 import { EditProfileDialog } from '@/components/edit-profile-dialog';
 import { uploadAvatar, getProfileByIdentifier } from '@/services/users';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';

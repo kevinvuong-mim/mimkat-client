@@ -17,7 +17,7 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
 } from '@/components/ui/alert-dialog';
-import { useI18n } from '@/i18n/context';
+import { useI18n } from '@/context/i18n';
 import { Session } from '@/types/session';
 import { Button } from '@/components/ui/button';
 import { getSessions } from '@/services/sessions';

@@ -15,10 +15,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { logout } from '@/services/auth';
-import { useI18n } from '@/i18n/context';
+import { useI18n } from '@/context/i18n';
 import { Button } from '@/components/ui/button';
+import { useCurrentUser } from '@/context/current-user';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
-import { useCurrentUser } from '@/context/current-user-context';
 
 export default function Home() {
   const router = useRouter();

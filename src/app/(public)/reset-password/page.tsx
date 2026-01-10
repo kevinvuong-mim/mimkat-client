@@ -18,7 +18,7 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form';
-import { useI18n } from '@/i18n/context';
+import { useI18n } from '@/context/i18n';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { resetPassword } from '@/services/auth';

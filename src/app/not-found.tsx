@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { useI18n } from '@/i18n/context';
+import { useI18n } from '@/context/i18n';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {

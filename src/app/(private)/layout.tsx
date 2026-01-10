@@ -1,4 +1,4 @@
-import { CurrentUserProvider } from '@/context/current-user-context';
+import { CurrentUserProvider } from '@/context/current-user';
 
 export default function PrivateLayout({
   children,
