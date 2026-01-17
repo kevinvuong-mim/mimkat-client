@@ -105,7 +105,7 @@ export default function ProfilePage() {
                   loading="lazy"
                   className="object-cover"
                   referrerPolicy="no-referrer"
-                  src={displayUser?.avatar || '/images/default-user.png'}
+                  src={displayUser?.avatar || '/images/default-avatar.png'}
                 />
                 <AvatarFallback>
                   {displayUser?.fullName ? displayUser.fullName.charAt(0) : ''}
