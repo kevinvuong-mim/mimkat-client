@@ -46,7 +46,7 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+      <div className="space-y-6 rounded-lg border border-border bg-card p-8 text-card-foreground shadow-2xl shadow-black/10 dark:shadow-black/30">
         {isLoading ? (
           <div className="space-y-4 text-center">
             <div className="flex justify-center">
@@ -79,7 +79,7 @@ export default function VerifyEmailPage() {
               {t.verifyEmail.success}
             </h2>
             <p className="text-sm text-muted-foreground">{t.verifyEmail.successMessage}</p>
-            <div className="rounded-lg bg-slate-100 p-4 dark:bg-slate-700">
+            <div className="rounded-lg bg-muted p-4">
               <p className="text-sm font-medium">
                 {t.verifyEmail.redirectingIn.replace('{countdown}', countdown.toString())}
               </p>

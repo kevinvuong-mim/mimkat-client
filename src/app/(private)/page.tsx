@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="relative space-y-4 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+      <div className="relative space-y-4 rounded-lg border border-border bg-card p-8 text-card-foreground shadow-2xl shadow-black/10 dark:shadow-black/30">
         <div className="z-10 flex justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -68,7 +68,7 @@ export default function Home() {
         </div>
 
         <div className="space-y-4">
-          <div className="flex items-center gap-2 rounded-lg bg-slate-100 p-3 dark:bg-slate-700">
+          <div className="flex items-center gap-2 rounded-lg bg-muted p-3">
             <Globe className="h-5 w-5 text-muted-foreground" />
             <span className="flex-1 text-sm font-medium">{t.home.language}</span>
             <div className="flex gap-2">

@@ -71,14 +71,14 @@ export default function ProfilePage() {
   if (error) {
     return (
       <div className="w-full max-w-2xl">
-        <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+        <div className="space-y-6 rounded-lg border border-border bg-card p-8 text-card-foreground shadow-2xl shadow-black/10 dark:shadow-black/30">
           <div className="space-y-4 text-center">
             <div className="flex justify-center">
-              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700">
-                <XCircle className="h-12 w-12 text-slate-400 dark:text-slate-500" />
+              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-muted">
+                <XCircle className="h-12 w-12 text-muted-foreground" />
               </div>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-200">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
               {(error as unknown as ErrorResponse)?.statusCode === 404
                 ? t.profile.userNotFound
                 : t.profile.errorLoading}
@@ -96,11 +96,11 @@ export default function ProfilePage() {
 
   return (
     <div className="w-full max-w-2xl">
-      <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+      <div className="space-y-6 rounded-lg border border-border bg-card p-8 text-card-foreground shadow-2xl shadow-black/10 dark:shadow-black/30">
         <div className="space-y-4 text-center">
           <div className="flex justify-center">
             <div className="relative">
-              <Avatar className="h-32 w-32 ring-4 ring-slate-200 dark:ring-slate-700">
+              <Avatar className="h-32 w-32 ring-4 ring-muted">
                 <AvatarImage
                   loading="lazy"
                   className="object-cover"
@@ -226,9 +226,9 @@ const InfoRow = ({
   const { t } = useI18n();
 
   return (
-    <div className="flex items-center gap-3 rounded-lg bg-slate-50 p-3 transition-colors hover:bg-slate-100 dark:bg-slate-900/50 dark:hover:bg-slate-900">
-      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700">
-        <Icon className="h-5 w-5 text-slate-600 dark:text-slate-300" />
+    <div className="flex items-center gap-3 rounded-lg bg-muted/50 p-3 transition-colors hover:bg-muted">
+      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-muted">
+        <Icon className="h-5 w-5 text-muted-foreground" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-xs text-muted-foreground">{label}</p>

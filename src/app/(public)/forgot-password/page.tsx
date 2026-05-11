@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+      <div className="space-y-6 rounded-lg border border-border bg-card p-8 text-card-foreground shadow-2xl shadow-black/10 dark:shadow-black/30">
         <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold tracking-tight">{t.forgotPassword.title}</h1>
           <p className="text-sm text-muted-foreground">{t.forgotPassword.description}</p>

@@ -99,7 +99,7 @@ export default function SessionsPage() {
   return (
     <>
       <div className="w-full max-w-2xl">
-        <div className="space-y-6 rounded-lg border border-slate-300 bg-white p-8 shadow-2xl dark:border-slate-600 dark:bg-slate-800">
+        <div className="space-y-6 rounded-lg border border-border bg-card p-8 text-card-foreground shadow-2xl shadow-black/10 dark:shadow-black/30">
           <div className="space-y-2 text-center">
             <h1 className="text-2xl font-bold tracking-tight">{t.sessions.title}</h1>
             <p className="text-sm text-muted-foreground">{t.sessions.description}</p>
@@ -126,16 +126,14 @@ export default function SessionsPage() {
                       className={`rounded-lg p-3 transition-colors ${
                         session.isCurrent
                           ? 'border-2 border-primary bg-primary/10 dark:bg-primary/20'
-                          : 'bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/50 dark:hover:bg-slate-900'
+                          : 'bg-muted/50 hover:bg-muted'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex min-w-0 flex-1 items-start gap-3">
                           <div
                             className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full ${
-                              session.isCurrent
-                                ? 'bg-primary/20 dark:bg-primary/30'
-                                : 'bg-slate-200 dark:bg-slate-700'
+                              session.isCurrent ? 'bg-primary/20 dark:bg-primary/30' : 'bg-muted'
                             }`}
                           >
                             {getDeviceIcon(session.deviceType)}
