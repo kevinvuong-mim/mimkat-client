@@ -60,7 +60,7 @@ export default function Home() {
                 fill
                 alt=""
                 src={'/images/logo.png'}
-                className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
+                className="h-full w-full rounded-lg object-cover"
               />
             </AspectRatio>
           </div>
