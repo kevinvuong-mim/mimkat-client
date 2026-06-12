@@ -28,6 +28,10 @@ interface GetProfileByIdentifierRequest {
   identifier: string;
 }
 
+interface LookupUserByEmailRequest {
+  email: string;
+}
+
 // Responses
 interface GetMeResponse extends SuccessResponse<CurrentUser> {}
 
@@ -43,6 +47,8 @@ interface LogoutAllDevicesResponse extends SuccessResponse<null> {}
 
 interface GetProfileByIdentifierResponse extends SuccessResponse<User> {}
 
+interface LookupUserByEmailResponse extends SuccessResponse<User> {}
+
 export type {
   // Requests
   GetMeRequest,
@@ -52,6 +58,7 @@ export type {
   ChangePasswordRequest,
   LogoutAllDevicesRequest,
   GetProfileByIdentifierRequest,
+  LookupUserByEmailRequest,
 
   // Responses
   GetMeResponse,
@@ -61,4 +68,5 @@ export type {
   ChangePasswordResponse,
   LogoutAllDevicesResponse,
   GetProfileByIdentifierResponse,
+  LookupUserByEmailResponse,
 };

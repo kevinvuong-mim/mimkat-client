@@ -1,12 +1,22 @@
 'use client';
 
+import {
+  Sun,
+  Moon,
+  User,
+  Globe,
+  LogOut,
+  Monitor,
+  Loader2,
+  KeyRound,
+  MessageCircle,
+} from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
-import { Sun, Moon, User, Globe, LogOut, Monitor, Loader2, KeyRound } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -110,6 +120,13 @@ export default function Home() {
               <Link href="/sessions">
                 <Monitor className="mr-2 h-4 w-4" />
                 {t.home.sessions}
+              </Link>
+            </Button>
+
+            <Button asChild variant="outline" className="w-full justify-start">
+              <Link href="/chat">
+                <MessageCircle className="mr-2 h-4 w-4" />
+                Chat
               </Link>
             </Button>
           </div>
