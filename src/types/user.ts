@@ -1,6 +1,5 @@
 interface User {
   id: string;
-  email: string;
   avatar?: string;
   createdAt: string;
   fullName?: string;

@@ -14,9 +14,6 @@ import {
   LogoutAllDevicesResponse,
   GetProfileByIdentifierRequest,
   GetProfileByIdentifierResponse,
-  LookupUserByEmailRequest,
-  LookupUserByEmailResponse,
-  User,
 } from '@/types';
 import { apiClient } from '@/lib/api-client';
 import { handleApiError } from '@/lib/error-handler';
@@ -110,18 +107,6 @@ const getProfileByIdentifier = async (data: GetProfileByIdentifierRequest) => {
   }
 };
 
-const lookupUserByEmail = async (data: LookupUserByEmailRequest): Promise<User> => {
-  try {
-    const response: LookupUserByEmailResponse = await apiClient.get('/users/lookup', {
-      params: { email: data.email.trim() },
-    });
-
-    return response.data;
-  } catch (error) {
-    throw handleApiError(error);
-  }
-};
-
 export {
   getMe,
   logoutDevice,
@@ -130,5 +115,4 @@ export {
   changePassword,
   logoutAllDevices,
   getProfileByIdentifier,
-  lookupUserByEmail,
 };
