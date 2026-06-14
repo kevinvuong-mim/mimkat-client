@@ -4,6 +4,8 @@ interface User {
   createdAt: string;
   fullName?: string;
   username?: string;
+  isOnline?: boolean;
+  lastSeenAt?: string | null;
 }
 
 interface CurrentUser extends User {

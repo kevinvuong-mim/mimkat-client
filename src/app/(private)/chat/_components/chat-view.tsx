@@ -43,9 +43,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import * as chatService from '@/services/chat';
 import { Button } from '@/components/ui/button';
+import { usePresence } from '@/context/presence';
 import { chatQueryKeys } from '@/lib/chat-query-keys';
 import { useCurrentUser } from '@/context/current-user';
 import type { Conversation, ChatUser } from '@/types/api/chat';
+import { UserAvatarWithStatus } from '@/components/user-avatar-with-status';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -101,9 +103,17 @@ function senderAvatarFallback(sender: ChatUser) {
   return senderDisplayName(sender).slice(0, 1).toUpperCase();
 }
 
+function getDirectChatPartner(conversation: Conversation, currentUserId?: string) {
+  if (conversation.type !== 'DIRECT') return null;
+
+  return conversation.participants.find((participant) => participant.userId !== currentUserId)
+    ?.user;
+}
+
 export function ChatView() {
   const queryClient = useQueryClient();
   const { currentUser } = useCurrentUser();
+  const { fetchPresence, getPresenceLabel } = usePresence();
   const currentUserId = currentUser?.id;
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -174,6 +184,25 @@ export function ChatView() {
   const selectedIsGroupAdmin = selectedConversation
     ? isGroupAdmin(selectedConversation, currentUserId)
     : false;
+
+  const directChatPartnerIds = useMemo(
+    () =>
+      conversations
+        .filter((conversation) => conversation.type === 'DIRECT')
+        .map((conversation) => getDirectChatPartner(conversation, currentUserId)?.id)
+        .filter((userId): userId is string => Boolean(userId)),
+    [conversations, currentUserId],
+  );
+
+  useEffect(() => {
+    if (directChatPartnerIds.length) {
+      void fetchPresence(directChatPartnerIds);
+    }
+  }, [directChatPartnerIds, fetchPresence]);
+
+  const selectedDirectPartner = selectedConversation
+    ? getDirectChatPartner(selectedConversation, currentUserId)
+    : null;
 
   useEffect(() => {
     if (!selectedId) return;
@@ -650,38 +679,43 @@ export function ChatView() {
           {!conversationsQuery.isLoading && conversations.length === 0 && (
             <div className="p-3 text-sm text-muted-foreground">No conversations yet</div>
           )}
-          {conversations.map((conversation) => (
-            <button
-              key={conversation.id}
-              type="button"
-              onClick={() => setSelectedId(conversation.id)}
-              className={`flex w-full items-center gap-3 rounded-md p-3 text-left hover:bg-muted ${
-                selectedId === conversation.id ? 'bg-muted' : ''
-              }`}
-            >
-              <Avatar className="h-9 w-9">
-                <AvatarImage src={conversation.avatar ?? undefined} />
-                <AvatarFallback>
-                  {displayName(conversation, currentUserId).slice(0, 1)}
-                </AvatarFallback>
-              </Avatar>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="truncate font-medium">
-                    {displayName(conversation, currentUserId)}
-                  </span>
-                  {conversation.type === 'GROUP' && (
-                    <span className="text-xs text-muted-foreground">
-                      ({conversation.participants.length})
+          {conversations.map((conversation) => {
+            const directPartner = getDirectChatPartner(conversation, currentUserId);
+
+            return (
+              <button
+                key={conversation.id}
+                type="button"
+                onClick={() => setSelectedId(conversation.id)}
+                className={`flex w-full items-center gap-3 rounded-md p-3 text-left hover:bg-muted ${
+                  selectedId === conversation.id ? 'bg-muted' : ''
+                }`}
+              >
+                <UserAvatarWithStatus
+                  userId={directPartner?.id}
+                  src={conversation.avatar}
+                  fallback={displayName(conversation, currentUserId).slice(0, 1)}
+                  className="h-9 w-9"
+                  showStatus={conversation.type === 'DIRECT'}
+                />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="truncate font-medium">
+                      {displayName(conversation, currentUserId)}
                     </span>
-                  )}
+                    {conversation.type === 'GROUP' && (
+                      <span className="text-xs text-muted-foreground">
+                        ({conversation.participants.length})
+                      </span>
+                    )}
+                  </div>
+                  <p className="truncate text-xs text-muted-foreground">
+                    {conversation.lastMessage?.content ?? 'No messages yet'}
+                  </p>
                 </div>
-                <p className="truncate text-xs text-muted-foreground">
-                  {conversation.lastMessage?.content ?? 'No messages yet'}
-                </p>
-              </div>
-            </button>
-          ))}
+              </button>
+            );
+          })}
           {conversationsQuery.isFetchingNextPage && (
             <div className="flex justify-center p-2 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -697,6 +731,11 @@ export function ChatView() {
                   <h2 className="font-medium">
                     {displayName(selectedConversation, currentUserId)}
                   </h2>
+                  {selectedConversation.type === 'DIRECT' && selectedDirectPartner && (
+                    <p className="text-xs text-muted-foreground">
+                      {getPresenceLabel(selectedDirectPartner.id)}
+                    </p>
+                  )}
                   {selectedConversation.type === 'GROUP' && (
                     <p className="text-xs text-muted-foreground">
                       {selectedConversation.participants.length} members
